@@ -6,7 +6,7 @@ project(
 	],
 	version: '0.1.0',
 	license: 'BSD-3',
-	default_options: 
+	default_options:
 	[
 		'b_ndebug=if-release',
 		'c_std=c18',

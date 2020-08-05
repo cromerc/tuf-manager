@@ -36,6 +36,9 @@ namespace TUFManager {
 		 * The client and serer version don't match
 		 */
 		UNMATCHED_VERSIONS,
+		/**
+		 * The user is unauthorized to perform that action
+		 */
 		UNAUTHORIZED
 	}
 }

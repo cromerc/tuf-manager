@@ -52,11 +52,11 @@ namespace TUFManager {
 		}
 		catch (TUFError e) {
 			stderr.printf ("Error: %s\n", e.message);
-		} 
+		}
 		catch (Error e) {
 			stderr.printf ("Error: %s\n", e.message);
 		}
-		return -3;				
+		return -3;
 	}
 
 	private void set_fan_mode (int mode) {
@@ -65,7 +65,7 @@ namespace TUFManager {
 		}
 		catch (TUFError e) {
 			stderr.printf ("Error: %s\n", e.message);
-		} 
+		}
 		catch (Error e) {
 			stderr.printf ("Error: %s\n", e.message);
 		}
@@ -77,7 +77,7 @@ namespace TUFManager {
 		}
 		catch (TUFError e) {
 			stderr.printf ("Error: %s\n", e.message);
-		} 
+		}
 		catch (Error e) {
 			stderr.printf ("Error: %s\n", e.message);
 		}
@@ -90,7 +90,7 @@ namespace TUFManager {
 		}
 		catch (TUFError e) {
 			stderr.printf ("Error: %s\n", e.message);
-		} 
+		}
 		catch (Error e) {
 			stderr.printf ("Error: %s\n", e.message);
 		}
@@ -102,11 +102,11 @@ namespace TUFManager {
 		}
 		catch (TUFError e) {
 			stderr.printf ("Error: %s\n", e.message);
-		} 
+		}
 		catch (Error e) {
 			stderr.printf ("Error: %s\n", e.message);
 		}
-		return -3;		
+		return -3;
 	}
 
 	private void set_keyboard_mode (int mode) {
@@ -115,7 +115,7 @@ namespace TUFManager {
 		}
 		catch (TUFError e) {
 			stderr.printf ("Error: %s\n", e.message);
-		} 
+		}
 		catch (Error e) {
 			stderr.printf ("Error: %s\n", e.message);
 		}
@@ -127,11 +127,11 @@ namespace TUFManager {
 		}
 		catch (TUFError e) {
 			stderr.printf ("Error: %s\n", e.message);
-		} 
+		}
 		catch (Error e) {
 			stderr.printf ("Error: %s\n", e.message);
 		}
-		return -3;		
+		return -3;
 	}
 
 	private void set_keyboard_speed (int speed) {
@@ -140,7 +140,7 @@ namespace TUFManager {
 		}
 		catch (TUFError e) {
 			stderr.printf ("Error: %s\n", e.message);
-		} 
+		}
 		catch (Error e) {
 			stderr.printf ("Error: %s\n", e.message);
 		}

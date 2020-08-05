@@ -1,7 +1,7 @@
 src/cli.vala
+src/common.vala
 src/config.vala.in
 src/error.vala
-src/common.vala
 src/gui.vala
 src/gui-window.vala
 src/main.vala.in
@@ -9,6 +9,6 @@ src/server.vala
 src/server-interface.vala
 src/server-main.vala
 data/tuf-manager.desktop.in
-data/polkit/org.tuf.manager.policy.in
 data/gschema/org.tuf.manager.gschema.xml
+data/polkit/org.tuf.manager.policy.in
 data/ui/tuf.manager.window.ui

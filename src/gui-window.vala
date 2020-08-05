@@ -79,7 +79,7 @@ namespace TUFManager {
 					}
 				}
 				finally {
-					print (_ ("Client version: ") + VERSION + "\n"); 
+					print (_ ("Client version: ") + VERSION + "\n");
 					print (_ ("Server version: ") + get_server_version () + "\n");
 
 					if (settings.get_boolean ("restore")) {
@@ -181,7 +181,7 @@ namespace TUFManager {
 
 			/**
 			 * Called when the user changes the fan mode
-			 * 
+			 *
 			 *  * 1 - normal mode
 			 *  * 2 - boost mode
 			 *  * 3 - silent mode

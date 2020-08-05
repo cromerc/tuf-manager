@@ -65,12 +65,12 @@ namespace TUFManager {
 
 			private bool color = false;
 			private Gdk.RGBA? rgba = null;
-		
+
 			public TUFManagerApp () {
 				Object (application_id: "cl.cromer.tuf.manager", flags: ApplicationFlags.HANDLES_COMMAND_LINE);
 				set_inactivity_timeout (1000);
 			}
-		
+
 			public override void activate () {
 				this.hold ();
 				this.release ();
@@ -228,7 +228,7 @@ namespace TUFManager {
 					return 0;
 				}
 				else if (info) {
-					command_line.print (_ ("Client version: ") + VERSION + "\n"); 
+					command_line.print (_ ("Client version: ") + VERSION + "\n");
 					command_line.print (_ ("Server version: ") + get_server_version () + "\n");
 					var current_setting = get_fan_mode ();
 					switch (current_setting) {
@@ -308,7 +308,7 @@ namespace TUFManager {
 					}
 #endif
 
-					return 0;						
+					return 0;
 				}
 				else if (lighting) {
 #if ALWAYS_AUTHENTICATED
@@ -318,7 +318,7 @@ namespace TUFManager {
 #else
 					try {
 						pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
-						
+
 						Timeout.add (200, () => {
 							int mode = keyboard_mode;
 							tuf_server.procedure_finished.connect (release_cli);
@@ -330,7 +330,7 @@ namespace TUFManager {
 						command_line.printerr (_ ("Error: ") + e.message + "\n");
 					}
 #endif
-					return 0;						
+					return 0;
 				}
 				else if (speed) {
 #if ALWAYS_AUTHENTICATED
@@ -340,7 +340,7 @@ namespace TUFManager {
 #else
 										try {
 											pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
-											
+
 											Timeout.add (200, () => {
 												int set_speed = keyboard_speed;
 												tuf_server.procedure_finished.connect (release_cli);
@@ -352,7 +352,7 @@ namespace TUFManager {
 											command_line.printerr (_ ("Error: ") + e.message + "\n");
 										}
 					#endif
-										return 0;						
+										return 0;
 				}
 				else if (color) {
 #if ALWAYS_AUTHENTICATED
@@ -361,7 +361,7 @@ namespace TUFManager {
 #else
 					try {
 						pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
-						
+
 						Timeout.add (200, () => {
 							tuf_server.procedure_finished.connect (release_cli);
 							set_keyboard_color (rgba);
@@ -372,7 +372,7 @@ namespace TUFManager {
 						command_line.printerr (_ ("Error: ") + e.message + "\n");
 					}
 #endif
-					return 0;						
+					return 0;
 				}
 				return 0;
 			}
