@@ -57,8 +57,14 @@ namespace TUFManager {
 			private bool fan = false;
 			private FanMode? fan_mode = null;
 
-			private bool lighting;
+			private bool lighting = false;
 			private KeyboardMode? keyboard_mode = null;
+
+			private bool speed = false;
+			private KeyboardSpeed? keyboard_speed = null;
+
+			private bool color = false;
+			private Gdk.RGBA? rgba = null;
 		
 			public TUFManagerApp () {
 				Object (application_id: "cl.cromer.tuf.manager", flags: ApplicationFlags.HANDLES_COMMAND_LINE);
@@ -75,12 +81,13 @@ namespace TUFManager {
 					connect_dbus ();
 				}
 				catch (TUFError e) {
-					command_line.printerr ("Error: " + e.message + "\n");
+					command_line.printerr (_ ("Error: ") + e.message + "\n");
 				}
 				string[] args = command_line.get_arguments ();
 				// tuf-cli fan silent
 				// tuf-cli color #FFFFFF
 				// tuf-cli lighting strobe
+				// tuf-cli speed slow
 				// tuf-cli help
 				// tuf-cli info
 				// tuf-cli version
@@ -107,6 +114,12 @@ namespace TUFManager {
 							break;
 						case "lighting":
 							lighting = true;
+							break;
+						case "speed":
+							speed = true;
+							break;
+						case "color":
+							color = true;
 							break;
 						default:
 							invalid = true;
@@ -150,11 +163,62 @@ namespace TUFManager {
 									break;
 							}
 						}
+
+						if (speed) {
+							switch (args[2]) {
+								case "slow":
+									keyboard_speed = KeyboardSpeed.SLOW;
+									break;
+								case "medium":
+									keyboard_speed = KeyboardSpeed.MEDIUM;
+									break;
+								case "fast":
+									keyboard_speed = KeyboardSpeed.FAST;
+									break;
+								default:
+									invalid = true;
+									break;
+							}
+						}
+
+						if (color) {
+							try {
+								// Make sure it's a valid hex color
+								Regex regex = new Regex ("^#[0-9A-F]{6}$");
+
+								if (!regex.match (args[2].up ())) {
+									invalid = true;
+								}
+							}
+							catch (RegexError e) {
+								command_line.printerr (_ ("Error: ") + e.message + "\n");
+							}
+							finally {
+								rgba = Gdk.RGBA ();
+								rgba.parse (args[2]);
+							}
+						}
+					}
+
+					if (fan && fan_mode == null) {
+						invalid = true;
+					}
+
+					if (lighting && keyboard_mode == null) {
+						invalid = true;
+					}
+
+					if (speed && keyboard_speed == null) {
+						invalid = true;
+					}
+
+					if (color && rgba == null) {
+						invalid = true;
 					}
 				}
 
 				if (invalid) {
-					command_line.printerr (_ ("Invalid arguments!\n"));
+					command_line.printerr (_ ("Invalid arguments!\n\n"));
 					print_usage (command_line);
 					release_cli ();
 					return 1;
@@ -172,8 +236,8 @@ namespace TUFManager {
 				else if (info) {
 					command_line.print (_ ("Client version: ") + VERSION + "\n"); 
 					command_line.print (_ ("Server version: ") + get_server_version () + "\n");
-					var mode = get_fan_mode ();
-					switch (mode) {
+					var current_setting = get_fan_mode ();
+					switch (current_setting) {
 						case 0:
 							command_line.print (_ ("Current fan mode: Balanced\n"));
 							break;
@@ -187,8 +251,8 @@ namespace TUFManager {
 							command_line.printerr (_ ("Error: Could not get current fan mode!\n"));
 							break;
 					}
-					mode = get_keyboard_mode ();
-					switch (mode) {
+					current_setting = get_keyboard_mode ();
+					switch (current_setting) {
 						case 0:
 							command_line.print (_ ("Current keyboard lighting: Static\n"));
 							break;
@@ -202,9 +266,31 @@ namespace TUFManager {
 							command_line.print (_ ("Current keyboard lighting: Strobing\n"));
 							break;
 						default:
+							command_line.printerr (_ ("Error: Could not get current keyboard mode!\n"));
+							break;
+					}
+					current_setting = get_keyboard_speed ();
+					switch (current_setting) {
+						case 0:
+							command_line.print (_ ("Current keyboard speed: Slow\n"));
+							break;
+						case 1:
+							command_line.print (_ ("Current keyboard speed: Medium\n"));
+							break;
+						case 2:
+							command_line.print (_ ("Current keyboard speed: Fast\n"));
+							break;
+						default:
 							command_line.printerr (_ ("Error: Could not get current fan mode!\n"));
 							break;
 					}
+					var current_color = get_keyboard_color ();
+					var color_hex = "#%02x%02x%02x".printf (
+						(uint) (Math.round (current_color.red * 255)),
+						(uint) (Math.round (current_color.green * 255)),
+						(uint) (Math.round (current_color.blue * 255))
+					).up ();
+					command_line.print (_ ("Current keyboard color: " + color_hex + "\n"));
 					release_cli ();
 					return 0;
 				}
@@ -224,7 +310,7 @@ namespace TUFManager {
 						});
 					}
 					catch (Error e) {
-						command_line.printerr ("Error: " + e.message + "\n");
+						command_line.printerr (_ ("Error: ") + e.message + "\n");
 					}
 #endif
 
@@ -247,7 +333,49 @@ namespace TUFManager {
 						});
 					}
 					catch (Error e) {
-						command_line.printerr ("Error: " + e.message + "\n");
+						command_line.printerr (_ ("Error: ") + e.message + "\n");
+					}
+#endif
+					return 0;						
+				}
+				else if (speed) {
+#if ALWAYS_AUTHENTICATED
+					int set_speed = keyboard_speed;
+					tuf_server.procedure_finished.connect (release_cli);
+					set_keyboard_speed (set_speed);
+#else
+										try {
+											pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
+											
+											Timeout.add (200, () => {
+												int set_speed = keyboard_speed;
+												tuf_server.procedure_finished.connect (release_cli);
+												set_keyboard_speed (set_speed);
+												return false;
+											});
+										}
+										catch (Error e) {
+											command_line.printerr (_ ("Error: ") + e.message + "\n");
+										}
+					#endif
+										return 0;						
+				}
+				else if (color) {
+#if ALWAYS_AUTHENTICATED
+					tuf_server.procedure_finished.connect (release_cli);
+					set_keyboard_color (rgba);
+#else
+					try {
+						pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
+						
+						Timeout.add (200, () => {
+							tuf_server.procedure_finished.connect (release_cli);
+							set_keyboard_color (rgba);
+							return false;
+						});
+					}
+					catch (Error e) {
+						command_line.printerr (_ ("Error: ") + e.message + "\n");
 					}
 #endif
 					return 0;						
@@ -268,11 +396,11 @@ namespace TUFManager {
 				command_line.print ("  fan [balanced, turbo, silent]              Set the fan mode\n");
 				command_line.print ("  lighting [static, breath, cycle, stobe]    Set the keyboard lighting\n");
 				command_line.print ("  speed [slow, medium, fast]                 Set the keyboard lighting speed\n");
-				command_line.print ("  color [#XXXXXX]                            Set the keyboadd color\n");
+				command_line.print ("  color [\"#XXXXXX\"]                          Set the keyboard color\n");
 				command_line.print ("  info                                       Show the current config\n\n");
 				command_line.print ("Examples:\n");
 				command_line.print ("  Silence fan: tuf-cli fan silent\n");
-				command_line.print ("  Change RGB color: tuf-cli color #FF0000\n");
+				command_line.print ("  Change RGB color: tuf-cli color \"#FF0000\"\n");
 			}
 
 			/**

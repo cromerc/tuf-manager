@@ -341,6 +341,7 @@ namespace TUFManager {
 				stream.puts (keyboard_set);
 
 				locked.unlock ();
+				procedure_finished ();
 			}
 
 			public int get_keyboard_mode () throws Error, TUFError {
