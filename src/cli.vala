@@ -83,15 +83,9 @@ namespace TUFManager {
 				catch (TUFError e) {
 					command_line.printerr (_ ("Error: ") + e.message + "\n");
 				}
+
 				string[] args = command_line.get_arguments ();
-				// tuf-cli fan silent
-				// tuf-cli color #FFFFFF
-				// tuf-cli lighting strobe
-				// tuf-cli speed slow
-				// tuf-cli help
-				// tuf-cli info
-				// tuf-cli version
-				// same as info // tuf-cli
+
 				if (args.length == 1) {
 					help = true;
 				}
