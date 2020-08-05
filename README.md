@@ -3,6 +3,12 @@
 ## License
 [3-Clause BSD License](LICENSE)
 
+## Screenshots
+
+<img src="screenshot/tuf-gui.png" /> 
+
+<img src="screenshot/tuf-cli.png" /> 
+
 ## Build requirements
 To build TUF Manager the following is needed:
 
