@@ -15,6 +15,10 @@ To build TUF Manager the following is needed:
 - polkit-gobject
 - gmodule-export
 
+## Other requirements
+
+This software will only work if using the [faustus](https://github.com/hackbnw/faustus) driver module.
+
 ## Build options
 
 - valadocs
@@ -23,6 +27,13 @@ Build TUF Manager's vala documentation.
 - valadocs-deps
 
 Build external valadocs that TUF Manager utilizes and calls.
+- build-cli
+
+Build the cli interface.
+
+- build-gui
+
+Build the gui interface.
 - always-authenticated
 
 Authentication is not required to use the TUF Server that runs in the background as a daemon, if this is set to false polkit is used for authentication. Setting this to false is more secure, but also makes things like auto restore of settings on login impossible to do without a password.
