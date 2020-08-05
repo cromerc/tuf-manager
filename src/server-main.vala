@@ -80,8 +80,8 @@ namespace TUFManager {
 				}
 			}
 
-			Process.signal(ProcessSignal.INT, on_exit);
-			Process.signal(ProcessSignal.TERM, on_exit);
+			Process.signal (ProcessSignal.INT, on_exit);
+			Process.signal (ProcessSignal.TERM, on_exit);
 
 			Bus.own_name (BusType.SYSTEM,
 				"org.tuf.manager.server",
