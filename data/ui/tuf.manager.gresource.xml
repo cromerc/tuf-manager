@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/cl/cromer/tuf-manager">
+    <file preprocess="xml-stripblanks">tuf.manager.window.ui</file>
+    <file preprocess="to-pixdata">pixdata/tuf-manager.png</file>
+  </gresource>
+</gresources>

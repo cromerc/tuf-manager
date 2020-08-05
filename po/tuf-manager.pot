@@ -1,0 +1,240 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the tuf-manager package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: tuf-manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-03 22:20-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/cli.vala:145
+msgid "Invalid arguments!\n"
+msgstr ""
+
+#: src/cli.vala:151
+msgid "Version: "
+msgstr ""
+
+#: src/cli.vala:161 src/gui-window.vala:86
+msgid "Client version: "
+msgstr ""
+
+#: src/cli.vala:162 src/gui-window.vala:87
+msgid "Server version: "
+msgstr ""
+
+#: src/cli.vala:166
+msgid "Current fan mode: Balanced\n"
+msgstr ""
+
+#: src/cli.vala:169
+msgid "Current fan mode: Turbo\n"
+msgstr ""
+
+#: src/cli.vala:172
+msgid "Current fan mode: Silent\n"
+msgstr ""
+
+#: src/cli.vala:175 src/cli.vala:193
+msgid "Error: Could not get current fan mode!\n"
+msgstr ""
+
+#: src/cli.vala:181
+msgid "Current keyboard lighting: Static\n"
+msgstr ""
+
+#: src/cli.vala:184
+msgid "Current keyboard lighting: Breathing\n"
+msgstr ""
+
+#: src/cli.vala:187
+msgid "Current keyboard lighting: Color Cycle\n"
+msgstr ""
+
+#: src/cli.vala:190
+msgid "Current keyboard lighting: Strobing\n"
+msgstr ""
+
+#: src/gui-window.vala:71
+msgid "The current running tuf-server version doesn't match the gui version!"
+msgstr ""
+
+#: src/gui-window.vala:96
+msgid "Current fan mode: "
+msgstr ""
+
+#: src/gui-window.vala:99
+msgid "Error: Could not get current fan mode!"
+msgstr ""
+
+#: src/gui-window.vala:106
+msgid "Current keyboard mode: "
+msgstr ""
+
+#: src/gui-window.vala:109
+msgid "Error: Could not get current keyboard mode!"
+msgstr ""
+
+#: src/gui-window.vala:116
+msgid "Current keyboard speed: "
+msgstr ""
+
+#: src/gui-window.vala:119
+msgid "Error: Could not get current keyboard speed!"
+msgstr ""
+
+#: src/gui-window.vala:125
+msgid "Current keyboard color: "
+msgstr ""
+
+#: src/main.vala.in:34
+msgid "Another instance of TUF Manager is already running!"
+msgstr ""
+
+#: src/server.vala:154 src/server.vala:217 src/server.vala:236
+#: src/server.vala:249 src/server.vala:262 src/server.vala:321
+#: src/server.vala:328 src/server.vala:335 src/server.vala:342
+#: src/server.vala:349 src/server.vala:359 src/server.vala:414
+#: src/server.vala:426 src/server.vala:433 src/server.vala:444
+#: src/server.vala:499 src/server.vala:511 src/server.vala:518
+msgid "Failed to open stream!"
+msgstr ""
+
+#: src/server.vala:159 src/server.vala:241 src/server.vala:254
+#: src/server.vala:267 src/server.vala:364 src/server.vala:449
+msgid "File is empty!"
+msgstr ""
+
+#: src/server.vala:164 src/server.vala:369 src/server.vala:454
+msgid "File contains invalid value!"
+msgstr ""
+
+#: src/server.vala:222 src/server.vala:419 src/server.vala:504
+msgid "Invalid value!"
+msgstr ""
+
+#: data/tuf-manager.desktop.in:4 data/tuf-manager.desktop.in:5
+#: data/ui/tuf.manager.window.ui:41
+msgid "TUF Manager"
+msgstr ""
+
+#: data/tuf-manager.desktop.in:6
+msgid "Softare to manage the fan mode and rgb keyboard."
+msgstr ""
+
+#: data/tuf-manager.desktop.in:7
+msgid "tuf-manager"
+msgstr ""
+
+#: data/polkit/org.tuf.manager.policy.in:10
+msgid "Authentication is required"
+msgstr ""
+
+#: data/gschema/org.tuf.manager.gschema.xml:5
+#: data/gschema/org.tuf.manager.gschema.xml:6
+msgid "Should TUF Manager restore previous settings when run"
+msgstr ""
+
+#: data/gschema/org.tuf.manager.gschema.xml:12
+msgid "Fan mode"
+msgstr ""
+
+#: data/gschema/org.tuf.manager.gschema.xml:13
+msgid "The saved fan mode 0 is balanced 1 is turbo 2 is silent"
+msgstr ""
+
+#: data/gschema/org.tuf.manager.gschema.xml:22
+msgid "Keyboard mode"
+msgstr ""
+
+#: data/gschema/org.tuf.manager.gschema.xml:23
+msgid ""
+"The saved keyboard mode 0 is static 1 is breathing 2 is color cycle 3 is "
+"strobing"
+msgstr ""
+
+#: data/gschema/org.tuf.manager.gschema.xml:33
+msgid "Keyboard speed"
+msgstr ""
+
+#: data/gschema/org.tuf.manager.gschema.xml:34
+msgid "The saved keyboard speed 0 is slow 1 is medium 2 is fast"
+msgstr ""
+
+#: data/gschema/org.tuf.manager.gschema.xml:43
+msgid "Keyboard color"
+msgstr ""
+
+#: data/gschema/org.tuf.manager.gschema.xml:44
+msgid "The saved keyboard color in rgb format"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:73 data/ui/tuf.manager.window.ui:212
+msgid "Mode"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:91
+msgid "Static"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:92
+msgid "Breathing"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:93
+msgid "Color Cycle"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:94
+msgid "Strobing"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:112
+msgid "Speed"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:130
+msgid "Slow"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:131
+msgid "Medium"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:132
+msgid "Fast"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:162
+msgid "Set color"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:187
+msgid "Keyboard lighting"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:230
+msgid "Balanced"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:231
+msgid "Turbo"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:232
+msgid "Silent"
+msgstr ""
+
+#: data/ui/tuf.manager.window.ui:250
+msgid "Fan control"
+msgstr ""
