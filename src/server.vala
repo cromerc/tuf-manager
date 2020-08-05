@@ -28,7 +28,7 @@ namespace TUFManager {
 		/**
 		 * The loop of the dbus daemon running in the background
 		 */
-		MainLoop loop;
+		MainLoop? loop = null;
 
 		/**
 		 * Register the bus after the name has been aquired
@@ -47,7 +47,9 @@ namespace TUFManager {
 			}
 			catch (IOError e) {
 				stderr.printf ("Could not register service\n");
-				loop.quit ();
+				if (loop != null) {
+					loop.quit ();
+				}
 			}
 		}
 

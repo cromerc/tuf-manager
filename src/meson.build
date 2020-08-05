@@ -1,7 +1,9 @@
 server_dependencies = [
 	dependency('glib-2.0'),
+	dependency('gio-unix-2.0'),
 	dependency('gtk+-3.0', version: '>=3.0.0'),
-	meson.get_compiler('c').find_library('m', required: true)
+	meson.get_compiler('c').find_library('m', required: true),
+	meson.get_compiler('vala').find_library('posix')
 ]
 
 # if not always authenticated then polkit will be used for authentication
