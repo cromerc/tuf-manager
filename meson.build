@@ -10,7 +10,7 @@ project(
     [
         'b_ndebug=if-release',
         'c_std=c18',
-        'warning_level=3'
+        'warning_level=2'
     ]
 )
 add_global_arguments(
