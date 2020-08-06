@@ -35,6 +35,18 @@ option(
     description: 'Install OpenRC script'
 )
 option(
+    'runit',
+    type : 'boolean',
+    value: false,
+    description: 'Install runit script'
+)
+option(
+    's6',
+    type : 'boolean',
+    value: false,
+    description: 'Install s6 scripts'
+)
+option(
     'systemd',
     type : 'boolean',
     value: false,
