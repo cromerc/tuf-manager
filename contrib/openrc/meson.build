@@ -13,7 +13,4 @@ if openrc
         openrc_config_data_file,
         install_dir: join_paths(get_option('sysconfdir'), 'init.d')
     )
-
-    permissions = find_program('chmod')
-    meson.add_install_script('permission.sh', join_paths(get_option('sysconfdir'), 'init.d'))
 endif
