@@ -16,45 +16,45 @@
  * The TUF Manager namespace
  */
 namespace TUFManager {
-	/**
-	 * The GUI namespace contains a GTK based interface to interact with the TUF laptop
-	 */
-	namespace GUI {
+    /**
+     * The GUI namespace contains a GTK based interface to interact with the TUF laptop
+     */
+    namespace GUI {
 
-		/**
-		 * The application class
-		 */
-		public class TUFManagerApp : Gtk.Application {
-			/**
-			 * The main application window
-			 */
-			private MainWindow window;
+        /**
+         * The GUI application class
+         */
+        public class TUFManagerApp : Gtk.Application {
+            /**
+             * The main application window
+             */
+            private MainWindow window;
 
-			/**
-			 * Initialize the application and set it's id
-			 */
-			public TUFManagerApp () {
-				application_id = "cl.cromer.tuf.manager";
-			}
+            /**
+             * Initialize the application and set it's id
+             */
+            public TUFManagerApp () {
+                application_id = "cl.cromer.tuf.manager";
+            }
 
-			/**
-			 * Run when the application is activated
-			 */
-			public override void activate () {
-				window = new MainWindow (this);
-				window.icon = new Gtk.Image.from_resource ("/cl/cromer/tuf-manager/pixdata/tuf-manager.png").get_pixbuf ();
-				window.show_all ();
-				window.initialize ();
-			}
+            /**
+             * Run when the application is activated, we call and show the window here
+             */
+            public override void activate () {
+                window = new MainWindow (this);
+                window.icon = new Gtk.Image.from_resource ("/cl/cromer/tuf-manager/pixdata/tuf-manager.png").get_pixbuf ();
+                window.show_all ();
+                window.initialize ();
+            }
 
-			/**
-			 * Run when the application starts
-			 */
-			public override void startup () {
-				Intl.textdomain (GETTEXT_PACKAGE);
-				Intl.setlocale (LocaleCategory.ALL, "");
-				base.startup ();
-			}
-		}
-	}
+            /**
+             * Run when the application starts, we set the language here
+             */
+            public override void startup () {
+                Intl.textdomain (GETTEXT_PACKAGE);
+                Intl.setlocale (LocaleCategory.ALL, "");
+                base.startup ();
+            }
+        }
+    }
 }

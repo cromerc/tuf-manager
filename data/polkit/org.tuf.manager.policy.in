@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE policyconfig PUBLIC
-  "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
-  "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+    "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+    "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
 <policyconfig>
-  <vendor>TUF Manager</vendor>
-  <vendor_url>https://git.cromer.cl/cromer/tuf-manager/</vendor_url>
-  <icon_name>package-x-generic</icon_name>
-  <action id="org.tuf.manager.save">
-    <message>Authentication is required</message>
-    <defaults>
-      <allow_any>no</allow_any>
-      <allow_inactive>auth_admin_keep</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
-    </defaults>
-  </action>
+    <vendor>TUF Manager</vendor>
+    <vendor_url>https://git.cromer.cl/cromer/tuf-manager/</vendor_url>
+    <icon_name>tuf-manager</icon_name>
+    <action id="org.tuf.manager.save">
+        <message>Authentication is required</message>
+        <defaults>
+            <allow_any>no</allow_any>
+            <allow_inactive>auth_admin_keep</allow_inactive>
+            <allow_active>auth_admin_keep</allow_active>
+        </defaults>
+    </action>
 </policyconfig>

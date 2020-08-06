@@ -16,133 +16,193 @@
  * The TUF Manager namespace
  */
 namespace TUFManager {
-	private TUFServerInterface tuf_server;
-	private BusName bus_name;
+    /**
+     * The TUF Server interface that is running in the background
+     */
+    private TUFServerInterface tuf_server;
 
-	private void connect_dbus () throws TUFError {
-		bus_name = new BusName ("org.tuf.manager");
-		connect_tuf_server ();
-		if (get_server_version () != VERSION) {
-			throw new TUFError.UNMATCHED_VERSIONS ("The server and client versions do not match!");
-		}
-	}
+    /**
+     * The bus name to send to the server to identify itself
+     */
+    private BusName bus_name;
 
-	private void connect_tuf_server () {
-		try {
-			tuf_server = Bus.get_proxy_sync (BusType.SYSTEM, "org.tuf.manager.server", "/org/tuf/manager/server");
-		}
-		catch (IOError e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-	}
+    /**
+     * Connect to the TUF Server daemon via dbus
+     *
+     * @throws TUFError Thrown when the server and the client versions don't match
+     */
+    private void connect_tuf_server () throws TUFError {
+        bus_name = new BusName ("org.tuf.manager");
 
-	private string? get_server_version () {
-		try {
-			return tuf_server.get_server_version ();
-		}
-		catch (Error e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		return null;
-	}
+        try {
+            tuf_server = Bus.get_proxy_sync (BusType.SYSTEM, "org.tuf.manager.server", "/org/tuf/manager/server");
+        }
+        catch (IOError e) {
+            stderr.printf (_ ("Error: %s\n"), e.message);
+        }
 
-	private int get_fan_mode () {
-		try {
-			return tuf_server.get_fan_mode ();
-		}
-		catch (TUFError e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		catch (Error e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		return -3;
-	}
+        string? server_version = get_server_version ();
+        if (server_version == null) {
+            return;
+        }
 
-	private void set_fan_mode (int mode) {
-		try {
-			tuf_server.set_fan_mode (mode, bus_name);
-		}
-		catch (TUFError e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		catch (Error e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-	}
+        if (server_version != VERSION) {
+            throw new TUFError.UNMATCHED_VERSIONS (_ ("The server and client versions do not match!"));
+        }
+    }
 
-	private Gdk.RGBA get_keyboard_color () {
-		try {
-			return tuf_server.get_keyboard_color ();
-		}
-		catch (TUFError e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		catch (Error e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		return Gdk.RGBA ();
-	}
+    /**
+     * Get the server version from the running daemon
+     *
+     * @return Returns a string containing the server version or null on failure
+     */
+    private string? get_server_version () {
+        try {
+            return tuf_server.get_server_version ();
+        }
+        catch (Error e) {
+            stderr.printf (_ ("Error: %s\n"), e.message);
+        }
+        return null;
+    }
 
-	private void set_keyboard_color (Gdk.RGBA color) {
-		try {
-			tuf_server.set_keyboard_color (color, bus_name);
-		}
-		catch (TUFError e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		catch (Error e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-	}
+    /**
+     * Get the mode the fan is in
+     *
+     * @return Returns the fan mode or -3 on error
+     */
+    private int get_fan_mode () {
+        try {
+            return tuf_server.get_fan_mode ();
+        }
+        catch (TUFError e) {
+            stderr.printf (_ ("Error: %s\n"), e.message);
+        }
+        catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        return -3;
+    }
 
-	private int get_keyboard_mode () {
-		try {
-			return tuf_server.get_keyboard_mode ();
-		}
-		catch (TUFError e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		catch (Error e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		return -3;
-	}
+    /**
+     * Set the fan mode
+     *
+     * @param mode The new mode to set
+     */
+    private void set_fan_mode (int mode) {
+        try {
+            tuf_server.set_fan_mode (mode, bus_name);
+        }
+        catch (TUFError e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+    }
 
-	private void set_keyboard_mode (int mode) {
-		try {
-			tuf_server.set_keyboard_mode (mode, bus_name);
-		}
-		catch (TUFError e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		catch (Error e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-	}
+    /**
+     * Get the current keyboard color
+     *
+     * @return Returns an RGBA struct containing the keyboard color or an initialized RGBA struct on error
+     */
+    private Gdk.RGBA get_keyboard_color () {
+        try {
+            return tuf_server.get_keyboard_color ();
+        }
+        catch (TUFError e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        return Gdk.RGBA ();
+    }
 
-	private int get_keyboard_speed () {
-		try {
-			return tuf_server.get_keyboard_speed ();
-		}
-		catch (TUFError e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		catch (Error e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		return -3;
-	}
+    /**
+     * Set a new keyboard color
+     *
+     * @param color An RGBA struct containing the new color to set
+     */
+    private void set_keyboard_color (Gdk.RGBA color) {
+        try {
+            tuf_server.set_keyboard_color (color, bus_name);
+        }
+        catch (TUFError e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+    }
 
-	private void set_keyboard_speed (int speed) {
-		try {
-			tuf_server.set_keyboard_speed (speed, bus_name);
-		}
-		catch (TUFError e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		catch (Error e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-	}
+    /**
+     * Get the current lighting mode of the keyboard
+     *
+     * @return Returns the current keyboard lighting mode or -3 on error
+     */
+    private int get_keyboard_mode () {
+        try {
+            return tuf_server.get_keyboard_mode ();
+        }
+        catch (TUFError e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        return -3;
+    }
+
+    /**
+     * Set the keyboard lighting mode
+     *
+     * @param mode The new mode to set for the keyboard lighting
+     */
+    private void set_keyboard_mode (int mode) {
+        try {
+            tuf_server.set_keyboard_mode (mode, bus_name);
+        }
+        catch (TUFError e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+    }
+
+    /**
+     * Get the current keyboard lighting speed
+     *
+     * @return Returns the current speed or -3 on error
+     */
+    private int get_keyboard_speed () {
+        try {
+            return tuf_server.get_keyboard_speed ();
+        }
+        catch (TUFError e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        return -3;
+    }
+
+    /**
+     * Set a new keyboard lighting speed
+     *
+     * @param speed The new speed to set
+     */
+    private void set_keyboard_speed (int speed) {
+        try {
+            tuf_server.set_keyboard_speed (speed, bus_name);
+        }
+        catch (TUFError e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+        catch (Error e) {
+            stderr.printf ("Error: %s\n", e.message);
+        }
+    }
 }

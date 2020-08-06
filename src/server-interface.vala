@@ -16,20 +16,111 @@
  * The TUF Manager namespace
  */
 namespace TUFManager {
-	/**
-	 * This interface defines the dbus daemon provided by the server
-	 */
-	[DBus (name = "org.tuf.manager.server")]
-	public interface TUFServerInterface : Object {
-		public abstract string get_server_version () throws Error;
-		public abstract int get_fan_mode () throws Error, TUFError;
-		public abstract void set_fan_mode (int mode, BusName sender) throws Error, TUFError;
-		public abstract Gdk.RGBA get_keyboard_color ()  throws Error, TUFError;
-		public abstract void set_keyboard_color (Gdk.RGBA color, BusName sender) throws Error, TUFError;
-		public abstract int get_keyboard_mode () throws Error, TUFError;
-		public abstract void set_keyboard_mode (int mode, BusName sender) throws Error, TUFError;
-		public abstract int get_keyboard_speed () throws Error, TUFError;
-		public abstract void set_keyboard_speed (int speed, BusName sender) throws Error, TUFError;
-		public signal void procedure_finished ();
-	}
+    /**
+     * This interface defines the dbus daemon provided by the server
+     */
+    [DBus (name = "org.tuf.manager.server")]
+    public interface TUFServerInterface : Object {
+        /**
+         * This signal is emited when a procedure finishes
+         */
+        public signal void procedure_finished ();
+
+        /**
+         * Get the version of the currently running server
+         *
+         * @return Returns a string containing the version
+         * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+         */
+        public abstract string get_server_version () throws Error;
+
+        /**
+         * Get the current fan mode
+         *
+         * @return Returns the current fan mode
+         * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+         * @throws TUFError Thrown if there is a problem reading a value from the stream
+         */
+        public abstract int get_fan_mode () throws Error, TUFError;
+
+        /**
+         * Set a new fan mode
+         *
+         *  * 0 - balanced mode
+         *  * 1 - turbo mode
+         *  * 2 - silent mode
+         *
+         * @param mode The new mode to set
+         * @param sender The bus that sent the request
+         * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+         * @throws TUFError Thrown if there is a problem writing a value to the stream
+         */
+        public abstract void set_fan_mode (int mode, BusName sender) throws Error, TUFError;
+
+        /**
+         * Get the current keyboard color
+         *
+         * @return Returns an RGBA struct containing the color
+         * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+         * @throws TUFError Thrown if there is a problem writing a value to the stream
+         */
+        public abstract Gdk.RGBA get_keyboard_color ()  throws Error, TUFError;
+
+        /**
+         * Set the keyboard color
+         *
+         * @param color The new RGBA color to set
+         * @param sender The bus that sent the request
+         * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+         * @throws TUFError Thrown if there is a problem writing a value to the stream
+         */
+        public abstract void set_keyboard_color (Gdk.RGBA color, BusName sender) throws Error, TUFError;
+
+        /**
+         * Get the current keyboard mode
+         *
+         * @return Returns the mode
+         * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+         * @throws TUFError Thrown if there is a problem writing a value to the stream
+         */
+        public abstract int get_keyboard_mode () throws Error, TUFError;
+
+        /**
+         * Set a new keyboard mode
+         *
+         *  * 0 - static
+         *  * 1 - breathing
+         *  * 2 - color cycle
+         *  * 3 - strobing
+         *
+         * @param mode The new mode to set
+         * @param sender The bus that sent the request
+         * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+         * @throws TUFError Thrown if there is a problem writing a value to the stream
+         */
+        public abstract void set_keyboard_mode (int mode, BusName sender) throws Error, TUFError;
+
+        /**
+         * Get the current keyboard lighting speed
+         *
+         * @return The current speed
+         * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+         * @throws TUFError Thrown if there is a problem writing a value to the stream
+         */
+        public abstract int get_keyboard_speed () throws Error, TUFError;
+
+        /**
+         * Set a new keyboard speed
+         *
+         *  * 0 - slow
+         *  * 1 - medium
+         *  * 2 - fast
+         *
+         * @param speed The new speed to set
+         * @param sender The bus that sent the request
+         * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+         * @throws TUFError Thrown if there is a problem writing a value to the stream
+         */
+        public abstract void set_keyboard_speed (int speed, BusName sender) throws Error, TUFError;
+    }
 }

@@ -16,505 +16,612 @@
  * The TUF Manager namespace
  */
 namespace TUFManager {
-	/**
-	 * The server namespace contains anything releated to working as a dbus daemon
-	 * and handling root related tasks
-	 */
-	namespace Server {
-		/**
-		 * The global instance of the server running as a dbus daemon
-		 */
-		TUFServer tuf_server;
-		/**
-		 * The loop of the dbus daemon running in the background
-		 */
-		MainLoop? loop = null;
+    /**
+     * The server namespace contains anything releated to working as a dbus daemon
+     * and handling root related tasks
+     */
+    namespace Server {
+        /**
+         * The global instance of the server running as a dbus daemon
+         */
+        TUFServer tuf_server;
 
-		/**
-		 * Register the bus after the name has been aquired
-		 *
-		 * @param conn The connection to register with
-		 */
-		private void on_bus_acquired (DBusConnection conn) {
-			try {
-				tuf_server = new TUFManager.Server.TUFServer ();
-			}
-			catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
-			try {
-				conn.register_object ("/org/tuf/manager/server", tuf_server);
-			}
-			catch (IOError e) {
-				stderr.printf ("Could not register service\n");
-				if (loop != null) {
-					loop.quit ();
-				}
-			}
-		}
+        /**
+         * The loop of the dbus daemon running in the background
+         */
+        MainLoop? loop = null;
 
-		/**
-		* The TUF Server is a dbus service that runs in the background and uses
-		* root priveleges via polkit to make system changes
-		*/
-		[DBus (name = "org.tuf.manager.server")]
-		public class TUFServer : Object {
-			private Mutex locked;
-			private Mutex authorization;
-			private GenericSet<string> authorized_senders;
-			private MainContext context;
-			public signal void procedure_finished ();
+        /**
+         * Register the bus after the name has been aquired
+         *
+         * @param conn The connection to register with
+         */
+        private void on_bus_acquired (DBusConnection conn) {
+            try {
+                tuf_server = new TUFManager.Server.TUFServer ();
+            }
+            catch (Error e) {
+                stderr.printf (_ ("Error: %s\n"), e.message);
+            }
+            try {
+                conn.register_object ("/org/tuf/manager/server", tuf_server);
+            }
+            catch (IOError e) {
+                stderr.printf (_ ("Error: Could not register service\n"));
+                if (loop != null) {
+                    loop.quit ();
+                }
+            }
+        }
 
-			/**
-			 * The server class initialization
-			 *
-			 * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
-			 */
-			public TUFServer () throws Error {
-				locked = Mutex ();
-				authorization = Mutex ();
-				authorized_senders = new GenericSet<string> (str_hash, str_equal);
-				context = MainContext.ref_thread_default ();
-			}
+        /**
+        * The TUF Server is a dbus service that runs in the background and uses
+        * root priveleges via polkit to make system changes
+        */
+        [DBus (name = "org.tuf.manager.server")]
+        public class TUFServer : Object {
+            /**
+             * We use this mutex to lock procedures
+             */
+            private Mutex locked;
 
-			/**
-			 * Get authorization to run root tasks via polkit
-			 *
-			 * @param sender The bus that sent the request
-			 * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
-			 */
-			private async bool get_authorization (BusName sender) throws Error {
 #if ALWAYS_AUTHENTICATED
-				return true;
 #else
-				bool authorized = false;
-				authorization.lock ();
-				bool fast_authorized = authorized_senders.contains (sender);
-				authorization.unlock ();
-				if (fast_authorized) {
-					var idle = new IdleSource ();
-					idle.set_priority (Priority.DEFAULT);
-					idle.set_callback (() => {
-						return false;
-					});
-					idle.attach (context);
-					return true;
-				}
-				try {
-					Polkit.Authority authority = yield Polkit.Authority.get_async ();
-					Polkit.Subject subject = new Polkit.SystemBusName (sender);
-					var result = yield authority.check_authorization (
-						subject,
-						"org.tuf.manager.save",
-						null,
-						Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION);
-					authorized = result.get_is_authorized ();
-				}
-				catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
-				}
-				/*if (!authorized) {
-					stderr.printf ("%s\n", _ ("Authentication failed!"));
-				}
-				else {
-					stderr.printf ("%s\n", _ ("Authentication passed!"));
-				}*/
-				return authorized;
+            /**
+             * This mutex is used to lock the authorization process via polkit
+             */
+            private Mutex authorization;
+
+            /**
+             * A list of authorized senders so that they don't need to reauthenicate constantly
+             */
+            private GenericSet<string> authorized_senders;
+
+            /**
+             * The main thread context used in fast authentication when reauthenticating
+             */
+            private MainContext context;
 #endif
-			}
 
-			/**
-			 * Get the version of the currently running server
-			 *
-			 * @return Returns a string containing the version
-			 * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
-			 */
-			public string get_server_version () throws Error {
-				return VERSION;
-			}
+            /**
+             * This signal is emited when a procedure finishes
+             */
+            public signal void procedure_finished ();
 
-			/**
-			 * Get the current fan mode
-			 *
-			 * @return Returns the current fan mode
-			 * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
-			 * @throws TUFError Thrown if there is a problem reading a value from the stream
-			 */
-			public int get_fan_mode () throws Error, TUFError {
-				var stream = FileStream.open (THERMAL_PATH, "r");
-				if (stream == null) {
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
+            /**
+             * The server class initialization
+             *
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             */
+            public TUFServer () throws Error {
+#if ALWAYS_AUTHENTICATED
+#else
+                authorization = Mutex ();
+                authorized_senders = new GenericSet<string> (str_hash, str_equal);
+                context = MainContext.ref_thread_default ();
+#endif
+                locked = Mutex ();
+            }
 
-				var line = stream.read_line ();
-				if (line == null) {
-					throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
-				}
+            /**
+             * Get authorization to run root tasks via polkit
+             *
+             * @param sender The bus that sent the request
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             */
+            private async bool get_authorization (BusName sender) throws Error {
+#if ALWAYS_AUTHENTICATED
+                return true;
+#else
+                bool authorized = false;
+                authorization.lock ();
+                bool fast_authorized = authorized_senders.contains (sender);
+                authorization.unlock ();
+                if (fast_authorized) {
+                    var idle = new IdleSource ();
+                    idle.set_priority (Priority.DEFAULT);
+                    idle.set_callback (() => {
+                        return false;
+                    });
+                    idle.attach (context);
+                    return true;
+                }
+                try {
+                    Polkit.Authority authority = yield Polkit.Authority.get_async ();
+                    Polkit.Subject subject = new Polkit.SystemBusName (sender);
+                    var result = yield authority.check_authorization (
+                        subject,
+                        "org.tuf.manager.save",
+                        null,
+                        Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION);
+                    authorized = result.get_is_authorized ();
+                }
+                catch (Error e) {
+                    stderr.printf (_ ("Error: %s\n"), e.message);
+                }
+                return authorized;
+#endif
+            }
 
-				var mode = int.parse (line);
-				if (mode < 0 || mode > 2) {
-					throw new TUFError.INVALID_VALUE (_ ("File contains invalid value!"));
-				}
+            /**
+             * Get the version of the currently running server
+             *
+             * @return Returns a string containing the version
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             */
+            public string get_server_version () throws Error {
+                return VERSION;
+            }
 
-				return mode;
-			}
+            /**
+             * Get the current fan mode
+             *
+             * @return Returns the current fan mode
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem reading a value from the stream
+             */
+            public int get_fan_mode () throws Error, TUFError {
+                var stream = FileStream.open (THERMAL_PATH, "r");
+                if (stream == null) {
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
 
-			/**
-			 * Set a new fan mode
-			 *
-			 *  * 1 - normal mode
-			 *  * 2 - boost mode
-			 *  * 3 - silent mode
-			 *
-			 * @param mode The new mode to set
-			 * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
-			 * @throws TUFError Thrown if there is a problem writing a value to the stream
-			 */
-			public void set_fan_mode (int mode, BusName sender) throws Error, TUFError {
-				get_authorization.begin (sender, (obj, res) => {
-					bool authorized = false;
-					try {
-						authorized = get_authorization.end (res);
-					}
-					catch (TUFError e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
-					catch (Error e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
+                var line = stream.read_line ();
+                if (line == null) {
+                    throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
+                }
 
-					if (authorized) {
-						try {
-							set_fan_mode_authorized (mode, sender);
-						}
-						catch (TUFError e) {
-							stderr.printf ("Error: %s\n", e.message);
-						}
-						catch (Error e) {
-							stderr.printf ("Error: %s\n", e.message);
-						}
-					}
-					else {
-						// Not authorized, so let's end this
-						procedure_finished ();
-					}
-				});
-			}
+                var mode = int.parse (line);
+                if (mode < 0 || mode > 2) {
+                    throw new TUFError.INVALID_VALUE (_ ("File contains invalid value!"));
+                }
 
-			private void set_fan_mode_authorized (int mode, BusName sender) throws Error, TUFError {
-				locked.lock ();
-				var stream = FileStream.open (THERMAL_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
+                return mode;
+            }
 
-				if (mode < 0 || mode > 2) {
-					locked.unlock ();
-					throw new TUFError.INVALID_VALUE (_ ("Invalid value!"));
-				}
+            /**
+             * Set a new fan mode
+             *
+             *  * 0 - balanced mode
+             *  * 1 - turbo mode
+             *  * 2 - silent mode
+             *
+             * @param mode The new mode to set
+             * @param sender The bus that sent the request
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            public void set_fan_mode (int mode, BusName sender) throws Error, TUFError {
+                get_authorization.begin (sender, (obj, res) => {
+                    bool authorized = false;
+                    try {
+                        authorized = get_authorization.end (res);
+                    }
+                    catch (TUFError e) {
+                        stderr.printf ("Error: %s\n", e.message);
+                    }
+                    catch (Error e) {
+                        stderr.printf ("Error: %s\n", e.message);
+                    }
 
-				stream.puts (mode.to_string ());
-				locked.unlock ();
-				procedure_finished ();
-			}
+                    if (authorized) {
+                        try {
+                            set_fan_mode_authorized (mode, sender);
+                        }
+                        catch (TUFError e) {
+                            stderr.printf ("Error: %s\n", e.message);
+                        }
+                        catch (Error e) {
+                            stderr.printf ("Error: %s\n", e.message);
+                        }
+                    }
+                    else {
+                        // Not authorized, so let's end this
+                        procedure_finished ();
+                    }
+                });
+            }
 
-			public Gdk.RGBA get_keyboard_color () throws Error, TUFError {
-				string color = "#";
+            /**
+             * The user was authorized to set the mode, here we do it
+             *
+             * @param mode The new mode to set
+             * @param sender The bus that sent the request
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            private void set_fan_mode_authorized (int mode, BusName sender) throws Error, TUFError {
+                locked.lock ();
+                var stream = FileStream.open (THERMAL_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
 
-				// Get red
-				var stream = FileStream.open (RED_PATH, "r");
-				if (stream == null) {
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
+                if (mode < 0 || mode > 2) {
+                    locked.unlock ();
+                    throw new TUFError.INVALID_VALUE (_ ("Invalid value!"));
+                }
 
-				var line = stream.read_line ();
-				if (line == null) {
-					throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
-				}
+                stream.puts (mode.to_string ());
+                locked.unlock ();
+                procedure_finished ();
+            }
 
-				color += line;
+            /**
+             * Get the current keyboard color
+             *
+             * @return Returns an RGBA struct containing the color
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            public Gdk.RGBA get_keyboard_color () throws Error, TUFError {
+                string color = "#";
 
-				// Get green
-				stream = FileStream.open (GREEN_PATH, "r");
-				if (stream == null) {
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
+                // Get red
+                var stream = FileStream.open (RED_PATH, "r");
+                if (stream == null) {
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
 
-				line = stream.read_line ();
-				if (line == null) {
-					throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
-				}
+                var line = stream.read_line ();
+                if (line == null) {
+                    throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
+                }
 
-				color += line;
+                color += line;
 
-				// Get blue
-				stream = FileStream.open (BLUE_PATH, "r");
-				if (stream == null) {
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
+                // Get green
+                stream = FileStream.open (GREEN_PATH, "r");
+                if (stream == null) {
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
 
-				line = stream.read_line ();
-				if (line == null) {
-					throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
-				}
+                line = stream.read_line ();
+                if (line == null) {
+                    throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
+                }
 
-				color += line;
+                color += line;
 
-				var rgba = Gdk.RGBA ();
-				rgba.parse (color);
+                // Get blue
+                stream = FileStream.open (BLUE_PATH, "r");
+                if (stream == null) {
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
 
-				return rgba;
-			}
+                line = stream.read_line ();
+                if (line == null) {
+                    throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
+                }
 
-			public void set_keyboard_color (Gdk.RGBA color, BusName sender) throws Error, TUFError {
-				get_authorization.begin (sender, (obj, res) => {
-					bool authorized = false;
-					try {
-						authorized = get_authorization.end (res);
-					}
-					catch (TUFError e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
-					catch (Error e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
+                color += line;
 
-					if (authorized) {
-						try {
-							set_keyboard_color_authorized (color, sender);
-						}
-						catch (TUFError e) {
-							stderr.printf ("Error: %s\n", e.message);
-						}
-						catch (Error e) {
-							stderr.printf ("Error: %s\n", e.message);
-						}
-					}
-					else {
-						// Not authorized, so let's end this
-						procedure_finished ();
-					}
-				});
-			}
+                var rgba = Gdk.RGBA ();
+                rgba.parse (color);
 
-			private void set_keyboard_color_authorized (Gdk.RGBA color, BusName sender) throws Error, TUFError {
-				locked.lock ();
+                return rgba;
+            }
 
-				var red = "%02x".printf ((uint) (Math.round (color.red * 255))).up ();
-				var green = "%02x".printf ((uint) (Math.round (color.green * 255))).up ();
-				var blue = "%02x".printf ((uint) (Math.round (color.blue * 255))).up ();
-				var keyboard_set = "1";
-				var keyboard_flags = "2a";
+            /**
+             * Set the keyboard color
+             *
+             * @param color The new RGBA color to set
+             * @param sender The bus that sent the request
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            public void set_keyboard_color (Gdk.RGBA color, BusName sender) throws Error, TUFError {
+                get_authorization.begin (sender, (obj, res) => {
+                    bool authorized = false;
+                    try {
+                        authorized = get_authorization.end (res);
+                    }
+                    catch (TUFError e) {
+                        stderr.printf ("Error: %s\n", e.message);
+                    }
+                    catch (Error e) {
+                        stderr.printf ("Error: %s\n", e.message);
+                    }
 
-				var stream = FileStream.open (RED_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
-				stream.puts (red);
+                    if (authorized) {
+                        try {
+                            set_keyboard_color_authorized (color, sender);
+                        }
+                        catch (TUFError e) {
+                            stderr.printf ("Error: %s\n", e.message);
+                        }
+                        catch (Error e) {
+                            stderr.printf ("Error: %s\n", e.message);
+                        }
+                    }
+                    else {
+                        // Not authorized, so let's end this
+                        procedure_finished ();
+                    }
+                });
+            }
 
-				stream = FileStream.open (GREEN_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
-				stream.puts (green);
+            /**
+             * The user was authorized to set the color, here we do it
+             *
+             * @param color The new RGBA color to set
+             * @param sender The bus that sent the request
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            private void set_keyboard_color_authorized (Gdk.RGBA color, BusName sender) throws Error, TUFError {
+                locked.lock ();
 
-				stream = FileStream.open (BLUE_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
-				stream.puts (blue);
+                var red = "%02x".printf ((uint) (Math.round (color.red * 255))).up ();
+                var green = "%02x".printf ((uint) (Math.round (color.green * 255))).up ();
+                var blue = "%02x".printf ((uint) (Math.round (color.blue * 255))).up ();
+                var keyboard_set = "1";
+                var keyboard_flags = "2a";
 
-				stream = FileStream.open (KEYBOARD_FLAGS_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
-				stream.puts (keyboard_flags);
+                var stream = FileStream.open (RED_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
+                stream.puts (red);
 
-				stream = FileStream.open (KEYBOARD_SET_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
-				stream.puts (keyboard_set);
+                stream = FileStream.open (GREEN_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
+                stream.puts (green);
 
-				locked.unlock ();
-				procedure_finished ();
-			}
+                stream = FileStream.open (BLUE_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
+                stream.puts (blue);
 
-			public int get_keyboard_mode () throws Error, TUFError {
-				var stream = FileStream.open (KEYBOARD_MODE_PATH, "r");
-				if (stream == null) {
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
+                stream = FileStream.open (KEYBOARD_FLAGS_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
+                stream.puts (keyboard_flags);
 
-				var line = stream.read_line ();
-				if (line == null) {
-					throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
-				}
+                stream = FileStream.open (KEYBOARD_SET_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
+                stream.puts (keyboard_set);
 
-				var mode = int.parse (line);
-				if (mode < 0 || mode > 3) {
-					throw new TUFError.INVALID_VALUE (_ ("File contains invalid value!"));
-				}
+                locked.unlock ();
+                procedure_finished ();
+            }
 
-				return mode;
-			}
+            /**
+             * Get the current keyboard mode
+             *
+             * @return Returns the mode
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            public int get_keyboard_mode () throws Error, TUFError {
+                var stream = FileStream.open (KEYBOARD_MODE_PATH, "r");
+                if (stream == null) {
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
 
-			public void set_keyboard_mode (int mode, BusName sender) throws Error, TUFError {
-				get_authorization.begin (sender, (obj, res) => {
-					bool authorized = false;
-					try {
-						authorized = get_authorization.end (res);
-					}
-					catch (TUFError e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
-					catch (Error e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
+                var line = stream.read_line ();
+                if (line == null) {
+                    throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
+                }
 
-					if (authorized) {
-						try {
-							set_keyboard_mode_authorized (mode, sender);
-						}
-						catch (TUFError e) {
-							stderr.printf ("Error: %s\n", e.message);
-						}
-						catch (Error e) {
-							stderr.printf ("Error: %s\n", e.message);
-						}
-					}
-					else {
-						// Not authorized, so let's end this
-						procedure_finished ();
-					}
-				});
-			}
+                var mode = int.parse (line);
+                if (mode < 0 || mode > 3) {
+                    throw new TUFError.INVALID_VALUE (_ ("File contains invalid value!"));
+                }
 
-			private void set_keyboard_mode_authorized (int mode, BusName sender) throws Error, TUFError {
-				locked.lock ();
-				var keyboard_set = "1";
-				var keyboard_flags = "2a";
+                return mode;
+            }
 
-				var stream = FileStream.open (KEYBOARD_MODE_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
+            /**
+             * Set a new keyboard mode
+             *
+             *  * 0 - static
+             *  * 1 - breathing
+             *  * 2 - color cycle
+             *  * 3 - strobing
+             *
+             * @param mode The new mode to set
+             * @param sender The bus that sent the request
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            public void set_keyboard_mode (int mode, BusName sender) throws Error, TUFError {
+                get_authorization.begin (sender, (obj, res) => {
+                    bool authorized = false;
+                    try {
+                        authorized = get_authorization.end (res);
+                    }
+                    catch (TUFError e) {
+                        stderr.printf ("Error: %s\n", e.message);
+                    }
+                    catch (Error e) {
+                        stderr.printf ("Error: %s\n", e.message);
+                    }
 
-				if (mode < 0 || mode > 3) {
-					locked.unlock ();
-					throw new TUFError.INVALID_VALUE (_ ("Invalid value!"));
-				}
-				stream.puts (mode.to_string ());
+                    if (authorized) {
+                        try {
+                            set_keyboard_mode_authorized (mode, sender);
+                        }
+                        catch (TUFError e) {
+                            stderr.printf ("Error: %s\n", e.message);
+                        }
+                        catch (Error e) {
+                            stderr.printf ("Error: %s\n", e.message);
+                        }
+                    }
+                    else {
+                        // Not authorized, so let's end this
+                        procedure_finished ();
+                    }
+                });
+            }
 
-				stream = FileStream.open (KEYBOARD_FLAGS_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
-				stream.puts (keyboard_flags);
+            /**
+             * The user was authorized to set the mode, here we do it
+             *
+             * @param mode The new mode to set
+             * @param sender The bus that sent the request
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            private void set_keyboard_mode_authorized (int mode, BusName sender) throws Error, TUFError {
+                locked.lock ();
+                var keyboard_set = "1";
+                var keyboard_flags = "2a";
 
-				stream = FileStream.open (KEYBOARD_SET_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
-				stream.puts (keyboard_set);
+                var stream = FileStream.open (KEYBOARD_MODE_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
 
-				locked.unlock ();
-				procedure_finished ();
-			}
+                if (mode < 0 || mode > 3) {
+                    locked.unlock ();
+                    throw new TUFError.INVALID_VALUE (_ ("Invalid value!"));
+                }
+                stream.puts (mode.to_string ());
 
-			public int get_keyboard_speed () throws Error, TUFError {
-				var stream = FileStream.open (KEYBOARD_SPEED_PATH, "r");
-				if (stream == null) {
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
+                stream = FileStream.open (KEYBOARD_FLAGS_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
+                stream.puts (keyboard_flags);
 
-				var line = stream.read_line ();
-				if (line == null) {
-					throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
-				}
+                stream = FileStream.open (KEYBOARD_SET_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
+                stream.puts (keyboard_set);
 
-				var mode = int.parse (line);
-				if (mode < 0 || mode > 2) {
-					throw new TUFError.INVALID_VALUE (_ ("File contains invalid value!"));
-				}
+                locked.unlock ();
+                procedure_finished ();
+            }
 
-				return mode;
-			}
+            /**
+             * Get the current keyboard lighting speed
+             *
+             * @return The current speed
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            public int get_keyboard_speed () throws Error, TUFError {
+                var stream = FileStream.open (KEYBOARD_SPEED_PATH, "r");
+                if (stream == null) {
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
 
-			public void set_keyboard_speed (int speed, BusName sender) throws Error, TUFError {
-				get_authorization.begin (sender, (obj, res) => {
-					bool authorized = false;
-					try {
-						authorized = get_authorization.end (res);
-					}
-					catch (TUFError e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
-					catch (Error e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
+                var line = stream.read_line ();
+                if (line == null) {
+                    throw new TUFError.INVALID_VALUE (_ ("File is empty!"));
+                }
 
-					if (authorized) {
-						try {
-							set_keyboard_speed_authorized (speed, sender);
-						}
-						catch (TUFError e) {
-							stderr.printf ("Error: %s\n", e.message);
-						}
-						catch (Error e) {
-							stderr.printf ("Error: %s\n", e.message);
-						}
-					}
-					else {
-						// Not authorized, so let's end this
-						procedure_finished ();
-					}
-				});
-			}
+                var speed = int.parse (line);
+                if (speed < 0 || speed > 2) {
+                    throw new TUFError.INVALID_VALUE (_ ("File contains invalid value!"));
+                }
 
-			private void set_keyboard_speed_authorized (int speed, BusName sender) throws Error, TUFError {
-				locked.lock ();
-				var keyboard_set = "1";
-				var keyboard_flags = "2a";
+                return speed;
+            }
 
-				var stream = FileStream.open (KEYBOARD_SPEED_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
+            /**
+             * Set a new keyboard speed
+             *
+             *  * 0 - slow
+             *  * 1 - medium
+             *  * 2 - fast
+             *
+             * @param speed The new speed to set
+             * @param sender The bus that sent the request
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            public void set_keyboard_speed (int speed, BusName sender) throws Error, TUFError {
+                get_authorization.begin (sender, (obj, res) => {
+                    bool authorized = false;
+                    try {
+                        authorized = get_authorization.end (res);
+                    }
+                    catch (TUFError e) {
+                        stderr.printf ("Error: %s\n", e.message);
+                    }
+                    catch (Error e) {
+                        stderr.printf ("Error: %s\n", e.message);
+                    }
 
-				if (speed < 0 || speed > 2) {
-					locked.unlock ();
-					throw new TUFError.INVALID_VALUE (_ ("Invalid value!"));
-				}
-				stream.puts (speed.to_string ());
+                    if (authorized) {
+                        try {
+                            set_keyboard_speed_authorized (speed, sender);
+                        }
+                        catch (TUFError e) {
+                            stderr.printf ("Error: %s\n", e.message);
+                        }
+                        catch (Error e) {
+                            stderr.printf ("Error: %s\n", e.message);
+                        }
+                    }
+                    else {
+                        // Not authorized, so let's end this
+                        procedure_finished ();
+                    }
+                });
+            }
 
-				stream = FileStream.open (KEYBOARD_FLAGS_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
-				stream.puts (keyboard_flags);
+            /**
+             * The user was authorized to set the speed, here we do it
+             *
+             * @param speed The new speed to set
+             * @param sender The bus that sent the request
+             * @throws Error Thrown if there is a problem connecting to a dbus session or an IO error
+             * @throws TUFError Thrown if there is a problem writing a value to the stream
+             */
+            private void set_keyboard_speed_authorized (int speed, BusName sender) throws Error, TUFError {
+                locked.lock ();
+                var keyboard_set = "1";
+                var keyboard_flags = "2a";
 
-				stream = FileStream.open (KEYBOARD_SET_PATH, "w");
-				if (stream == null) {
-					locked.unlock ();
-					throw new TUFError.STREAM (_ ("Failed to open stream!"));
-				}
-				stream.puts (keyboard_set);
+                var stream = FileStream.open (KEYBOARD_SPEED_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
 
-				locked.unlock ();
-				procedure_finished ();
-			}
-		}
-	}
+                if (speed < 0 || speed > 2) {
+                    locked.unlock ();
+                    throw new TUFError.INVALID_VALUE (_ ("Invalid value!"));
+                }
+                stream.puts (speed.to_string ());
+
+                stream = FileStream.open (KEYBOARD_FLAGS_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
+                stream.puts (keyboard_flags);
+
+                stream = FileStream.open (KEYBOARD_SET_PATH, "w");
+                if (stream == null) {
+                    locked.unlock ();
+                    throw new TUFError.STREAM (_ ("Failed to open stream!"));
+                }
+                stream.puts (keyboard_set);
+
+                locked.unlock ();
+                procedure_finished ();
+            }
+        }
+    }
 }

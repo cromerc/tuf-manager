@@ -16,86 +16,97 @@
  * The TUF Manager namespace
  */
 namespace TUFManager {
-	/**
-	 * The server namespace contains anything releated to working as a dbus daemon
-	 * and handling root related tasks
-	 */
-	namespace Server {
-		private static bool foreground = false;
+    /**
+     * The server namespace contains anything releated to working as a dbus daemon
+     * and handling root related tasks
+     */
+    namespace Server {
+        /**
+         * Run the process in the foreground
+         */
+        private static bool foreground = false;
 
-		private const OptionEntry[] options = {
-			{ "foreground", 'f', 0, OptionArg.NONE, ref foreground, N_ ("Run the daemon in the foreground"), null },
-			{ null }
-		};
+        /**
+         * The command line arguments available
+         */
+        private const OptionEntry[] options = {
+            { "foreground", 'f', 0, OptionArg.NONE, ref foreground, N_ ("Run the daemon in the foreground"), null },
+            { null }
+        };
 
-		private static void on_exit (int signum) {
-			if (loop != null) {
-				loop.quit ();
-			}
-		}
+        /**
+         * Called when the server should exit
+         *
+         * @param signum The signal that caused the server to exit
+         */
+        private static void on_exit (int signum) {
+            if (loop != null) {
+                loop.quit ();
+            }
+        }
 
-		/**
-		 * The entry point to the server launches a system dbus daemon
-		 *
-		 * @param args Arguments passed from the command line
-		 * @return Returns 0 on success
-		 */
-		public static int main (string[] args) {
-			Intl.setlocale (LocaleCategory.ALL, "");
-			Intl.bindtextdomain (GETTEXT_PACKAGE, "/usr/share/locale");
-			Intl.bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-			Intl.textdomain (GETTEXT_PACKAGE);
+        /**
+         * The entry point to the server launches a system dbus daemon
+         *
+         * @param args Arguments passed from the command line
+         * @return Returns 0 on success
+         */
+        public static int main (string[] args) {
+            Intl.setlocale (LocaleCategory.ALL, "");
+            Intl.bindtextdomain (GETTEXT_PACKAGE, "/usr/share/locale");
+            Intl.bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+            Intl.textdomain (GETTEXT_PACKAGE);
 
-			try {
-				var opt_context = new OptionContext ("");
-				opt_context.set_translation_domain (GETTEXT_PACKAGE);
-				opt_context.set_help_enabled (true);
-				opt_context.add_main_entries (options, null);
-				opt_context.parse (ref args);
-			}
-			catch (OptionError e) {
-				print (_ ("Error: %s\n"), e.message);
-				print (_ ("Run '%s --help' to see a full list of available command line options.\n"), args[0]);
-				return 1;
-			}
+            try {
+                var opt_context = new OptionContext ("");
+                opt_context.set_translation_domain (GETTEXT_PACKAGE);
+                opt_context.set_help_enabled (true);
+                opt_context.add_main_entries (options, null);
+                opt_context.parse (ref args);
+            }
+            catch (OptionError e) {
+                print (_ ("Error: %s\n"), e.message);
+                print (_ ("Run '%s --help' to see a full list of available command line options.\n"), args[0]);
+                return 1;
+            }
 
-			if (!foreground) {
-				var pid = Posix.fork ();
-				if (pid < 0) {
-					Posix.exit (Posix.EXIT_FAILURE);
-				}
-				else if (pid > 0) {
-					Posix.exit (Posix.EXIT_SUCCESS);
-				}
+            if (!foreground) {
+                var pid = Posix.fork ();
+                if (pid < 0) {
+                    Posix.exit (Posix.EXIT_FAILURE);
+                }
+                else if (pid > 0) {
+                    Posix.exit (Posix.EXIT_SUCCESS);
+                }
 
-				Posix.umask (0);
+                Posix.umask (0);
 
-				var sid = Posix.setsid ();
-				if (sid < 0) {
-					Posix.exit (Posix.EXIT_FAILURE);
-				}
+                var sid = Posix.setsid ();
+                if (sid < 0) {
+                    Posix.exit (Posix.EXIT_FAILURE);
+                }
 
-				if (Posix.chdir ("/") < 0) {
-					Posix.exit (Posix.EXIT_FAILURE);
-				}
-			}
+                if (Posix.chdir ("/") < 0) {
+                    Posix.exit (Posix.EXIT_FAILURE);
+                }
+            }
 
-			Process.signal (ProcessSignal.INT, on_exit);
-			Process.signal (ProcessSignal.TERM, on_exit);
+            Process.signal (ProcessSignal.INT, on_exit);
+            Process.signal (ProcessSignal.TERM, on_exit);
 
-			Bus.own_name (BusType.SYSTEM,
-				"org.tuf.manager.server",
-				BusNameOwnerFlags.NONE,
-				on_bus_acquired,
-				() => {},
-				() => {
-					stderr.printf (_ ("Could not acquire bus name\n"));
-				});
+            Bus.own_name (BusType.SYSTEM,
+                "org.tuf.manager.server",
+                BusNameOwnerFlags.NONE,
+                on_bus_acquired,
+                () => {},
+                () => {
+                    stderr.printf (_ ("Could not acquire bus name\n"));
+                });
 
-			loop = new MainLoop ();
-			loop.run ();
+            loop = new MainLoop ();
+            loop.run ();
 
-			return 0;
-		}
-	}
+            return 0;
+        }
+    }
 }

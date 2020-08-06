@@ -16,29 +16,29 @@
  * The TUF Manager namespace
  */
 namespace TUFManager {
-	/**
-	 * This contains errors related to TUF Manager
-	 */
-	public errordomain TUFError {
-		/**
-		 * The stream failed to open
-		 */
-		STREAM,
-		/**
-		 * An invalid value was returned
-		 */
-		INVALID_VALUE,
-		/**
-		 * The server is busy and can't do another task yet
-		 */
-		BUSY,
-		/**
-		 * The client and serer version don't match
-		 */
-		UNMATCHED_VERSIONS,
-		/**
-		 * The user is unauthorized to perform that action
-		 */
-		UNAUTHORIZED
-	}
+    /**
+     * This contains errors related to TUF Manager
+     */
+    public errordomain TUFError {
+        /**
+         * The stream failed to open
+         */
+        STREAM,
+        /**
+         * An invalid value was returned
+         */
+        INVALID_VALUE,
+        /**
+         * The server is busy and can't do another task yet
+         */
+        BUSY,
+        /**
+         * The client and serer version don't match
+         */
+        UNMATCHED_VERSIONS,
+        /**
+         * The user is unauthorized to perform that action
+         */
+        UNAUTHORIZED
+    }
 }

@@ -16,232 +16,254 @@
  * The TUF Manager namespace
  */
 namespace TUFManager {
-	/**
-	 * The GUI namespace contains a GTK based interface to interact with the TUF laptop
-	 */
-	namespace GUI {
-		/**
-		 * The main window to show to the user
-		 */
-		[GtkTemplate (ui = "/cl/cromer/tuf-manager/tuf.manager.window.ui")]
-		public class MainWindow : Gtk.ApplicationWindow {
-			/**
-			 * This is used to make sure that the sysfs files are not written to until everything is initialized
-			 */
-			private bool initialized = false;
-			private Settings settings;
+    /**
+     * The GUI namespace contains a GTK based interface to interact with the TUF laptop
+     */
+    namespace GUI {
+        /**
+         * The main window to show to the user
+         */
+        [GtkTemplate (ui = "/cl/cromer/tuf-manager/tuf.manager.window.ui")]
+        public class MainWindow : Gtk.ApplicationWindow {
+            /**
+             * This is used to make sure that the sysfs files are not written to until everything is initialized
+             */
+            private bool initialized = false;
 
-			/**
-			 * The fan mode combo box
-			 */
-			[GtkChild]
-			private Gtk.ComboBoxText fan_mode;
+            /**
+             * The settings object from gschema/dconf
+             */
+            private Settings settings;
 
-			[GtkChild]
-			private Gtk.ComboBoxText keyboard_mode;
+            /**
+             * The fan mode combo box
+             */
+            [GtkChild]
+            private Gtk.ComboBoxText fan_mode;
 
-			[GtkChild]
-			private Gtk.ComboBoxText keyboard_speed;
+            /**
+             * They keyboard mode combo box
+             */
+            [GtkChild]
+            private Gtk.ComboBoxText keyboard_mode;
 
-			/**
-			 * The color chooser widget
-			 */
-			[GtkChild]
-			private Gtk.ColorChooserWidget keyboard_color;
+            /**
+             * The keyboard speed combox box
+             */
+            [GtkChild]
+            private Gtk.ComboBoxText keyboard_speed;
 
-			/**
-			 * Create the main window
-			 * @param application The application used to make the GLib object
-			 */
-			public MainWindow (Gtk.Application application) {
-				Object (application: application);
-			}
+            /**
+             * The color chooser widget
+             */
+            [GtkChild]
+            private Gtk.ColorChooserWidget keyboard_color;
 
-			public void initialize () {
-				settings = new Settings ("org.tuf.manager");
-				try {
-					connect_dbus ();
-				}
-				catch (TUFError e) {
-					stderr.printf ("Error: %s:\n", e.message);
-					if (e.code == TUFError.UNMATCHED_VERSIONS) {
-						Gtk.MessageDialog msg;
-						msg = new Gtk.MessageDialog (this,
-							Gtk.DialogFlags.MODAL,
-							Gtk.MessageType.ERROR,
-							Gtk.ButtonsType.CLOSE,
-							_ ("The current running tuf-server version doesn't match the gui version!"));
-						msg.response.connect ((response_id) => {
-							msg.destroy ();
-							this.close ();
-						});
-						msg.show ();
-					}
-				}
-				finally {
-					print (_ ("Client version: ") + VERSION + "\n");
-					print (_ ("Server version: ") + get_server_version () + "\n");
+            /**
+             * Create the main window
+             * @param application The application used to make the GLib object
+             */
+            public MainWindow (Gtk.Application application) {
+                Object (application: application);
+            }
 
-					if (settings.get_boolean ("restore")) {
-						restore ();
-					}
-					else {
-						// Get the fan speed
-						// 0 - normal
-						// 1 - boost
-						// 2 - silent
-						var mode = get_fan_mode ();
-						if (mode >= 0) {
-							fan_mode.set_active (mode);
-							print (_ ("Current fan mode: ") + fan_mode.get_active_text () + "\n");
-						}
-						else {
-							stderr.printf ("%s\n", _ ("Error: Could not get current fan mode!"));
-						}
+            /**
+             * This is called after the window is created to initialize it's interface
+             */
+            public void initialize () {
+                settings = new Settings ("org.tuf.manager");
+                try {
+                    connect_tuf_server ();
+                }
+                catch (TUFError e) {
+                    stderr.printf ("Error: %s:\n", e.message);
+                    if (e.code == TUFError.UNMATCHED_VERSIONS) {
+                        Gtk.MessageDialog msg;
+                        msg = new Gtk.MessageDialog (this,
+                            Gtk.DialogFlags.MODAL,
+                            Gtk.MessageType.ERROR,
+                            Gtk.ButtonsType.CLOSE,
+                            _ ("The current running tuf-server version doesn't match the gui version!"));
+                        msg.response.connect ((response_id) => {
+                            msg.destroy ();
+                            this.close ();
+                        });
+                        msg.show ();
+                    }
+                }
+                finally {
+                    print (_ ("Client version: ") + VERSION + "\n");
+                    print (_ ("Server version: ") + get_server_version () + "\n");
 
-						// Get the keyboard mode
-						mode = get_keyboard_mode ();
-						if (mode >= 0) {
-							keyboard_mode.set_active (mode);
-							if (mode == 2) {
-								keyboard_color.sensitive = false;
-							}
-							if (mode == 0 || mode == 3) {
-								keyboard_speed.sensitive = false;
-							}
-							print (_ ("Current keyboard mode: ") + keyboard_mode.get_active_text () + "\n");
-						}
-						else {
-							stderr.printf ("%s\n", _ ("Error: Could not get current keyboard mode!"));
-						}
+                    if (settings.get_boolean ("restore")) {
+                        restore ();
+                    }
+                    else {
+                        // Get the fan speed
+                        var mode = get_fan_mode ();
+                        if (mode >= 0) {
+                            fan_mode.set_active (mode);
+                            print (_ ("Current fan mode: ") + fan_mode.get_active_text () + "\n");
+                        }
+                        else {
+                            stderr.printf ("%s\n", _ ("Error: Could not get current fan mode!"));
+                        }
 
-						// Get the keyboard speed
-						var speed = get_keyboard_speed ();
-						if (speed >= 0) {
-							keyboard_speed.set_active (mode);
-							print (_ ("Current keyboard speed: ") + keyboard_speed.get_active_text () + "\n");
-						}
-						else {
-							stderr.printf ("%s\n", _ ("Error: Could not get current keyboard speed!"));
-						}
+                        // Get the keyboard mode
+                        mode = get_keyboard_mode ();
+                        if (mode >= 0) {
+                            keyboard_mode.set_active (mode);
+                            if (mode == 2) {
+                                keyboard_color.sensitive = false;
+                            }
+                            if (mode == 0 || mode == 3) {
+                                keyboard_speed.sensitive = false;
+                            }
+                            print (_ ("Current keyboard mode: ") + keyboard_mode.get_active_text () + "\n");
+                        }
+                        else {
+                            stderr.printf ("%s\n", _ ("Error: Could not get current keyboard mode!"));
+                        }
 
-						// Get the keyboard color
-						var color = get_keyboard_color ();
-						keyboard_color.set_rgba (color);
-						print (_ ("Current keyboard color: ") + color.to_string () + "\n");
-					}
+                        // Get the keyboard speed
+                        var speed = get_keyboard_speed ();
+                        if (speed >= 0) {
+                            keyboard_speed.set_active (mode);
+                            print (_ ("Current keyboard speed: ") + keyboard_speed.get_active_text () + "\n");
+                        }
+                        else {
+                            stderr.printf ("%s\n", _ ("Error: Could not get current keyboard speed!"));
+                        }
 
-					initialized = true;
-				}
-			}
+                        // Get the keyboard color
+                        var color = get_keyboard_color ();
+                        keyboard_color.set_rgba (color);
+                        print (_ ("Current keyboard color: ") + color.to_string () + "\n");
+                    }
 
-			public void restore () {
-				var mode = settings.get_int ("fan-mode");
-				if (mode >= 0 && mode <= 2) {
-					if (get_fan_mode () != mode) {
-						set_fan_mode (mode);
-					}
-					fan_mode.set_active (mode);
-				}
-				print (_ ("Current fan mode: ") + fan_mode.get_active_text () + "\n");
+                    initialized = true;
+                }
+            }
 
-				mode = settings.get_int ("keyboard-mode");
-				if (mode >= 0 && mode <= 3) {
-					if (get_keyboard_mode () != mode) {
-						set_keyboard_mode (mode);
-					}
-					keyboard_mode.set_active (mode);
-					if (mode == 2) {
-						keyboard_color.sensitive = false;
-					}
-					if (mode == 0 || mode == 3) {
-						keyboard_speed.sensitive = false;
-					}
-				}
-				print (_ ("Current keyboard mode: ") + keyboard_mode.get_active_text () + "\n");
+            /**
+             * Used to restore the previous config from donf
+             * TODO: Move this to a status bar app and/or user daemon
+             */
+            public void restore () {
+                var mode = settings.get_int ("fan-mode");
+                if (mode >= 0 && mode <= 2) {
+                    if (get_fan_mode () != mode) {
+                        set_fan_mode (mode);
+                    }
+                    fan_mode.set_active (mode);
+                }
+                print (_ ("Current fan mode: ") + fan_mode.get_active_text () + "\n");
 
-				var speed = settings.get_int ("keyboard-speed");
-				if (speed >= 0 && speed <= 2) {
-					if (get_keyboard_speed () != speed) {
-						set_keyboard_speed (speed);
-					}
-					keyboard_speed.set_active (speed);
-				}
-				print (_ ("Current keyboard speed: ") + keyboard_speed.get_active_text () + "\n");
+                mode = settings.get_int ("keyboard-mode");
+                if (mode >= 0 && mode <= 3) {
+                    if (get_keyboard_mode () != mode) {
+                        set_keyboard_mode (mode);
+                    }
+                    keyboard_mode.set_active (mode);
+                    if (mode == 2) {
+                        keyboard_color.sensitive = false;
+                    }
+                    if (mode == 0 || mode == 3) {
+                        keyboard_speed.sensitive = false;
+                    }
+                }
+                print (_ ("Current keyboard mode: ") + keyboard_mode.get_active_text () + "\n");
 
-				var color = settings.get_string ("keyboard-color");
-				var rgba = Gdk.RGBA ();
-				rgba.parse (color);
-				if (!get_keyboard_color ().equal (rgba)) {
-					set_keyboard_color (rgba);
-				}
-				keyboard_color.set_rgba (rgba);
-				print (_ ("Current keyboard color: ") + color.to_string () + "\n");
-			}
+                var speed = settings.get_int ("keyboard-speed");
+                if (speed >= 0 && speed <= 2) {
+                    if (get_keyboard_speed () != speed) {
+                        set_keyboard_speed (speed);
+                    }
+                    keyboard_speed.set_active (speed);
+                }
+                print (_ ("Current keyboard speed: ") + keyboard_speed.get_active_text () + "\n");
 
-			/**
-			 * Called when the user changes the fan mode
-			 *
-			 *  * 1 - normal mode
-			 *  * 2 - boost mode
-			 *  * 3 - silent mode
-			 * @param combo_box The combo box that changed
-			 */
-			[GtkCallback]
-			public void on_fan_mode_changed (Gtk.ComboBox combo_box) {
-				if (initialized) {
-					int mode = combo_box.get_active ();
-					set_fan_mode (mode);
+                var color = settings.get_string ("keyboard-color");
+                var rgba = Gdk.RGBA ();
+                rgba.parse (color);
+                if (!get_keyboard_color ().equal (rgba)) {
+                    set_keyboard_color (rgba);
+                }
+                keyboard_color.set_rgba (rgba);
+                print (_ ("Current keyboard color: ") + color.to_string () + "\n");
+            }
 
-					settings.set_int ("fan-mode", mode);
-				}
-			}
+            /**
+             * Called when the user changes the fan mode
+             *
+             * @param combo_box The combo box that changed
+             */
+            [GtkCallback]
+            public void on_fan_mode_changed (Gtk.ComboBox combo_box) {
+                if (initialized) {
+                    int mode = combo_box.get_active ();
+                    set_fan_mode (mode);
 
-			/**
-			 * Called when the user changes the keyboard lighting mode
-			 * @param combo_box The combo box that changed
-			 */
-			[GtkCallback]
-			public void on_keyboard_mode_changed (Gtk.ComboBox combo_box) {
-				if (initialized) {
-					int mode = combo_box.get_active ();
-					if (mode == 2) {
-						keyboard_color.sensitive = false;
-					}
-					else {
-						keyboard_color.sensitive = true;
-					}
-					if (mode == 1 || mode == 2) {
-						keyboard_speed.sensitive = true;
-					}
-					else {
-						keyboard_speed.sensitive = false;
-					}
-					set_keyboard_mode (mode);
+                    settings.set_int ("fan-mode", mode);
+                }
+            }
 
-					settings.set_int ("keyboard-mode", mode);
-				}
-			}
+            /**
+             * Called when the user changes the keyboard lighting mode
+             *
+             * @param combo_box The combo box that changed
+             */
+            [GtkCallback]
+            public void on_keyboard_mode_changed (Gtk.ComboBox combo_box) {
+                if (initialized) {
+                    int mode = combo_box.get_active ();
+                    if (mode == 2) {
+                        keyboard_color.sensitive = false;
+                    }
+                    else {
+                        keyboard_color.sensitive = true;
+                    }
+                    if (mode == 1 || mode == 2) {
+                        keyboard_speed.sensitive = true;
+                    }
+                    else {
+                        keyboard_speed.sensitive = false;
+                    }
+                    set_keyboard_mode (mode);
 
-			[GtkCallback]
-			public void on_speed_changed (Gtk.ComboBox combo_box) {
-				if (initialized) {
-					int speed = combo_box.get_active ();
-					set_keyboard_speed (speed);
+                    settings.set_int ("keyboard-mode", mode);
+                }
+            }
 
-					settings.set_int ("keyboard-speed", speed);
-				}
-			}
+            /**
+             * Called when the user changes the keyboard lighting speed
+             *
+             * @param combo_box The combo box that changed
+             */
+            [GtkCallback]
+            public void on_speed_changed (Gtk.ComboBox combo_box) {
+                if (initialized) {
+                    int speed = combo_box.get_active ();
+                    set_keyboard_speed (speed);
 
-			[GtkCallback]
-			public void on_set_color_clicked (Gtk.Button button) {
-				if (initialized) {
-					Gdk.RGBA rgba = keyboard_color.get_rgba ();
+                    settings.set_int ("keyboard-speed", speed);
+                }
+            }
 
-					set_keyboard_color (rgba);
-					settings.set_string ("keyboard-color", rgba.to_string ());
-				}
-			}
-		}
-	}
+            /**
+             * Called when the user clicks the set color button
+             *
+             * @param button The button that was clicked
+             */
+            [GtkCallback]
+            public void on_set_color_clicked (Gtk.Button button) {
+                if (initialized) {
+                    Gdk.RGBA rgba = keyboard_color.get_rgba ();
+
+                    set_keyboard_color (rgba);
+                    settings.set_string ("keyboard-color", rgba.to_string ());
+                }
+            }
+        }
+    }
 }

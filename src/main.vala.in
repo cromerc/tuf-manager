@@ -16,24 +16,24 @@
  * The TUF Manager namespace
  */
 namespace TUFManager {
-	/**
-	 * The entry point to the TUF Manager application
-	 *
-	 * @param args Arguments passed from the command line
-	 * @return Returns the status from the application
-	 */
-	public static int main (string[] args) {
-		var application = new @APP@.TUFManagerApp ();
-		try {
-			application.register ();
-		}
-		catch (Error e) {
-			stderr.printf ("Error: %s\n", e.message);
-		}
-		if (application.get_is_remote ()) {
-			stderr.printf ("Error: %s\n", _ ("Another instance of TUF Manager is already running!"));
-			return -1;
-		}
-		return application.run (args);
-	}
+    /**
+     * The entry point to the TUF Manager UI applications
+     *
+     * @param args Arguments passed from the command line
+     * @return Returns the status from the application
+     */
+    public static int main (string[] args) {
+        var application = new @APP@.TUFManagerApp ();
+        try {
+            application.register ();
+        }
+        catch (Error e) {
+            stderr.printf (_ ("Error: %s\n"), e.message);
+        }
+        if (application.get_is_remote ()) {
+            stderr.printf (_ ("Error: %s\n"), _ ("Another instance of TUF Manager is already running!"));
+            return -1;
+        }
+        return application.run (args);
+    }
 }

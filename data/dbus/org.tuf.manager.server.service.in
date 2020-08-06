@@ -1,4 +1,4 @@
 [D-BUS Service]
 Name=org.tuf.manager.server
-Exec=@LIBEXEC_DIR@/tuf-server
+Exec=@LIBEXECDIR@/tuf-server
 User=root

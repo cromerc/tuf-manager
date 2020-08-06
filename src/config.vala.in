@@ -16,23 +16,53 @@
  * The TUF Manager namespace
  */
 namespace TUFManager {
-	/**
-	 * The package name used for translations
-	 */
-	public const string GETTEXT_PACKAGE = "@GETTEXT_PACKAGE@";
-	/**
-	 * The version of the application
-	 */
-	public const string VERSION = "@VERSION@";
-	/**
-	 * The location of the thermal control
-	 */
-	public const string THERMAL_PATH = "/sys/devices/platform/faustus/throttle_thermal_policy";
-	public const string RED_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_red";
-	public const string GREEN_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_green";
-	public const string BLUE_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_blue";
-	public const string KEYBOARD_MODE_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_mode";
-	public const string KEYBOARD_FLAGS_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_flags";
-	public const string KEYBOARD_SPEED_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_speed";
-	public const string KEYBOARD_SET_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_set";
+    /**
+     * The package name used for translations
+     */
+    public const string GETTEXT_PACKAGE = "@GETTEXT_PACKAGE@";
+
+    /**
+     * The version of the application
+     */
+    public const string VERSION = "@VERSION@";
+
+    /**
+     * The location of the thermal control
+     */
+    public const string THERMAL_PATH = "/sys/devices/platform/faustus/throttle_thermal_policy";
+
+    /**
+     * The location of the red hue control
+     */
+    public const string RED_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_red";
+
+    /**
+     * The location of the green hue control
+     */
+    public const string GREEN_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_green";
+
+    /**
+     * The location of the blue hue control
+     */
+    public const string BLUE_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_blue";
+
+    /**
+     * The location of the keyboard mode control
+     */
+    public const string KEYBOARD_MODE_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_mode";
+
+    /**
+     * The location of the flags for the keyboard control
+     */
+    public const string KEYBOARD_FLAGS_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_flags";
+
+    /**
+     * The location of the keyboard lighting speed control
+     */
+    public const string KEYBOARD_SPEED_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_speed";
+
+    /**
+     * The location of the keyboard set control
+     */
+    public const string KEYBOARD_SET_PATH = "/sys/devices/platform/faustus/kbbl/kbbl_set";
 }
