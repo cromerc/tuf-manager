@@ -1,0 +1,6 @@
+[Unit]
+Description=TUF Manager Server
+
+[Service]
+Type=forking
+ExecStart=@LIBEXECDIR@/tuf-server

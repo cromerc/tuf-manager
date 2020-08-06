@@ -2,3 +2,4 @@
 Name=org.tuf.manager.server
 Exec=@LIBEXECDIR@/tuf-server
 User=root
+SystemdService=tufmanager.service

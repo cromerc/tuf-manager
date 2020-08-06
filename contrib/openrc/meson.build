@@ -1,3 +1,5 @@
+openrc = get_option('openrc')
+
 openrc_config_data = configuration_data()
 openrc_config_data.set('SBINDIR', join_paths(get_option('prefix'), get_option('sbindir')))
 openrc_config_data.set('LIBEXECDIR', join_paths(get_option('prefix'), get_option('libexecdir'), meson.project_name()))

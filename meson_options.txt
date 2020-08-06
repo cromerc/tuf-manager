@@ -34,3 +34,9 @@ option(
     value: false,
     description: 'Install OpenRC script'
 )
+option(
+    'systemd',
+    type : 'boolean',
+    value: false,
+    description: 'Install systemd unit'
+)
