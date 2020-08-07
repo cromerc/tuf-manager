@@ -97,7 +97,9 @@ namespace TUFManager {
 
                 Notify.init (_ ("TUF Manager"));
 
-                restore ();
+                if (settings.get_boolean ("restore")) {
+                    restore ();
+                }
                 thread = new Thread<void> ("poll_fan", this.poll_fan);
             }
 
