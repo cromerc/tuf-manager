@@ -23,7 +23,7 @@ namespace TUFManager {
         /**
          * This class contains the app that runs on the command line
          */
-        public class TUFManagerApp : Application {
+        public class TUFManagerApp : Gtk.Application {
 #if ALWAYS_AUTHENTICATED
 #else
             /**
@@ -184,6 +184,8 @@ namespace TUFManager {
                 }
                 catch (TUFError e) {
                     command_line.printerr (_ ("Error: ") + e.message + "\n");
+                    this.release ();
+                    return 1;
                 }
 
                 string[] args = command_line.get_arguments ();

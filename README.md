@@ -45,6 +45,10 @@ Build the cli interface.
 
 Build the gui interface.
 
+- build-tray
+
+Build the tray icon
+
 - always-authenticated
 
 Authentication is not required to use the TUF Server that runs in the background as a daemon, if this is set to false polkit is used for authentication. Setting this to false is more secure, but also makes things like auto restore of settings on login impossible to do without a password.
@@ -67,22 +71,27 @@ Install a systemd unit. If this option is not set, the unit is still generated d
 
 ## Usage
 
-There are 2 programs and 1 daemon supplied by TUF Manager.
+There are 3 programs and 1 daemon supplied by TUF Manager.
 
 - tuf-cli
 
 This allows controlling the TUF laptop functions via command line interface.
+
 - tuf-gui
 
 This supplies a graphical interface to control the TUF laptop.
+
 - tuf-server
 
 This is the daemon that runs in the background and handles all requests from both tuf-cli and tuf-gui.
+
+- tuf-tray
+
+This is the tray icon to control the TUF Manager program
 
 ## Future plans
 
 - Manpage
 - Config options for both tuf-gui and tuf-cli
-- Status bar icon that allows control of the notebook
 - Notifications of fan mode change via status bar
 - Restore last known settings on login via status bar icon

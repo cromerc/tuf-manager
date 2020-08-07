@@ -1,7 +1,7 @@
 server_dependencies = [
     dependency('glib-2.0'),
     dependency('gio-unix-2.0'),
-    dependency('gtk+-3.0', version: '>=3.0.0'),
+    dependency('gtk+-3.0', version: '>=3.10.0'),
     meson.get_compiler('c').find_library('m', required: true),
     meson.get_compiler('vala').find_library('posix')
 ]
@@ -14,7 +14,7 @@ endif
 if build_cli
     cli_dependencies = [
         dependency('glib-2.0'),
-        dependency('gtk+-3.0', version: '>=3.0.0'),
+        dependency('gtk+-3.0', version: '>=3.10.0'),
         meson.get_compiler('c').find_library('m', required: true)
     ]
 endif
@@ -26,6 +26,14 @@ if build_gui
         dependency('gtk+-3.0', version: '>=3.10.0'),
         dependency('gmodule-2.0', version: '>=2.0') # gmodule-export-2.0 is needed to connect the handlers from glade ui
     ]
+
+    if build_tray
+        tray_dependencies = [
+            dependency('appindicator3-0.1'),
+            dependency('gtk+-3.0', version: '>=3.10.0'),
+            dependency('libnotify')
+        ]
+    endif
 endif
 
 config_data = configuration_data()
@@ -69,6 +77,12 @@ server_vala_sources_main = files(
     'server-main.vala'
 )
 
+if build_tray
+    tray_vala_sources_main = files(
+        'tray-main.vala'
+    )
+endif
+
 server_vala_sources = files(
     'server.vala',
     'server-interface.vala'
@@ -89,6 +103,14 @@ if build_gui
         'server-interface.vala',
         'common.vala'
     )
+
+    if build_tray
+        tray_vala_sources = files(
+            'tray.vala',
+            'tray-icon.vala',
+            'server-interface.vala'
+        )
+    endif
 endif
 
 server_sources = server_vala_sources
@@ -109,6 +131,13 @@ if build_gui
     gui_sources += error_vala_sources
     gui_sources += [tuf_manager_gresource]
     gui_sources += config_data_file
+
+    if build_tray
+        tray_sources = tray_vala_sources
+        tray_sources += tray_vala_sources_main
+        tray_sources += error_vala_sources
+        tray_sources += config_data_file
+    endif
 endif
 
 server_vala_args = []
@@ -154,4 +183,13 @@ if build_gui
         vala_args: gui_vala_args,
         install: true
     )
+
+    if build_tray
+        tray_exe = executable(
+            'tuf-tray',
+            tray_sources,
+            dependencies: tray_dependencies,
+            install: true
+        )
+    endif
 endif

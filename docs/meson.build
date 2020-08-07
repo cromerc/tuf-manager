@@ -7,6 +7,9 @@ if docs_enabled
     endif
     if build_gui
         vala_doc_sources += gui_vala_sources
+        if build_tray
+            vala_doc_sources += tray_vala_sources
+        endif
     endif
     vala_doc_sources += error_vala_sources
     vala_doc_sources += config_data_file
@@ -14,7 +17,9 @@ if docs_enabled
     docs_deps = [
         '--pkg=polkit-gobject-1',
         '--pkg=posix',
-        '--pkg=gtk+-3.0'
+        '--pkg=gtk+-3.0',
+        '--pkg=libnotify',
+        '--pkg=appindicator3-0.1'
     ]
     if valadocs_deps
         docs_deps += ['--deps']

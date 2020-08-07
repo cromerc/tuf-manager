@@ -23,6 +23,12 @@ option(
     description: 'Build the graphical user interface to TUF Manager'
 )
 option(
+    'build-tray',
+    type : 'boolean',
+    value: true,
+    description: 'Build the tray icon, this option depends on build-gui'
+)
+option(
     'always-authenticated',
     type : 'boolean',
     value: true,

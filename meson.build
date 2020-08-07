@@ -21,6 +21,7 @@ add_global_arguments(
 always_authenticated = get_option('always-authenticated')
 build_cli = get_option('build-cli')
 build_gui = get_option('build-gui')
+build_tray = get_option('build-tray')
 
 subdir('po')
 subdir('data')
