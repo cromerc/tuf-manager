@@ -1,37 +1,55 @@
+glib_dep = dependency('glib-2.0')
+gtk_dep = dependency('gtk+-3.0', version: '>=3.10.0')
+
+gio_unix_dep = dependency('gio-unix-2.0')
+if not always_authenticated
+    polkit_gobject_dep = dependency('polkit-gobject-1')
+endif
+
+if build_gui
+    gobject_dep = dependency('gobject-2.0')
+    gmodule_dep = dependency('gmodule-2.0') # gmodule-export-2.0 is needed to connect the handlers from glade ui
+
+    if build_tray
+        appindicator_dep = dependency('appindicator3-0.1')
+        libnotify_dep = dependency('libnotify')
+    endif
+endif
+
 server_dependencies = [
-    dependency('glib-2.0'),
-    dependency('gio-unix-2.0'),
-    dependency('gtk+-3.0', version: '>=3.10.0'),
+    glib_dep,
+    gio_unix_dep,
+    gtk_dep,
     meson.get_compiler('c').find_library('m', required: true),
     meson.get_compiler('vala').find_library('posix')
 ]
 
 # if not always authenticated then polkit will be used for authentication
 if not always_authenticated
-    server_dependencies += [dependency('polkit-gobject-1')]
+    server_dependencies += [polkit_gobject_dep]
 endif
 
 if build_cli
     cli_dependencies = [
-        dependency('glib-2.0'),
-        dependency('gtk+-3.0', version: '>=3.10.0'),
+        glib_dep,
+        gtk_dep,
         meson.get_compiler('c').find_library('m', required: true)
     ]
 endif
 
 if build_gui
     gui_dependencies = [
-        dependency('glib-2.0'),
-        dependency('gobject-2.0'),
-        dependency('gtk+-3.0', version: '>=3.10.0'),
-        dependency('gmodule-2.0', version: '>=2.0') # gmodule-export-2.0 is needed to connect the handlers from glade ui
+        glib_dep,
+        gobject_dep,
+        gtk_dep,
+        gmodule_dep # gmodule-export-2.0 is needed to connect the handlers from glade ui
     ]
 
     if build_tray
         tray_dependencies = [
-            dependency('appindicator3-0.1'),
-            dependency('gtk+-3.0', version: '>=3.10.0'),
-            dependency('libnotify')
+            appindicator_dep,
+            gtk_dep,
+            libnotify_dep
         ]
     endif
 endif
