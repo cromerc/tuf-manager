@@ -178,6 +178,7 @@ namespace TUFManager {
              * @return Returns 0 on success or an error code if failure
              */
             private int _command_line (ApplicationCommandLine command_line) {
+                settings = new Settings ("org.tuf.manager");
                 try {
                     connect_tuf_server ();
                 }
@@ -401,7 +402,7 @@ namespace TUFManager {
 #else
                     try {
                         pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
-                        Timeout.add (200, () => {
+                        Timeout.add_seconds (10, () => {
                             int mode = fan_mode;
                             tuf_server.procedure_finished.connect (release_cli);
                             set_fan_mode (mode);
@@ -426,7 +427,7 @@ namespace TUFManager {
                     try {
                         pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
 
-                        Timeout.add (200, () => {
+                        Timeout.add_seconds (10, () => {
                             int mode = keyboard_mode;
                             tuf_server.procedure_finished.connect (release_cli);
                             set_keyboard_mode (mode);
@@ -450,7 +451,7 @@ namespace TUFManager {
                     try {
                         pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
 
-                        Timeout.add (200, () => {
+                        Timeout.add_seconds (10, () => {
                             int set_speed = keyboard_speed;
                             tuf_server.procedure_finished.connect (release_cli);
                             set_keyboard_speed (set_speed);
@@ -473,7 +474,7 @@ namespace TUFManager {
                     try {
                         pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
 
-                        Timeout.add (200, () => {
+                        Timeout.add_seconds (10, () => {
                             tuf_server.procedure_finished.connect (release_cli);
                             set_keyboard_color (rgba);
                             settings.set_string ("keyboard-color", rgba.to_string ());
