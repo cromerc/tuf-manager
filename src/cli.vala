@@ -151,6 +151,11 @@ namespace TUFManager {
             private Gdk.RGBA? rgba = null;
 
             /**
+             * The settings object from gschema/dconf
+             */
+            private Settings settings;
+
+            /**
              * Initializes the command line app and sets a timeout so that the process can finish before return is called
              */
             public TUFManagerApp () {
@@ -392,6 +397,7 @@ namespace TUFManager {
                     int mode = fan_mode;
                     tuf_server.procedure_finished.connect (release_cli);
                     set_fan_mode (mode);
+                    settings.set_int ("fan-mode", mode);
 #else
                     try {
                         pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
@@ -399,6 +405,7 @@ namespace TUFManager {
                             int mode = fan_mode;
                             tuf_server.procedure_finished.connect (release_cli);
                             set_fan_mode (mode);
+                            settings.set_int ("fan-mode", mode);
                             return false;
                         });
                     }
@@ -414,6 +421,7 @@ namespace TUFManager {
                     int mode = keyboard_mode;
                     tuf_server.procedure_finished.connect (release_cli);
                     set_keyboard_mode (mode);
+                    settings.set_int ("keyboard-mode", mode);
 #else
                     try {
                         pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
@@ -422,6 +430,7 @@ namespace TUFManager {
                             int mode = keyboard_mode;
                             tuf_server.procedure_finished.connect (release_cli);
                             set_keyboard_mode (mode);
+                            settings.set_int ("keyboard-mode", mode);
                             return false;
                         });
                     }
@@ -436,6 +445,7 @@ namespace TUFManager {
                     int set_speed = keyboard_speed;
                     tuf_server.procedure_finished.connect (release_cli);
                     set_keyboard_speed (set_speed);
+                    settings.set_int ("keyboard-speed", speed);
 #else
                                         try {
                                             pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
@@ -444,6 +454,7 @@ namespace TUFManager {
                                                 int set_speed = keyboard_speed;
                                                 tuf_server.procedure_finished.connect (release_cli);
                                                 set_keyboard_speed (set_speed);
+                                                settings.set_int ("keyboard-speed", speed);
                                                 return false;
                                             });
                                         }
@@ -457,6 +468,7 @@ namespace TUFManager {
 #if ALWAYS_AUTHENTICATED
                     tuf_server.procedure_finished.connect (release_cli);
                     set_keyboard_color (rgba);
+                    settings.set_string ("keyboard-color", rgba.to_string ());
 #else
                     try {
                         pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
@@ -464,6 +476,7 @@ namespace TUFManager {
                         Timeout.add (200, () => {
                             tuf_server.procedure_finished.connect (release_cli);
                             set_keyboard_color (rgba);
+                            settings.set_string ("keyboard-color", rgba.to_string ());
                             return false;
                         });
                     }
