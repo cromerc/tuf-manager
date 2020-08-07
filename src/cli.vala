@@ -447,20 +447,20 @@ namespace TUFManager {
                     set_keyboard_speed (set_speed);
                     settings.set_int ("keyboard-speed", set_speed);
 #else
-                                        try {
-                                            pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
+                    try {
+                        pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
 
-                                            Timeout.add (200, () => {
-                                                int set_speed = keyboard_speed;
-                                                tuf_server.procedure_finished.connect (release_cli);
-                                                set_keyboard_speed (set_speed);
-                                                settings.set_int ("keyboard-speed", set_speed);
-                                                return false;
-                                            });
-                                        }
-                                        catch (Error e) {
-                                            command_line.printerr (_ ("Error: ") + e.message + "\n");
-                                        }
+                        Timeout.add (200, () => {
+                            int set_speed = keyboard_speed;
+                            tuf_server.procedure_finished.connect (release_cli);
+                            set_keyboard_speed (set_speed);
+                            settings.set_int ("keyboard-speed", set_speed);
+                            return false;
+                        });
+                    }
+                    catch (Error e) {
+                        command_line.printerr (_ ("Error: ") + e.message + "\n");
+                    }
                     #endif
                                         return 0;
                 }
