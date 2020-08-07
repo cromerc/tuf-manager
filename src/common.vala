@@ -79,7 +79,7 @@ namespace TUFManager {
             stderr.printf (_ ("Error: %s\n"), e.message);
         }
         catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         return -3;
     }
@@ -94,10 +94,10 @@ namespace TUFManager {
             tuf_server.set_fan_mode (mode, bus_name);
         }
         catch (TUFError e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
     }
 
@@ -111,10 +111,10 @@ namespace TUFManager {
             return tuf_server.get_keyboard_color ();
         }
         catch (TUFError e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         return Gdk.RGBA ();
     }
@@ -129,10 +129,10 @@ namespace TUFManager {
             tuf_server.set_keyboard_color (color, bus_name);
         }
         catch (TUFError e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
     }
 
@@ -146,10 +146,10 @@ namespace TUFManager {
             return tuf_server.get_keyboard_mode ();
         }
         catch (TUFError e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         return -3;
     }
@@ -164,10 +164,10 @@ namespace TUFManager {
             tuf_server.set_keyboard_mode (mode, bus_name);
         }
         catch (TUFError e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
     }
 
@@ -181,10 +181,10 @@ namespace TUFManager {
             return tuf_server.get_keyboard_speed ();
         }
         catch (TUFError e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         return -3;
     }
@@ -199,10 +199,10 @@ namespace TUFManager {
             tuf_server.set_keyboard_speed (speed, bus_name);
         }
         catch (TUFError e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
         catch (Error e) {
-            stderr.printf ("Error: %s\n", e.message);
+            stderr.printf (_ ("Error: %s\n"), e.message);
         }
     }
 }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuf-manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-03 22:20-0400\n"
+"POT-Creation-Date: 2020-08-06 20:34-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,110 +17,238 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/cli.vala:145
-msgid "Invalid arguments!\n"
+#: src/cli.vala:180 src/cli.vala:287 src/cli.vala:344 src/cli.vala:362
+#: src/cli.vala:377 src/cli.vala:406 src/cli.vala:429 src/cli.vala:451
+#: src/cli.vala:471 src/gui-window.vala:109 src/gui-window.vala:125
+#: src/gui-window.vala:135 src/main.vala.in:34 src/server.vala:50
+#: src/server-main.vala:92 src/server-main.vala:122
+msgid "Error: "
 msgstr ""
 
-#: src/cli.vala:151
+#: src/cli.vala:314
+msgid ""
+"Invalid arguments!\n"
+"\n"
+msgstr ""
+
+#: src/cli.vala:320
 msgid "Version: "
 msgstr ""
 
-#: src/cli.vala:161 src/gui-window.vala:86
+#: src/cli.vala:330 src/gui-window.vala:95
 msgid "Client version: "
 msgstr ""
 
-#: src/cli.vala:162 src/gui-window.vala:87
+#: src/cli.vala:331 src/gui-window.vala:96
 msgid "Server version: "
 msgstr ""
 
-#: src/cli.vala:166
-msgid "Current fan mode: Balanced\n"
-msgstr ""
-
-#: src/cli.vala:169
-msgid "Current fan mode: Turbo\n"
-msgstr ""
-
-#: src/cli.vala:172
-msgid "Current fan mode: Silent\n"
-msgstr ""
-
-#: src/cli.vala:175 src/cli.vala:193
-msgid "Error: Could not get current fan mode!\n"
-msgstr ""
-
-#: src/cli.vala:181
-msgid "Current keyboard lighting: Static\n"
-msgstr ""
-
-#: src/cli.vala:184
-msgid "Current keyboard lighting: Breathing\n"
-msgstr ""
-
-#: src/cli.vala:187
-msgid "Current keyboard lighting: Color Cycle\n"
-msgstr ""
-
-#: src/cli.vala:190
-msgid "Current keyboard lighting: Strobing\n"
-msgstr ""
-
-#: src/gui-window.vala:71
-msgid "The current running tuf-server version doesn't match the gui version!"
-msgstr ""
-
-#: src/gui-window.vala:96
+#: src/cli.vala:335 src/cli.vala:338 src/cli.vala:341 src/gui-window.vala:106
+#: src/gui-window.vala:160
 msgid "Current fan mode: "
 msgstr ""
 
-#: src/gui-window.vala:99
-msgid "Error: Could not get current fan mode!"
+#: src/cli.vala:335
+msgid "Balanced\n"
 msgstr ""
 
-#: src/gui-window.vala:106
-msgid "Current keyboard mode: "
+#: src/cli.vala:338
+msgid "Turbo\n"
 msgstr ""
 
-#: src/gui-window.vala:109
-msgid "Error: Could not get current keyboard mode!"
+#: src/cli.vala:341
+msgid "Silent\n"
 msgstr ""
 
-#: src/gui-window.vala:116
+#: src/cli.vala:344
+msgid "Could not get current fan mode!\n"
+msgstr ""
+
+#: src/cli.vala:350 src/cli.vala:353 src/cli.vala:356 src/cli.vala:359
+msgid "Current keyboard lighting: "
+msgstr ""
+
+#: src/cli.vala:350
+msgid "Static\n"
+msgstr ""
+
+#: src/cli.vala:353
+msgid "Breathing\n"
+msgstr ""
+
+#: src/cli.vala:356
+msgid "Color Cycle\n"
+msgstr ""
+
+#: src/cli.vala:359
+msgid "Strobing\n"
+msgstr ""
+
+#: src/cli.vala:362
+msgid "Could not get current keyboard mode!\n"
+msgstr ""
+
+#: src/cli.vala:368 src/cli.vala:371 src/cli.vala:374 src/gui-window.vala:132
+#: src/gui-window.vala:184
 msgid "Current keyboard speed: "
 msgstr ""
 
-#: src/gui-window.vala:119
-msgid "Error: Could not get current keyboard speed!"
+#: src/cli.vala:368
+msgid "Slow\n"
 msgstr ""
 
-#: src/gui-window.vala:125
+#: src/cli.vala:371
+msgid "Medium\n"
+msgstr ""
+
+#: src/cli.vala:374
+msgid "Fast\n"
+msgstr ""
+
+#: src/cli.vala:377
+msgid "Could not get current keyboard speed!\n"
+msgstr ""
+
+#: src/cli.vala:386 src/gui-window.vala:141 src/gui-window.vala:193
 msgid "Current keyboard color: "
 msgstr ""
 
-#: src/main.vala.in:34
-msgid "Another instance of TUF Manager is already running!"
+#: src/cli.vala:497
+msgid "Usage:"
 msgstr ""
 
-#: src/server.vala:154 src/server.vala:217 src/server.vala:236
-#: src/server.vala:249 src/server.vala:262 src/server.vala:321
-#: src/server.vala:328 src/server.vala:335 src/server.vala:342
-#: src/server.vala:349 src/server.vala:359 src/server.vala:414
-#: src/server.vala:426 src/server.vala:433 src/server.vala:444
-#: src/server.vala:499 src/server.vala:511 src/server.vala:518
+#: src/cli.vala:497
+msgid "COMMAND [SUBCOMMAND]"
+msgstr ""
+
+#: src/cli.vala:498
+msgid "Print the version of tuf-cli\n"
+msgstr ""
+
+#: src/cli.vala:499
+msgid "Show this help screen\n"
+msgstr ""
+
+#: src/cli.vala:500
+msgid "Set the fan mode\n"
+msgstr ""
+
+#: src/cli.vala:501
+msgid "Set the keyboard lighting\n"
+msgstr ""
+
+#: src/cli.vala:502
+msgid "Set the keyboard lighting speed\n"
+msgstr ""
+
+#: src/cli.vala:503
+msgid "Set the keyboard color\n"
+msgstr ""
+
+#: src/cli.vala:504
+msgid ""
+"Show the current config\n"
+"\n"
+msgstr ""
+
+#: src/cli.vala:505
+msgid "Examples:\n"
+msgstr ""
+
+#: src/cli.vala:506
+msgid "Silence fan:"
+msgstr ""
+
+#: src/cli.vala:507
+msgid "Change RGB color:"
+msgstr ""
+
+#: src/common.vala:41 src/common.vala:64 src/common.vala:79 src/common.vala:82
+#: src/common.vala:97 src/common.vala:100 src/common.vala:114
+#: src/common.vala:117 src/common.vala:132 src/common.vala:135
+#: src/common.vala:149 src/common.vala:152 src/common.vala:167
+#: src/common.vala:170 src/common.vala:184 src/common.vala:187
+#: src/common.vala:202 src/common.vala:205 src/gui-window.vala:79
+#: src/main.vala.in:31 src/server.vala:44 src/server.vala:140
+#: src/server.vala:201 src/server.vala:204 src/server.vala:212
+#: src/server.vala:215 src/server.vala:321 src/server.vala:324
+#: src/server.vala:332 src/server.vala:335 src/server.vala:447
+#: src/server.vala:450 src/server.vala:458 src/server.vala:461
+#: src/server.vala:559 src/server.vala:562 src/server.vala:570
+#: src/server.vala:573 src/server-main.vala:68 src/server-main.vala:88
+#, c-format
+msgid "Error: %s\n"
+msgstr ""
+
+#: src/common.vala:50
+msgid "The server and client versions do not match!"
+msgstr ""
+
+#: src/gui-window.vala:86
+msgid "The current running tuf-server version doesn't match the GUI version!"
+msgstr ""
+
+#: src/gui-window.vala:109
+msgid "Could not get current fan mode!"
+msgstr ""
+
+#: src/gui-window.vala:122 src/gui-window.vala:175
+msgid "Current keyboard mode: "
+msgstr ""
+
+#: src/gui-window.vala:125
+msgid "Could not get current keyboard mode!"
+msgstr ""
+
+#: src/gui-window.vala:135
+msgid "Could not get current keyboard speed!"
+msgstr ""
+
+#: src/main.vala.in:34
+msgid "Another instance of TUF Manager is already running!\n"
+msgstr ""
+
+#: src/server.vala:50
+msgid "Could not register service!\n"
+msgstr ""
+
+#: src/server.vala:166 src/server.vala:238 src/server.vala:264
+#: src/server.vala:277 src/server.vala:290 src/server.vala:365
+#: src/server.vala:372 src/server.vala:379 src/server.vala:386
+#: src/server.vala:393 src/server.vala:411 src/server.vala:487
+#: src/server.vala:499 src/server.vala:506 src/server.vala:524
+#: src/server.vala:599 src/server.vala:611 src/server.vala:618
 msgid "Failed to open stream!"
 msgstr ""
 
-#: src/server.vala:159 src/server.vala:241 src/server.vala:254
-#: src/server.vala:267 src/server.vala:364 src/server.vala:449
+#: src/server.vala:171 src/server.vala:269 src/server.vala:282
+#: src/server.vala:295 src/server.vala:416 src/server.vala:529
 msgid "File is empty!"
 msgstr ""
 
-#: src/server.vala:164 src/server.vala:369 src/server.vala:454
+#: src/server.vala:176 src/server.vala:421 src/server.vala:534
 msgid "File contains invalid value!"
 msgstr ""
 
-#: src/server.vala:222 src/server.vala:419 src/server.vala:504
+#: src/server.vala:243 src/server.vala:492 src/server.vala:604
 msgid "Invalid value!"
+msgstr ""
+
+#: src/server-main.vala:33
+msgid "Run the daemon in the foreground"
+msgstr ""
+
+#: src/server-main.vala:69
+#, c-format
+msgid "Run '%s --help' to see a full list of available command line options.\n"
+msgstr ""
+
+#: src/server-main.vala:92
+msgid "Could not create pid file!\n"
+msgstr ""
+
+#: src/server-main.vala:122
+msgid "Could not acquire bus name!\n"
 msgstr ""
 
 #: data/tuf-manager.desktop.in:4 data/tuf-manager.desktop.in:5
@@ -136,13 +264,9 @@ msgstr ""
 msgid "tuf-manager"
 msgstr ""
 
-#: data/polkit/org.tuf.manager.policy.in:10
-msgid "Authentication is required"
-msgstr ""
-
 #: data/gschema/org.tuf.manager.gschema.xml:5
 #: data/gschema/org.tuf.manager.gschema.xml:6
-msgid "Should TUF Manager restore previous settings when run"
+msgid "Should TUF Manager restore previous settings when run?"
 msgstr ""
 
 #: data/gschema/org.tuf.manager.gschema.xml:12
@@ -150,33 +274,35 @@ msgid "Fan mode"
 msgstr ""
 
 #: data/gschema/org.tuf.manager.gschema.xml:13
-msgid "The saved fan mode 0 is balanced 1 is turbo 2 is silent"
+msgid "The saved fan mode"
 msgstr ""
 
-#: data/gschema/org.tuf.manager.gschema.xml:22
+#: data/gschema/org.tuf.manager.gschema.xml:19
 msgid "Keyboard mode"
 msgstr ""
 
-#: data/gschema/org.tuf.manager.gschema.xml:23
-msgid ""
-"The saved keyboard mode 0 is static 1 is breathing 2 is color cycle 3 is "
-"strobing"
+#: data/gschema/org.tuf.manager.gschema.xml:20
+msgid "The saved keyboard mode"
 msgstr ""
 
-#: data/gschema/org.tuf.manager.gschema.xml:33
+#: data/gschema/org.tuf.manager.gschema.xml:26
 msgid "Keyboard speed"
 msgstr ""
 
-#: data/gschema/org.tuf.manager.gschema.xml:34
-msgid "The saved keyboard speed 0 is slow 1 is medium 2 is fast"
+#: data/gschema/org.tuf.manager.gschema.xml:27
+msgid "The saved keyboard speed"
 msgstr ""
 
-#: data/gschema/org.tuf.manager.gschema.xml:43
+#: data/gschema/org.tuf.manager.gschema.xml:33
 msgid "Keyboard color"
 msgstr ""
 
-#: data/gschema/org.tuf.manager.gschema.xml:44
-msgid "The saved keyboard color in rgb format"
+#: data/gschema/org.tuf.manager.gschema.xml:34
+msgid "The saved keyboard color in RGB format"
+msgstr ""
+
+#: data/polkit/org.tuf.manager.policy.in:10
+msgid "Authentication is required"
 msgstr ""
 
 #: data/ui/tuf.manager.window.ui:73 data/ui/tuf.manager.window.ui:212

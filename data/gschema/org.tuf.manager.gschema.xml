@@ -2,9 +2,9 @@
     <schema id="org.tuf.manager" path="/org/tuf/manager/" gettext-domain="tuf-manager">
         <key name="restore" type="b">
             <default>false</default>
-            <summary>Should TUF Manager restore previous settings when run</summary>
+            <summary>Should TUF Manager restore previous settings when run?</summary>
             <description>
-                Should TUF Manager restore previous settings when run
+                Should TUF Manager restore previous settings when run?
             </description>
         </key>
         <key name="fan-mode" type="i">
@@ -12,9 +12,6 @@
             <summary>Fan mode</summary>
             <description>
                 The saved fan mode
-                0 is balanced
-                1 is turbo
-                2 is silent
             </description>
         </key>
         <key name="keyboard-mode" type="i">
@@ -22,10 +19,6 @@
             <summary>Keyboard mode</summary>
             <description>
                 The saved keyboard mode
-                0 is static
-                1 is breathing
-                2 is color cycle
-                3 is strobing
             </description>
         </key>
         <key name="keyboard-speed" type="i">
@@ -33,16 +26,13 @@
             <summary>Keyboard speed</summary>
             <description>
                 The saved keyboard speed
-                0 is slow
-                1 is medium
-                2 is fast
             </description>
         </key>
         <key name="keyboard-color" type="s">
             <default>"rgb(255,0,0)"</default>
             <summary>Keyboard color</summary>
             <description>
-                The saved keyboard color in rgb format
+                The saved keyboard color in RGB format
             </description>
         </key>
     </schema>

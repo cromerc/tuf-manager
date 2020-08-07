@@ -76,14 +76,14 @@ namespace TUFManager {
                     connect_tuf_server ();
                 }
                 catch (TUFError e) {
-                    stderr.printf ("Error: %s:\n", e.message);
+                    stderr.printf (_ ("Error: %s\n"), e.message);
                     if (e.code == TUFError.UNMATCHED_VERSIONS) {
                         Gtk.MessageDialog msg;
                         msg = new Gtk.MessageDialog (this,
                             Gtk.DialogFlags.MODAL,
                             Gtk.MessageType.ERROR,
                             Gtk.ButtonsType.CLOSE,
-                            _ ("The current running tuf-server version doesn't match the gui version!"));
+                            _ ("The current running tuf-server version doesn't match the GUI version!"));
                         msg.response.connect ((response_id) => {
                             msg.destroy ();
                             this.close ();
@@ -106,7 +106,7 @@ namespace TUFManager {
                             print (_ ("Current fan mode: ") + fan_mode.get_active_text () + "\n");
                         }
                         else {
-                            stderr.printf ("%s\n", _ ("Error: Could not get current fan mode!"));
+                            stderr.printf ("%s\n", _ ("Error: ") + _ ("Could not get current fan mode!"));
                         }
 
                         // Get the keyboard mode
@@ -122,7 +122,7 @@ namespace TUFManager {
                             print (_ ("Current keyboard mode: ") + keyboard_mode.get_active_text () + "\n");
                         }
                         else {
-                            stderr.printf ("%s\n", _ ("Error: Could not get current keyboard mode!"));
+                            stderr.printf ("%s\n", _ ("Error: ") + _ ("Could not get current keyboard mode!"));
                         }
 
                         // Get the keyboard speed
@@ -132,7 +132,7 @@ namespace TUFManager {
                             print (_ ("Current keyboard speed: ") + keyboard_speed.get_active_text () + "\n");
                         }
                         else {
-                            stderr.printf ("%s\n", _ ("Error: Could not get current keyboard speed!"));
+                            stderr.printf ("%s\n", _ ("Error: ") + _ ("Could not get current keyboard speed!"));
                         }
 
                         // Get the keyboard color

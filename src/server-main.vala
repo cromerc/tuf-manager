@@ -75,7 +75,7 @@ namespace TUFManager {
                 if (pid < 0) {
                     Posix.exit (Posix.EXIT_FAILURE);
                 }
-                
+
                 if (pid > 0) {
                     try {
                         File file = File.new_for_path ("/run/tufmanager");
@@ -89,11 +89,11 @@ namespace TUFManager {
                     }
                     var stream = FileStream.open ("/run/tufmanager/pid", "w");
                     if (stream == null) {
-                        stderr.printf (_ ("Could not create pid file!\n"));
+                        stderr.printf (_ ("Error: ") + _ ("Could not create pid file!\n"));
                     }
                     else {
                         uint32 pidfile = pid;
-                        stream.puts (pidfile.to_string ()); 
+                        stream.puts (pidfile.to_string ());
                     }
                     Posix.exit (Posix.EXIT_SUCCESS);
                 }
@@ -119,7 +119,7 @@ namespace TUFManager {
                 on_bus_acquired,
                 () => {},
                 () => {
-                    stderr.printf (_ ("Could not acquire bus name!\n"));
+                    stderr.printf (_ ("Error: ") + _ ("Could not acquire bus name!\n"));
                 });
 
             loop = new MainLoop ();

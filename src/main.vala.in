@@ -31,7 +31,7 @@ namespace TUFManager {
             stderr.printf (_ ("Error: %s\n"), e.message);
         }
         if (application.get_is_remote ()) {
-            stderr.printf (_ ("Error: %s\n"), _ ("Another instance of TUF Manager is already running!"));
+            stderr.printf (_ ("Error: ") + _ ("Another instance of TUF Manager is already running!\n"));
             return -1;
         }
         return application.run (args);

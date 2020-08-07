@@ -332,49 +332,49 @@ namespace TUFManager {
                     var current_setting = get_fan_mode ();
                     switch (current_setting) {
                         case 0:
-                            command_line.print (_ ("Current fan mode: Balanced\n"));
+                            command_line.print (_ ("Current fan mode: ") + _ ("Balanced\n"));
                             break;
                         case 1:
-                            command_line.print (_ ("Current fan mode: Turbo\n"));
+                            command_line.print (_ ("Current fan mode: ") + _ ("Turbo\n"));
                             break;
                         case 2:
-                            command_line.print (_ ("Current fan mode: Silent\n"));
+                            command_line.print (_ ("Current fan mode: ") + _ ("Silent\n"));
                             break;
                         default:
-                            command_line.printerr (_ ("Error: Could not get current fan mode!\n"));
+                            command_line.printerr (_ ("Error: ") + _ ("Could not get current fan mode!\n"));
                             break;
                     }
                     current_setting = get_keyboard_mode ();
                     switch (current_setting) {
                         case 0:
-                            command_line.print (_ ("Current keyboard lighting: Static\n"));
+                            command_line.print (_ ("Current keyboard lighting: ") + _ ("Static\n"));
                             break;
                         case 1:
-                            command_line.print (_ ("Current keyboard lighting: Breathing\n"));
+                            command_line.print (_ ("Current keyboard lighting: ") + _ ("Breathing\n"));
                             break;
                         case 2:
-                            command_line.print (_ ("Current keyboard lighting: Color Cycle\n"));
+                            command_line.print (_ ("Current keyboard lighting: ") + _ ("Color Cycle\n"));
                             break;
                         case 3:
-                            command_line.print (_ ("Current keyboard lighting: Strobing\n"));
+                            command_line.print (_ ("Current keyboard lighting: ") + _ ("Strobing\n"));
                             break;
                         default:
-                            command_line.printerr (_ ("Error: Could not get current keyboard mode!\n"));
+                            command_line.printerr (_ ("Error: ") + _ ("Could not get current keyboard mode!\n"));
                             break;
                     }
                     current_setting = get_keyboard_speed ();
                     switch (current_setting) {
                         case 0:
-                            command_line.print (_ ("Current keyboard speed: Slow\n"));
+                            command_line.print (_ ("Current keyboard speed: ") + _ ("Slow\n"));
                             break;
                         case 1:
-                            command_line.print (_ ("Current keyboard speed: Medium\n"));
+                            command_line.print (_ ("Current keyboard speed: ") + _ ("Medium\n"));
                             break;
                         case 2:
-                            command_line.print (_ ("Current keyboard speed: Fast\n"));
+                            command_line.print (_ ("Current keyboard speed: ") + _ ("Fast\n"));
                             break;
                         default:
-                            command_line.printerr (_ ("Error: Could not get current fan mode!\n"));
+                            command_line.printerr (_ ("Error: ") + _ ("Could not get current keyboard speed!\n"));
                             break;
                     }
                     var current_color = get_keyboard_color ();
@@ -383,7 +383,7 @@ namespace TUFManager {
                         (uint) (Math.round (current_color.green * 255)),
                         (uint) (Math.round (current_color.blue * 255))
                     ).up ();
-                    command_line.print (_ ("Current keyboard color: " + color_hex + "\n"));
+                    command_line.print (_ ("Current keyboard color: ") + color_hex + "\n");
                     release_cli ();
                     return 0;
                 }
@@ -494,17 +494,17 @@ namespace TUFManager {
              * @param command_line The command line currently in use to print to
              */
             private void print_usage (ApplicationCommandLine command_line) {
-                command_line.print ("Usage: tuf-cli COMMAND [SUBCOMMAND] ...\n\n");
-                command_line.print ("  version                                    Print the version of tuf-cli\n");
-                command_line.print ("  help                                       Show this help screen\n");
-                command_line.print ("  fan [balanced, turbo, silent]              Set the fan mode\n");
-                command_line.print ("  lighting [static, breath, cycle, stobe]    Set the keyboard lighting\n");
-                command_line.print ("  speed [slow, medium, fast]                 Set the keyboard lighting speed\n");
-                command_line.print ("  color [\"#XXXXXX\"]                          Set the keyboard color\n");
-                command_line.print ("  info                                       Show the current config\n\n");
-                command_line.print ("Examples:\n");
-                command_line.print ("  Silence fan: tuf-cli fan silent\n");
-                command_line.print ("  Change RGB color: tuf-cli color \"#FF0000\"\n");
+                command_line.print (_ ("Usage:") + " tuf-cli " + _ ("COMMAND [SUBCOMMAND]") + " ...\n\n");
+                command_line.print ("  version                                    " + _ ("Print the version of tuf-cli\n"));
+                command_line.print ("  help                                       " + _ ("Show this help screen\n"));
+                command_line.print ("  fan [balanced, turbo, silent]              " + _ ("Set the fan mode\n"));
+                command_line.print ("  lighting [static, breath, cycle, stobe]    " + _ ("Set the keyboard lighting\n"));
+                command_line.print ("  speed [slow, medium, fast]                 " + _ ("Set the keyboard lighting speed\n"));
+                command_line.print ("  color [\"#XXXXXX\"]                          " + _ ("Set the keyboard color\n"));
+                command_line.print ("  info                                       " + _ ("Show the current config\n\n"));
+                command_line.print (_ ("Examples:\n"));
+                command_line.print ("  " + _ ("Silence fan:") + " tuf-cli fan silent\n");
+                command_line.print ("  " + _ ("Change RGB color:") + " tuf-cli color \"#FF0000\"\n");
             }
 
             /**
