@@ -445,7 +445,7 @@ namespace TUFManager {
                     int set_speed = keyboard_speed;
                     tuf_server.procedure_finished.connect (release_cli);
                     set_keyboard_speed (set_speed);
-                    settings.set_int ("keyboard-speed", speed);
+                    settings.set_int ("keyboard-speed", set_speed);
 #else
                                         try {
                                             pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
@@ -454,7 +454,7 @@ namespace TUFManager {
                                                 int set_speed = keyboard_speed;
                                                 tuf_server.procedure_finished.connect (release_cli);
                                                 set_keyboard_speed (set_speed);
-                                                settings.set_int ("keyboard-speed", speed);
+                                                settings.set_int ("keyboard-speed", set_speed);
                                                 return false;
                                             });
                                         }
