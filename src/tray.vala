@@ -26,7 +26,8 @@ namespace TUFManager {
             }
 
             public override void activate () {
-                new TrayIcon (this);
+                parent = this;
+                new TrayIcon ();
             }
 
             public override void startup () {

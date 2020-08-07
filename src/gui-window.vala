@@ -149,7 +149,7 @@ namespace TUFManager {
              * Used to restore the previous config from donf
              * TODO: Move this to a status bar app and/or user daemon
              */
-            public void restore () {
+            private void restore () {
                 var mode = settings.get_int ("fan-mode");
                 if (mode >= 0 && mode <= 2) {
                     if (get_fan_mode () != mode) {

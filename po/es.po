@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuf-manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 01:13-0400\n"
-"PO-Revision-Date: 2020-08-07 01:14-0400\n"
+"POT-Creation-Date: 2020-08-07 10:08-0400\n"
+"PO-Revision-Date: 2020-08-07 10:08-0400\n"
 "Last-Translator: Chris Cromer <chris@cromer.cl>\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -219,16 +219,17 @@ msgid "Could not acquire bus name!"
 msgstr "¡No se pudo adquirir el bus name!"
 
 #: data/tuf-manager.desktop.in:4 data/tuf-manager.desktop.in:5
+#: data/tuf-tray.desktop.in:3 data/tuf-tray.desktop.in:4
 #: data/ui/tuf.manager.window.ui:41
 msgid "TUF Manager"
 msgstr "Administrador TUF"
 
-#: data/tuf-manager.desktop.in:6
-msgid "Softare to manage the fan mode and rgb keyboard."
-msgstr "Software para gestionar el modo ventilador y el teclado rgb."
+#: data/tuf-manager.desktop.in:6 data/tuf-tray.desktop.in:5
+msgid "Softare to manage the fan mode and rgb keyboard"
+msgstr "Software para gestionar el modo ventilador y el teclado rgb"
 
 # Not translatable
-#: data/tuf-manager.desktop.in:7
+#: data/tuf-manager.desktop.in:7 data/tuf-tray.desktop.in:6
 msgid "tuf-manager"
 msgstr ""
 

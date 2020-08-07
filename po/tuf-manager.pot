@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuf-manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 01:13-0400\n"
+"POT-Creation-Date: 2020-08-07 10:08-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -213,15 +213,16 @@ msgid "Could not acquire bus name!"
 msgstr ""
 
 #: data/tuf-manager.desktop.in:4 data/tuf-manager.desktop.in:5
+#: data/tuf-tray.desktop.in:3 data/tuf-tray.desktop.in:4
 #: data/ui/tuf.manager.window.ui:41
 msgid "TUF Manager"
 msgstr ""
 
-#: data/tuf-manager.desktop.in:6
-msgid "Softare to manage the fan mode and rgb keyboard."
+#: data/tuf-manager.desktop.in:6 data/tuf-tray.desktop.in:5
+msgid "Softare to manage the fan mode and rgb keyboard"
 msgstr ""
 
-#: data/tuf-manager.desktop.in:7
+#: data/tuf-manager.desktop.in:7 data/tuf-tray.desktop.in:6
 msgid "tuf-manager"
 msgstr ""
 

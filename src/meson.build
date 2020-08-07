@@ -49,7 +49,8 @@ if build_gui
         tray_dependencies = [
             appindicator_dep,
             gtk_dep,
-            libnotify_dep
+            libnotify_dep,
+            meson.get_compiler('vala').find_library('posix')
         ]
     endif
 endif
@@ -126,7 +127,8 @@ if build_gui
         tray_vala_sources = files(
             'tray.vala',
             'tray-icon.vala',
-            'server-interface.vala'
+            'server-interface.vala',
+            'common.vala'
         )
     endif
 endif

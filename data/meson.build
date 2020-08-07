@@ -7,6 +7,17 @@ if build_gui
         install: true,
         install_dir: join_paths(get_option('datadir'), 'applications')
     )
+    
+    if build_tray
+        i18n.merge_file(
+            input: 'tuf-tray.desktop.in',
+            output: 'tuf-tray.desktop',
+            po_dir: join_paths(meson.source_root(), 'po'),
+            type: 'desktop',
+            install: true,
+            install_dir: join_paths(get_option('sysconfdir'), 'xdg', 'autostart')
+        )
+    endif
 endif
 
 subdir('dbus')

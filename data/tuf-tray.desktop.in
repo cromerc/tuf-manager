@@ -1,9 +1,10 @@
 [Desktop Entry]
-Type=Application
 Name=TUF Manager
 GenericName=TUF Manager
 Comment=Softare to manage the fan mode and rgb keyboard
 Icon=tuf-manager
-StartupNotify=true
-Exec=tuf-gui
 Categories=System;Settings;
+Exec=/usr/bin/tuf-tray
+Type=Application
+StartupNotify=true
+Terminal=false

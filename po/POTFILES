@@ -9,6 +9,7 @@ src/server.vala
 src/server-interface.vala
 src/server-main.vala
 data/tuf-manager.desktop.in
+data/tuf-tray.desktop.in
 data/gschema/org.tuf.manager.gschema.xml
 data/polkit/org.tuf.manager.policy.in
 data/ui/tuf.manager.window.ui
