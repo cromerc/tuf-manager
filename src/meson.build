@@ -1,5 +1,7 @@
 glib_dep = dependency('glib-2.0')
 gtk_dep = dependency('gtk+-3.0', version: '>=3.10.0')
+posix_dep = meson.get_compiler('vala').find_library('posix', required: true)
+m_dep = meson.get_compiler('c').find_library('m', required: true)
 
 gio_unix_dep = dependency('gio-unix-2.0')
 if not always_authenticated
@@ -20,8 +22,8 @@ server_dependencies = [
     glib_dep,
     gio_unix_dep,
     gtk_dep,
-    meson.get_compiler('c').find_library('m', required: true),
-    meson.get_compiler('vala').find_library('posix')
+    m_dep,
+    posix_dep
 ]
 
 # if not always authenticated then polkit will be used for authentication
@@ -33,7 +35,7 @@ if build_cli
     cli_dependencies = [
         glib_dep,
         gtk_dep,
-        meson.get_compiler('c').find_library('m', required: true)
+        m_dep
     ]
 endif
 
@@ -50,7 +52,7 @@ if build_gui
             appindicator_dep,
             gtk_dep,
             libnotify_dep,
-            meson.get_compiler('vala').find_library('posix')
+            posix_dep
         ]
     endif
 endif
