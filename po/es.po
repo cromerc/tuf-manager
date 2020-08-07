@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuf-manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-06 20:34-0400\n"
-"PO-Revision-Date: 2020-08-06 20:37-0400\n"
+"POT-Creation-Date: 2020-08-07 01:13-0400\n"
+"PO-Revision-Date: 2020-08-07 01:14-0400\n"
 "Last-Translator: Chris Cromer <chris@cromer.cl>\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -19,135 +19,125 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: src/cli.vala:180 src/cli.vala:287 src/cli.vala:344 src/cli.vala:362
-#: src/cli.vala:377 src/cli.vala:406 src/cli.vala:429 src/cli.vala:451
-#: src/cli.vala:471 src/gui-window.vala:109 src/gui-window.vala:125
-#: src/gui-window.vala:135 src/main.vala.in:34 src/server.vala:50
-#: src/server-main.vala:92 src/server-main.vala:122
-msgid "Error: "
-msgstr "Error: "
+#: src/cli.vala:322
+msgid "Invalid arguments!"
+msgstr "¡Argumentos invalidos!"
 
-#: src/cli.vala:314
-msgid ""
-"Invalid arguments!\n"
-"\n"
-msgstr "¡Argumentos invalidos!\n"
-
-#: src/cli.vala:320
+#: src/cli.vala:328
 msgid "Version: "
 msgstr "Versión: "
 
-#: src/cli.vala:330 src/gui-window.vala:95
+#: src/cli.vala:338 src/gui-window.vala:95
 msgid "Client version: "
 msgstr "Versión del cliente: "
 
-#: src/cli.vala:331 src/gui-window.vala:96
+#: src/cli.vala:339 src/gui-window.vala:96
 msgid "Server version: "
 msgstr "Versión del servidor: "
 
-#: src/cli.vala:335 src/cli.vala:338 src/cli.vala:341 src/gui-window.vala:106
+#: src/cli.vala:343 src/cli.vala:346 src/cli.vala:349 src/gui-window.vala:106
 #: src/gui-window.vala:160
 msgid "Current fan mode: "
 msgstr "Modo de ventilador actual: "
 
-#: src/cli.vala:335
+#: src/cli.vala:343
 msgid "Balanced\n"
 msgstr "Balanceada\n"
 
-#: src/cli.vala:338
+#: src/cli.vala:346
 msgid "Turbo\n"
 msgstr "Turbo\n"
 
-#: src/cli.vala:341
+#: src/cli.vala:349
 msgid "Silent\n"
 msgstr "Silenciosa\n"
 
-#: src/cli.vala:344
-msgid "Could not get current fan mode!\n"
-msgstr "¡No se pudo obtener el modo de ventilador actual!\n"
+#: src/cli.vala:352 src/gui-window.vala:109
+msgid "Could not get current fan mode!"
+msgstr "¡No se pudo obtener el modo de ventilador actual!"
 
-#: src/cli.vala:350 src/cli.vala:353 src/cli.vala:356 src/cli.vala:359
+#: src/cli.vala:358 src/cli.vala:361 src/cli.vala:364 src/cli.vala:367
 msgid "Current keyboard lighting: "
 msgstr "Iluminación de teclado actual: "
 
-#: src/cli.vala:350
+#: src/cli.vala:358
 msgid "Static\n"
 msgstr "Estática\n"
 
-#: src/cli.vala:353
+#: src/cli.vala:361
 msgid "Breathing\n"
 msgstr "Respiración\n"
 
-#: src/cli.vala:356
+#: src/cli.vala:364
 msgid "Color Cycle\n"
 msgstr "Ciclo de Color\n"
 
-#: src/cli.vala:359
+#: src/cli.vala:367
 msgid "Strobing\n"
 msgstr "Estroboscópica\n"
 
-#: src/cli.vala:362
-msgid "Could not get current keyboard mode!\n"
-msgstr "¡No se pudo obtener el modo de teclado actual!\n"
+#: src/cli.vala:370 src/gui-window.vala:125
+msgid "Could not get current keyboard mode!"
+msgstr "¡No se pudo obtener el modo de teclado actual!"
 
-#: src/cli.vala:368 src/cli.vala:371 src/cli.vala:374 src/gui-window.vala:132
+#: src/cli.vala:376 src/cli.vala:379 src/cli.vala:382 src/gui-window.vala:132
 #: src/gui-window.vala:184
 msgid "Current keyboard speed: "
 msgstr "Velocidad del teclado actual: "
 
-#: src/cli.vala:368
+#: src/cli.vala:376
 msgid "Slow\n"
 msgstr "Lenta\n"
 
-#: src/cli.vala:371
+#: src/cli.vala:379
 msgid "Medium\n"
 msgstr "Media\n"
 
-#: src/cli.vala:374
+#: src/cli.vala:382
 msgid "Fast\n"
 msgstr "Rapida\n"
 
-#: src/cli.vala:377
-msgid "Could not get current keyboard speed!\n"
-msgstr "¡No se pudo obtener la velocidad actual del teclado!\n"
+#: src/cli.vala:385 src/gui-window.vala:135
+msgid "Could not get current keyboard speed!"
+msgstr "¡No se pudo obtener la velocidad actual del teclado!"
 
-#: src/cli.vala:386 src/gui-window.vala:141 src/gui-window.vala:193
+#: src/cli.vala:394 src/gui-window.vala:141 src/gui-window.vala:193
 msgid "Current keyboard color: "
 msgstr "Color de teclado actual: "
 
-#: src/cli.vala:497
+#: src/cli.vala:513
 msgid "Usage:"
 msgstr "Uso:"
 
-#: src/cli.vala:497
+#: src/cli.vala:513
 msgid "COMMAND [SUBCOMMAND]"
 msgstr "COMANDO [SUBCOMANDO]"
 
-#: src/cli.vala:498
+#: src/cli.vala:514
 msgid "Print the version of tuf-cli\n"
 msgstr "Imprimir la versión del tuf-cli\n"
 
-#: src/cli.vala:499
+#: src/cli.vala:515
 msgid "Show this help screen\n"
 msgstr "Mostrar esta pantalla de ayuda\n"
 
-#: src/cli.vala:500
+#: src/cli.vala:516
 msgid "Set the fan mode\n"
 msgstr "Establecer el modo del ventilador:\n"
 
-#: src/cli.vala:501
+#: src/cli.vala:517
 msgid "Set the keyboard lighting\n"
 msgstr "Iluminación de teclado\n"
 
-#: src/cli.vala:502
+#: src/cli.vala:518
 msgid "Set the keyboard lighting speed\n"
 msgstr "Establecer la Iluminación de teclado\n"
 
-#: src/cli.vala:503
+#: src/cli.vala:519
 msgid "Set the keyboard color\n"
 msgstr "Color del teclado\n"
 
-#: src/cli.vala:504
+#: src/cli.vala:520
 msgid ""
 "Show the current config\n"
 "\n"
@@ -155,34 +145,17 @@ msgstr ""
 "Mostrar la configuración actual\n"
 "\n"
 
-#: src/cli.vala:505
+#: src/cli.vala:521
 msgid "Examples:\n"
 msgstr "Ejemplos:\n"
 
-#: src/cli.vala:506
+#: src/cli.vala:522
 msgid "Silence fan:"
 msgstr "Silenciar ventilador:"
 
-#: src/cli.vala:507
+#: src/cli.vala:523
 msgid "Change RGB color:"
 msgstr "Cambiar el color RGB:"
-
-#: src/common.vala:41 src/common.vala:64 src/common.vala:79 src/common.vala:82
-#: src/common.vala:97 src/common.vala:100 src/common.vala:114
-#: src/common.vala:117 src/common.vala:132 src/common.vala:135
-#: src/common.vala:149 src/common.vala:152 src/common.vala:167
-#: src/common.vala:170 src/common.vala:184 src/common.vala:187
-#: src/common.vala:202 src/common.vala:205 src/gui-window.vala:79
-#: src/main.vala.in:31 src/server.vala:44 src/server.vala:140
-#: src/server.vala:201 src/server.vala:204 src/server.vala:212
-#: src/server.vala:215 src/server.vala:321 src/server.vala:324
-#: src/server.vala:332 src/server.vala:335 src/server.vala:447
-#: src/server.vala:450 src/server.vala:458 src/server.vala:461
-#: src/server.vala:559 src/server.vala:562 src/server.vala:570
-#: src/server.vala:573 src/server-main.vala:68 src/server-main.vala:88
-#, c-format
-msgid "Error: %s\n"
-msgstr "Error: %s\n"
 
 #: src/common.vala:50
 msgid "The server and client versions do not match!"
@@ -192,29 +165,17 @@ msgstr "¡La versión del servidor y del cliente no coinciden!"
 msgid "The current running tuf-server version doesn't match the GUI version!"
 msgstr "¡La versión actual de tuf-server no coincide con la versión de GUI!"
 
-#: src/gui-window.vala:109
-msgid "Could not get current fan mode!"
-msgstr "¡No se pudo obtener el modo de ventilador actual!"
-
 #: src/gui-window.vala:122 src/gui-window.vala:175
 msgid "Current keyboard mode: "
 msgstr "Modo de teclado actual: "
 
-#: src/gui-window.vala:125
-msgid "Could not get current keyboard mode!"
-msgstr "¡No se pudo obtener el modo de teclado actual!"
-
-#: src/gui-window.vala:135
-msgid "Could not get current keyboard speed!"
-msgstr "¡No se pudo obtener la velocidad actual del teclado!"
-
 #: src/main.vala.in:34
-msgid "Another instance of TUF Manager is already running!\n"
-msgstr "¡Ya se está ejecutando otra instancia de Administrador TUF!\n"
+msgid "Another instance of TUF Manager is already running!"
+msgstr "¡Ya se está ejecutando otra instancia de Administrador TUF!"
 
 #: src/server.vala:50
-msgid "Could not register service!\n"
-msgstr "¡No se pudo registrar el servicio!\n"
+msgid "Could not register service!"
+msgstr "¡No se pudo registrar el servicio!"
 
 #: src/server.vala:166 src/server.vala:238 src/server.vala:264
 #: src/server.vala:277 src/server.vala:290 src/server.vala:365
@@ -245,15 +206,17 @@ msgstr "Ejecuta el daemon en primer plano"
 #: src/server-main.vala:69
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options.\n"
-msgstr "Ejecute '% s --help' para ver una lista completa de las opciones de línea de comando disponibles.\n"
+msgstr ""
+"Ejecute '% s --help' para ver una lista completa de las opciones de línea de "
+"comando disponibles.\n"
 
 #: src/server-main.vala:92
-msgid "Could not create pid file!\n"
-msgstr "¡No se pudo crear el archivo pid!\n"
+msgid "Could not create pid file!"
+msgstr "¡No se pudo crear el archivo pid!"
 
 #: src/server-main.vala:122
-msgid "Could not acquire bus name!\n"
-msgstr "¡No se pudo adquirir el bus name!\n"
+msgid "Could not acquire bus name!"
+msgstr "¡No se pudo adquirir el bus name!"
 
 #: data/tuf-manager.desktop.in:4 data/tuf-manager.desktop.in:5
 #: data/ui/tuf.manager.window.ui:41
@@ -272,7 +235,9 @@ msgstr ""
 #: data/gschema/org.tuf.manager.gschema.xml:5
 #: data/gschema/org.tuf.manager.gschema.xml:6
 msgid "Should TUF Manager restore previous settings when run?"
-msgstr "¿Debe Administrador TUF restaurar la configuración anterior cuando se ejecuta?"
+msgstr ""
+"¿Debe Administrador TUF restaurar la configuración anterior cuando se "
+"ejecuta?"
 
 #: data/gschema/org.tuf.manager.gschema.xml:12
 msgid "Fan mode"

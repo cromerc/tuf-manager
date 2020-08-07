@@ -41,13 +41,13 @@ namespace TUFManager {
                 tuf_server = new TUFManager.Server.TUFServer ();
             }
             catch (Error e) {
-                stderr.printf (_ ("Error: %s\n"), e.message);
+                warning (e.message);
             }
             try {
                 conn.register_object ("/org/tuf/manager/server", tuf_server);
             }
             catch (IOError e) {
-                stderr.printf (_ ("Error: ") + _ ("Could not register service!\n"));
+                warning (_ ("Could not register service!"));
                 if (loop != null) {
                     loop.quit ();
                 }
@@ -137,7 +137,7 @@ namespace TUFManager {
                     authorized = result.get_is_authorized ();
                 }
                 catch (Error e) {
-                    stderr.printf (_ ("Error: %s\n"), e.message);
+                    warning (e.message);
                 }
                 return authorized;
 #endif
@@ -198,10 +198,10 @@ namespace TUFManager {
                         authorized = get_authorization.end (res);
                     }
                     catch (TUFError e) {
-                        stderr.printf (_ ("Error: %s\n"), e.message);
+                        warning (e.message);
                     }
                     catch (Error e) {
-                        stderr.printf (_ ("Error: %s\n"), e.message);
+                        warning (e.message);
                     }
 
                     if (authorized) {
@@ -209,10 +209,10 @@ namespace TUFManager {
                             set_fan_mode_authorized (mode, sender);
                         }
                         catch (TUFError e) {
-                            stderr.printf (_ ("Error: %s\n"), e.message);
+                            warning (e.message);
                         }
                         catch (Error e) {
-                            stderr.printf (_ ("Error: %s\n"), e.message);
+                            warning (e.message);
                         }
                     }
                     else {
@@ -318,10 +318,10 @@ namespace TUFManager {
                         authorized = get_authorization.end (res);
                     }
                     catch (TUFError e) {
-                        stderr.printf (_ ("Error: %s\n"), e.message);
+                        warning (e.message);
                     }
                     catch (Error e) {
-                        stderr.printf (_ ("Error: %s\n"), e.message);
+                        warning (e.message);
                     }
 
                     if (authorized) {
@@ -329,10 +329,10 @@ namespace TUFManager {
                             set_keyboard_color_authorized (color, sender);
                         }
                         catch (TUFError e) {
-                            stderr.printf (_ ("Error: %s\n"), e.message);
+                            warning (e.message);
                         }
                         catch (Error e) {
-                            stderr.printf (_ ("Error: %s\n"), e.message);
+                            warning (e.message);
                         }
                     }
                     else {
@@ -444,10 +444,10 @@ namespace TUFManager {
                         authorized = get_authorization.end (res);
                     }
                     catch (TUFError e) {
-                        stderr.printf (_ ("Error: %s\n"), e.message);
+                        warning (e.message);
                     }
                     catch (Error e) {
-                        stderr.printf (_ ("Error: %s\n"), e.message);
+                        warning (e.message);
                     }
 
                     if (authorized) {
@@ -455,10 +455,10 @@ namespace TUFManager {
                             set_keyboard_mode_authorized (mode, sender);
                         }
                         catch (TUFError e) {
-                            stderr.printf (_ ("Error: %s\n"), e.message);
+                            warning (e.message);
                         }
                         catch (Error e) {
-                            stderr.printf (_ ("Error: %s\n"), e.message);
+                            warning (e.message);
                         }
                     }
                     else {
@@ -556,10 +556,10 @@ namespace TUFManager {
                         authorized = get_authorization.end (res);
                     }
                     catch (TUFError e) {
-                        stderr.printf (_ ("Error: %s\n"), e.message);
+                        warning (e.message);
                     }
                     catch (Error e) {
-                        stderr.printf (_ ("Error: %s\n"), e.message);
+                        warning (e.message);
                     }
 
                     if (authorized) {
@@ -567,10 +567,10 @@ namespace TUFManager {
                             set_keyboard_speed_authorized (speed, sender);
                         }
                         catch (TUFError e) {
-                            stderr.printf (_ ("Error: %s\n"), e.message);
+                            warning (e.message);
                         }
                         catch (Error e) {
-                            stderr.printf (_ ("Error: %s\n"), e.message);
+                            warning (e.message);
                         }
                     }
                     else {

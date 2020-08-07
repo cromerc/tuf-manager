@@ -46,7 +46,7 @@ namespace TUFManager {
                 indicator.set_title (_ ("TUF Manager"));
                 set_icon_visible (true);
 
-                Timeout.add (200, () => {
+                Timeout.add_seconds (30, () => {
                     indicator.set_status (AppIndicator.IndicatorStatus.ACTIVE);
                     return false;
                 });
@@ -62,7 +62,7 @@ namespace TUFManager {
                     Process.spawn_command_line_async ("tuf-gui");
                 }
                 catch (SpawnError e) {
-                    stderr.printf (_ ("Error: %s\n"), e.message);
+                    warning (e.message);
                 }
             }
 
@@ -84,7 +84,7 @@ namespace TUFManager {
                     notification.show ();
                 }
                 catch (Error e) {
-                    stderr.printf (_ ("Error: %s\n"), e.message);
+                    warning (e.message);
                 }
             }
 
@@ -101,7 +101,7 @@ namespace TUFManager {
                     }
                 }
                 catch (Error e) {
-                    stderr.printf (_ ("Error: %s\n"), e.message);
+                    warning (e.message);
                 }
             }
 
@@ -113,7 +113,7 @@ namespace TUFManager {
                     }
                 }
                 catch (Error e) {
-                    stderr.printf (_ ("Error: %s\n"), e.message);
+                    warning (e.message);
                 }
             }
 

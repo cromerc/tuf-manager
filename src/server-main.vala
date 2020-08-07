@@ -65,7 +65,7 @@ namespace TUFManager {
                 opt_context.parse (ref args);
             }
             catch (OptionError e) {
-                print (_ ("Error: %s\n"), e.message);
+                warning (e.message);
                 print (_ ("Run '%s --help' to see a full list of available command line options.\n"), args[0]);
                 return 1;
             }
@@ -85,11 +85,11 @@ namespace TUFManager {
                         file = null;
                     }
                     catch (Error e) {
-                        stderr.printf (_ ("Error: %s\n"), e.message);
+                        warning (e.message);
                     }
                     var stream = FileStream.open ("/run/tufmanager/pid", "w");
                     if (stream == null) {
-                        stderr.printf (_ ("Error: ") + _ ("Could not create pid file!\n"));
+                        warning (_ ("Could not create pid file!"));
                     }
                     else {
                         uint32 pidfile = pid;
@@ -119,7 +119,7 @@ namespace TUFManager {
                 on_bus_acquired,
                 () => {},
                 () => {
-                    stderr.printf (_ ("Error: ") + _ ("Could not acquire bus name!\n"));
+                    warning (_ ("Could not acquire bus name!"));
                 });
 
             loop = new MainLoop ();

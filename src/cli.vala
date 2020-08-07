@@ -183,7 +183,7 @@ namespace TUFManager {
                     connect_tuf_server ();
                 }
                 catch (TUFError e) {
-                    command_line.printerr (_ ("Error: ") + e.message + "\n");
+                    warning (e.message);
                     this.release ();
                     return 1;
                 }
@@ -292,7 +292,7 @@ namespace TUFManager {
                                 }
                             }
                             catch (RegexError e) {
-                                command_line.printerr (_ ("Error: ") + e.message + "\n");
+                                warning (e.message);
                             }
                             finally {
                                 rgba = Gdk.RGBA ();
@@ -319,7 +319,7 @@ namespace TUFManager {
                 }
 
                 if (invalid) {
-                    command_line.printerr (_ ("Invalid arguments!\n\n"));
+                    warning (_ ("Invalid arguments!"));
                     print_usage (command_line);
                     release_cli ();
                     return 1;
@@ -349,7 +349,7 @@ namespace TUFManager {
                             command_line.print (_ ("Current fan mode: ") + _ ("Silent\n"));
                             break;
                         default:
-                            command_line.printerr (_ ("Error: ") + _ ("Could not get current fan mode!\n"));
+                            warning (_ ("Could not get current fan mode!"));
                             break;
                     }
                     current_setting = get_keyboard_mode ();
@@ -367,7 +367,7 @@ namespace TUFManager {
                             command_line.print (_ ("Current keyboard lighting: ") + _ ("Strobing\n"));
                             break;
                         default:
-                            command_line.printerr (_ ("Error: ") + _ ("Could not get current keyboard mode!\n"));
+                            warning (_ ("Could not get current keyboard mode!"));
                             break;
                     }
                     current_setting = get_keyboard_speed ();
@@ -382,7 +382,7 @@ namespace TUFManager {
                             command_line.print (_ ("Current keyboard speed: ") + _ ("Fast\n"));
                             break;
                         default:
-                            command_line.printerr (_ ("Error: ") + _ ("Could not get current keyboard speed!\n"));
+                            warning (_ ("Could not get current keyboard speed!"));
                             break;
                     }
                     var current_color = get_keyboard_color ();
@@ -413,7 +413,7 @@ namespace TUFManager {
                         });
                     }
                     catch (Error e) {
-                        command_line.printerr (_ ("Error: ") + e.message + "\n");
+                        warning (e.message);
                     }
 #endif
 
@@ -438,7 +438,7 @@ namespace TUFManager {
                         });
                     }
                     catch (Error e) {
-                        command_line.printerr (_ ("Error: ") + e.message + "\n");
+                        warning (e.message);
                     }
 #endif
                     return 0;
@@ -462,7 +462,7 @@ namespace TUFManager {
                         });
                     }
                     catch (Error e) {
-                        command_line.printerr (_ ("Error: ") + e.message + "\n");
+                        warning (e.message);
                     }
                     #endif
                                         return 0;
@@ -484,7 +484,7 @@ namespace TUFManager {
                         });
                     }
                     catch (Error e) {
-                        command_line.printerr (_ ("Error: ") + e.message + "\n");
+                        warning (e.message);
                     }
 #endif
                     return 0;
