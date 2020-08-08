@@ -91,7 +91,12 @@ This is the daemon that runs in the background and handles all requests from bot
 
 This is the tray icon to control the TUF Manager program. It should automatically start in any desktop environment that supports xdg.
 
+## Notes
+
+The restore settings option saves the changes made on a per user basis. This means that for example if a different user logs in and the tray icon is running, it will restore their settings. So for example user A can have a blue keyboard and user B can have a green keyboard. Or even change keyboard colors based on the distro that is booted. For example when in linux mint a green keyboard and when in fedora a blue keyboard.
+
+The other important use of the restore settings options is the fan mode. Normally fan mode does not survive a reboot. It is always set to "balanced" when booted. However now when the user logs in it restores the previous fan mode that was saved.
+
 ## Future plans
 
-- Manpage
-- Config options for both tuf-gui and tuf-cli
+- Manpages
