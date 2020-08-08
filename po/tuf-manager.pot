@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuf-manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 20:27-0400\n"
+"POT-Creation-Date: 2020-08-07 21:50-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,139 +17,150 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/cli.vala:322
+#: src/cli.vala:331
 msgid "Invalid arguments!"
 msgstr ""
 
-#: src/cli.vala:328
+#: src/cli.vala:342
+msgid ""
+"Restore settings is currently disabled, please enable it to use this feature!"
+msgstr ""
+
+#: src/cli.vala:348
 msgid "Version: "
 msgstr ""
 
-#: src/cli.vala:338 src/gui-window.vala:107
+#: src/cli.vala:358 src/gui-window.vala:107
 msgid "Client version: "
 msgstr ""
 
-#: src/cli.vala:339 src/gui-window.vala:108
+#: src/cli.vala:359 src/gui-window.vala:108
 msgid "Server version: "
 msgstr ""
 
-#: src/cli.vala:343 src/cli.vala:346 src/cli.vala:349 src/gui-window.vala:123
+#: src/cli.vala:363 src/cli.vala:366 src/cli.vala:369 src/gui-window.vala:123
 #: src/gui-window.vala:177
 msgid "Current fan mode: "
 msgstr ""
 
-#: src/cli.vala:343
+#: src/cli.vala:363
 msgid "Balanced\n"
 msgstr ""
 
-#: src/cli.vala:346
+#: src/cli.vala:366
 msgid "Turbo\n"
 msgstr ""
 
-#: src/cli.vala:349
+#: src/cli.vala:369
 msgid "Silent\n"
 msgstr ""
 
-#: src/cli.vala:352 src/gui-window.vala:126
+#: src/cli.vala:372 src/gui-window.vala:126
 msgid "Could not get current fan mode!"
 msgstr ""
 
-#: src/cli.vala:358 src/cli.vala:361 src/cli.vala:364 src/cli.vala:367
+#: src/cli.vala:378 src/cli.vala:381 src/cli.vala:384 src/cli.vala:387
 msgid "Current keyboard lighting: "
 msgstr ""
 
-#: src/cli.vala:358
+#: src/cli.vala:378
 msgid "Static\n"
 msgstr ""
 
-#: src/cli.vala:361
+#: src/cli.vala:381
 msgid "Breathing\n"
 msgstr ""
 
-#: src/cli.vala:364
+#: src/cli.vala:384
 msgid "Color Cycle\n"
 msgstr ""
 
-#: src/cli.vala:367
+#: src/cli.vala:387
 msgid "Strobing\n"
 msgstr ""
 
-#: src/cli.vala:370 src/gui-window.vala:142
+#: src/cli.vala:390 src/gui-window.vala:142
 msgid "Could not get current keyboard mode!"
 msgstr ""
 
-#: src/cli.vala:376 src/cli.vala:379 src/cli.vala:382 src/gui-window.vala:149
+#: src/cli.vala:396 src/cli.vala:399 src/cli.vala:402 src/gui-window.vala:149
 #: src/gui-window.vala:201
 msgid "Current keyboard speed: "
 msgstr ""
 
-#: src/cli.vala:376
+#: src/cli.vala:396
 msgid "Slow\n"
 msgstr ""
 
-#: src/cli.vala:379
+#: src/cli.vala:399
 msgid "Medium\n"
 msgstr ""
 
-#: src/cli.vala:382
+#: src/cli.vala:402
 msgid "Fast\n"
 msgstr ""
 
-#: src/cli.vala:385 src/gui-window.vala:152
+#: src/cli.vala:405 src/gui-window.vala:152
 msgid "Could not get current keyboard speed!"
 msgstr ""
 
-#: src/cli.vala:394 src/gui-window.vala:158 src/gui-window.vala:210
+#: src/cli.vala:414 src/gui-window.vala:158 src/gui-window.vala:210
 msgid "Current keyboard color: "
 msgstr ""
 
-#: src/cli.vala:513
+#: src/cli.vala:606
 msgid "Usage:"
 msgstr ""
 
-#: src/cli.vala:513
+#: src/cli.vala:606
 msgid "COMMAND [SUBCOMMAND]"
 msgstr ""
 
-#: src/cli.vala:514
+#: src/cli.vala:607
 msgid "Print the version of tuf-cli\n"
 msgstr ""
 
-#: src/cli.vala:515
+#: src/cli.vala:608
 msgid "Show this help screen\n"
 msgstr ""
 
-#: src/cli.vala:516
+#: src/cli.vala:609
 msgid "Set the fan mode\n"
 msgstr ""
 
-#: src/cli.vala:517
+#: src/cli.vala:610
 msgid "Set the keyboard lighting\n"
 msgstr ""
 
-#: src/cli.vala:518
+#: src/cli.vala:611
 msgid "Set the keyboard lighting speed\n"
 msgstr ""
 
-#: src/cli.vala:519
+#: src/cli.vala:612
 msgid "Set the keyboard color\n"
 msgstr ""
 
-#: src/cli.vala:520
+#: src/cli.vala:613
+msgid ""
+"Restore saved settings\n"
+"\n"
+msgstr ""
+
+#: src/cli.vala:614
 msgid ""
 "Show the current config\n"
 "\n"
 msgstr ""
 
-#: src/cli.vala:521
+#: src/cli.vala:615
 msgid "Examples:\n"
 msgstr ""
 
-#: src/cli.vala:522
+#: src/cli.vala:616
 msgid "Silence fan:"
 msgstr ""
 
-#: src/cli.vala:523
+#: src/cli.vala:617
 msgid "Change RGB color:"
 msgstr ""
 
@@ -212,50 +223,50 @@ msgstr ""
 msgid "Could not acquire bus name!"
 msgstr ""
 
-#: src/tray-icon.vala:51 src/tray-icon.vala:88 src/tray-icon.vala:98
-#: src/tray-icon.vala:213 data/tuf-manager.desktop.in:4
+#: src/tray-icon.vala:80 src/tray-icon.vala:117 src/tray-icon.vala:127
+#: src/tray-icon.vala:276 data/tuf-manager.desktop.in:4
 #: data/tuf-manager.desktop.in:5 data/tuf-tray.desktop.in:3
 #: data/tuf-tray.desktop.in:4 data/ui/tuf.manager.window.ui:41
 msgid "TUF Manager"
 msgstr ""
 
-#: src/tray-icon.vala:55
+#: src/tray-icon.vala:84
 msgid "_TUF Manager"
 msgstr ""
 
-#: src/tray-icon.vala:60
+#: src/tray-icon.vala:89
 msgid "_Fan"
 msgstr ""
 
-#: src/tray-icon.vala:66
+#: src/tray-icon.vala:95
 msgid "_Balanced"
 msgstr ""
 
-#: src/tray-icon.vala:70
+#: src/tray-icon.vala:99
 msgid "_Turbo"
 msgstr ""
 
-#: src/tray-icon.vala:74
+#: src/tray-icon.vala:103
 msgid "_Silent"
 msgstr ""
 
-#: src/tray-icon.vala:79
+#: src/tray-icon.vala:108
 msgid "_Quit"
 msgstr ""
 
-#: src/tray-icon.vala:134
+#: src/tray-icon.vala:172
 msgid "Fan set to balanced"
 msgstr ""
 
-#: src/tray-icon.vala:137
+#: src/tray-icon.vala:175
 msgid "Fan set to turbo"
 msgstr ""
 
-#: src/tray-icon.vala:140
+#: src/tray-icon.vala:178
 msgid "Fan set to silent"
 msgstr ""
 
-#: src/tray-icon.vala:215
+#: src/tray-icon.vala:278
 msgid "Close"
 msgstr ""
 
