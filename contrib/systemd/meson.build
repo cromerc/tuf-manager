@@ -10,7 +10,6 @@ systemd_config_data_file = configure_file(
 systemd = find_program ('systemd', required: false)
 
 if systemd.found()
-    message ('systemd was found')
     install_data(
         systemd_config_data_file,
         install_dir: join_paths(get_option('prefix'), 'lib', 'systemd', 'system')
