@@ -542,6 +542,9 @@ namespace TUFManager {
                 if (!get_keyboard_color ().equal (rgba)) {
                     set_keyboard_color (rgba);
                 }
+                else {
+                    release_cli ();
+                }
 #else
                 try {
                     pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
