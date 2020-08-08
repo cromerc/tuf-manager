@@ -212,7 +212,7 @@ namespace TUFManager {
                         close_notification ();
                         notification = new Notify.Notification (_ ("TUF Manager"), message, "tuf-manager");
                         notification.set_timeout (Notify.EXPIRES_DEFAULT);
-                        notification.add_action ("default", _ ("Details"), close_notification);
+                        notification.add_action ("default", _ ("Close"), close_notification);
                         notification.show ();
                     }
                     catch (Error e) {

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuf-manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 10:08-0400\n"
-"PO-Revision-Date: 2020-08-07 10:08-0400\n"
+"POT-Creation-Date: 2020-08-07 20:27-0400\n"
+"PO-Revision-Date: 2020-08-07 20:29-0400\n"
 "Last-Translator: Chris Cromer <chris@cromer.cl>\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -27,16 +27,16 @@ msgstr "¡Argumentos invalidos!"
 msgid "Version: "
 msgstr "Versión: "
 
-#: src/cli.vala:338 src/gui-window.vala:95
+#: src/cli.vala:338 src/gui-window.vala:107
 msgid "Client version: "
 msgstr "Versión del cliente: "
 
-#: src/cli.vala:339 src/gui-window.vala:96
+#: src/cli.vala:339 src/gui-window.vala:108
 msgid "Server version: "
 msgstr "Versión del servidor: "
 
-#: src/cli.vala:343 src/cli.vala:346 src/cli.vala:349 src/gui-window.vala:106
-#: src/gui-window.vala:160
+#: src/cli.vala:343 src/cli.vala:346 src/cli.vala:349 src/gui-window.vala:123
+#: src/gui-window.vala:177
 msgid "Current fan mode: "
 msgstr "Modo de ventilador actual: "
 
@@ -52,7 +52,7 @@ msgstr "Turbo\n"
 msgid "Silent\n"
 msgstr "Silenciosa\n"
 
-#: src/cli.vala:352 src/gui-window.vala:109
+#: src/cli.vala:352 src/gui-window.vala:126
 msgid "Could not get current fan mode!"
 msgstr "¡No se pudo obtener el modo de ventilador actual!"
 
@@ -76,12 +76,12 @@ msgstr "Ciclo de Color\n"
 msgid "Strobing\n"
 msgstr "Estroboscópica\n"
 
-#: src/cli.vala:370 src/gui-window.vala:125
+#: src/cli.vala:370 src/gui-window.vala:142
 msgid "Could not get current keyboard mode!"
 msgstr "¡No se pudo obtener el modo de teclado actual!"
 
-#: src/cli.vala:376 src/cli.vala:379 src/cli.vala:382 src/gui-window.vala:132
-#: src/gui-window.vala:184
+#: src/cli.vala:376 src/cli.vala:379 src/cli.vala:382 src/gui-window.vala:149
+#: src/gui-window.vala:201
 msgid "Current keyboard speed: "
 msgstr "Velocidad del teclado actual: "
 
@@ -97,11 +97,11 @@ msgstr "Media\n"
 msgid "Fast\n"
 msgstr "Rapida\n"
 
-#: src/cli.vala:385 src/gui-window.vala:135
+#: src/cli.vala:385 src/gui-window.vala:152
 msgid "Could not get current keyboard speed!"
 msgstr "¡No se pudo obtener la velocidad actual del teclado!"
 
-#: src/cli.vala:394 src/gui-window.vala:141 src/gui-window.vala:193
+#: src/cli.vala:394 src/gui-window.vala:158 src/gui-window.vala:210
 msgid "Current keyboard color: "
 msgstr "Color de teclado actual: "
 
@@ -161,15 +161,15 @@ msgstr "Cambiar el color RGB:"
 msgid "The server and client versions do not match!"
 msgstr "¡La versión del servidor y del cliente no coinciden!"
 
-#: src/gui-window.vala:86
+#: src/gui-window.vala:98
 msgid "The current running tuf-server version doesn't match the GUI version!"
 msgstr "¡La versión actual de tuf-server no coincide con la versión de GUI!"
 
-#: src/gui-window.vala:122 src/gui-window.vala:175
+#: src/gui-window.vala:139 src/gui-window.vala:192
 msgid "Current keyboard mode: "
 msgstr "Modo de teclado actual: "
 
-#: src/main.vala.in:34
+#: src/main.vala.in:34 src/tray-main.vala:39
 msgid "Another instance of TUF Manager is already running!"
 msgstr "¡Ya se está ejecutando otra instancia de Administrador TUF!"
 
@@ -218,11 +218,52 @@ msgstr "¡No se pudo crear el archivo pid!"
 msgid "Could not acquire bus name!"
 msgstr "¡No se pudo adquirir el bus name!"
 
-#: data/tuf-manager.desktop.in:4 data/tuf-manager.desktop.in:5
-#: data/tuf-tray.desktop.in:3 data/tuf-tray.desktop.in:4
-#: data/ui/tuf.manager.window.ui:41
+#: src/tray-icon.vala:51 src/tray-icon.vala:88 src/tray-icon.vala:98
+#: src/tray-icon.vala:213 data/tuf-manager.desktop.in:4
+#: data/tuf-manager.desktop.in:5 data/tuf-tray.desktop.in:3
+#: data/tuf-tray.desktop.in:4 data/ui/tuf.manager.window.ui:41
 msgid "TUF Manager"
 msgstr "Administrador TUF"
+
+#: src/tray-icon.vala:55
+msgid "_TUF Manager"
+msgstr "_Administrador TUF"
+
+#: src/tray-icon.vala:60
+msgid "_Fan"
+msgstr "_Ventilador"
+
+#: src/tray-icon.vala:66
+msgid "_Balanced"
+msgstr "_Balanceada"
+
+#: src/tray-icon.vala:70
+msgid "_Turbo"
+msgstr "_Turbo"
+
+#: src/tray-icon.vala:74
+msgid "_Silent"
+msgstr "_Silenciosa"
+
+#: src/tray-icon.vala:79
+msgid "_Quit"
+msgstr "_Salir"
+
+#: src/tray-icon.vala:134
+msgid "Fan set to balanced"
+msgstr "Ventilador ajustado a balanceada"
+
+#: src/tray-icon.vala:137
+msgid "Fan set to turbo"
+msgstr "Ventilador ajustado a turbo"
+
+#: src/tray-icon.vala:140
+msgid "Fan set to silent"
+msgstr "Ventilador ajustado a silenciosa"
+
+#: src/tray-icon.vala:215
+msgid "Close"
+msgstr "Cerrar"
 
 #: data/tuf-manager.desktop.in:6 data/tuf-tray.desktop.in:5
 msgid "Softare to manage the fan mode and rgb keyboard"
@@ -241,34 +282,39 @@ msgstr ""
 "ejecuta?"
 
 #: data/gschema/org.tuf.manager.gschema.xml:12
+#: data/gschema/org.tuf.manager.gschema.xml:13
+msgid "Should TUF Manager show notifications?"
+msgstr "¿Debe Administrador TUF mostrar notificaciones?"
+
+#: data/gschema/org.tuf.manager.gschema.xml:19
 msgid "Fan mode"
 msgstr "Modo del ventilador"
 
-#: data/gschema/org.tuf.manager.gschema.xml:13
+#: data/gschema/org.tuf.manager.gschema.xml:20
 msgid "The saved fan mode"
 msgstr "El modo de ventilador guardado"
 
-#: data/gschema/org.tuf.manager.gschema.xml:19
+#: data/gschema/org.tuf.manager.gschema.xml:26
 msgid "Keyboard mode"
 msgstr "Modo del teclado"
 
-#: data/gschema/org.tuf.manager.gschema.xml:20
+#: data/gschema/org.tuf.manager.gschema.xml:27
 msgid "The saved keyboard mode"
 msgstr "El modo de teclado guardado"
 
-#: data/gschema/org.tuf.manager.gschema.xml:26
+#: data/gschema/org.tuf.manager.gschema.xml:33
 msgid "Keyboard speed"
 msgstr "Velocidad del teclado"
 
-#: data/gschema/org.tuf.manager.gschema.xml:27
+#: data/gschema/org.tuf.manager.gschema.xml:34
 msgid "The saved keyboard speed"
 msgstr "La velocidad del teclado guardada"
 
-#: data/gschema/org.tuf.manager.gschema.xml:33
+#: data/gschema/org.tuf.manager.gschema.xml:40
 msgid "Keyboard color"
 msgstr "Color del teclado"
 
-#: data/gschema/org.tuf.manager.gschema.xml:34
+#: data/gschema/org.tuf.manager.gschema.xml:41
 msgid "The saved keyboard color in RGB format"
 msgstr "El color del teclado guardado en formato RGB"
 
@@ -276,62 +322,74 @@ msgstr "El color del teclado guardado en formato RGB"
 msgid "Authentication is required"
 msgstr "Se requiere autenticación"
 
-#: data/ui/tuf.manager.window.ui:73 data/ui/tuf.manager.window.ui:212
+#: data/ui/tuf.manager.window.ui:76 data/ui/tuf.manager.window.ui:217
 msgid "Mode"
 msgstr "Modo"
 
-#: data/ui/tuf.manager.window.ui:91
+#: data/ui/tuf.manager.window.ui:94
 msgid "Static"
 msgstr "Estática"
 
-#: data/ui/tuf.manager.window.ui:92
+#: data/ui/tuf.manager.window.ui:95
 msgid "Breathing"
 msgstr "Respiración"
 
-#: data/ui/tuf.manager.window.ui:93
+#: data/ui/tuf.manager.window.ui:96
 msgid "Color Cycle"
 msgstr "Ciclo de Color"
 
-#: data/ui/tuf.manager.window.ui:94
+#: data/ui/tuf.manager.window.ui:97
 msgid "Strobing"
 msgstr "Estroboscópica"
 
-#: data/ui/tuf.manager.window.ui:112
+#: data/ui/tuf.manager.window.ui:115
 msgid "Speed"
 msgstr "Velocidad"
 
-#: data/ui/tuf.manager.window.ui:130
+#: data/ui/tuf.manager.window.ui:133
 msgid "Slow"
 msgstr "Lenta"
 
-#: data/ui/tuf.manager.window.ui:131
+#: data/ui/tuf.manager.window.ui:134
 msgid "Medium"
 msgstr "Media"
 
-#: data/ui/tuf.manager.window.ui:132
+#: data/ui/tuf.manager.window.ui:135
 msgid "Fast"
 msgstr "Rapida"
 
-#: data/ui/tuf.manager.window.ui:162
+#: data/ui/tuf.manager.window.ui:165
 msgid "Set color"
 msgstr "Establecer color"
 
-#: data/ui/tuf.manager.window.ui:187
+#: data/ui/tuf.manager.window.ui:190
 msgid "Keyboard lighting"
 msgstr "Iluminación de teclado"
 
-#: data/ui/tuf.manager.window.ui:230
+#: data/ui/tuf.manager.window.ui:235
 msgid "Balanced"
 msgstr "Balanceada"
 
-#: data/ui/tuf.manager.window.ui:231
+#: data/ui/tuf.manager.window.ui:236
 msgid "Turbo"
 msgstr "Turbo"
 
-#: data/ui/tuf.manager.window.ui:232
+#: data/ui/tuf.manager.window.ui:237
 msgid "Silent"
 msgstr "Silenciosa"
 
-#: data/ui/tuf.manager.window.ui:250
+#: data/ui/tuf.manager.window.ui:255
 msgid "Fan control"
 msgstr "Control de ventilador"
+
+#: data/ui/tuf.manager.window.ui:281
+msgid "Restore on start"
+msgstr "Restaurar al iniciar"
+
+#: data/ui/tuf.manager.window.ui:313
+msgid "Notifications"
+msgstr "Notificaciones"
+
+#: data/ui/tuf.manager.window.ui:345
+msgid "Settings"
+msgstr "Configuración"

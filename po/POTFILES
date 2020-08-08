@@ -8,6 +8,9 @@ src/main.vala.in
 src/server.vala
 src/server-interface.vala
 src/server-main.vala
+src/tray.vala
+src/tray-icon.vala
+src/tray-main.vala
 data/tuf-manager.desktop.in
 data/tuf-tray.desktop.in
 data/gschema/org.tuf.manager.gschema.xml
