@@ -154,19 +154,16 @@ namespace TUFManager {
 
             private void set_fan_balanced () {
                 set_fan_mode (0);
-                //show_notification (_ ("Fan set to balanced"));
                 settings.set_int ("fan-mode", 0);
             }
 
             private void set_fan_turbo () {
                 set_fan_mode (1);
-                //show_notification (_ ("Fan set to turbo"));
                 settings.set_int ("fan-mode", 1);
             }
 
             private void set_fan_silent () {
                 set_fan_mode (2);
-                //show_notification (_ ("Fan set to silenced"));
                 settings.set_int ("fan-mode", 2);
             }
 
@@ -210,15 +207,17 @@ namespace TUFManager {
             }
 
             private void show_notification (string message) {
-                try {
-                    close_notification ();
-                    notification = new Notify.Notification (_ ("TUF Manager"), message, "tuf-manager");
-                    notification.set_timeout (Notify.EXPIRES_DEFAULT);
-                    notification.add_action ("default", _ ("Details"), close_notification);
-                    notification.show ();
-                }
-                catch (Error e) {
-                    warning (e.message);
+                if (settings.get_boolean ("notifications")) {
+                    try {
+                        close_notification ();
+                        notification = new Notify.Notification (_ ("TUF Manager"), message, "tuf-manager");
+                        notification.set_timeout (Notify.EXPIRES_DEFAULT);
+                        notification.add_action ("default", _ ("Details"), close_notification);
+                        notification.show ();
+                    }
+                    catch (Error e) {
+                        warning (e.message);
+                    }
                 }
             }
 

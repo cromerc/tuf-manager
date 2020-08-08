@@ -22,10 +22,12 @@ To build TUF Manager the following is needed:
 - polkit
 - polkit-gobject
 - gmodule-export
+- libnotify
+- libappindicator3
 
 ## Other requirements
 
-This software will only work if using the [faustus](https://github.com/hackbnw/faustus) driver module.
+This software will only work if using the [hackbnw/faustus](https://github.com/hackbnw/faustus) driver module. To get notifications on fan mode changes the fork of faustus at [rublag/faustus](https://github.com/rublag/faustus) should be used instead since it supports polling.
 
 ## Build options
 
@@ -87,11 +89,9 @@ This is the daemon that runs in the background and handles all requests from bot
 
 - tuf-tray
 
-This is the tray icon to control the TUF Manager program
+This is the tray icon to control the TUF Manager program. It should automatically start in any desktop environment that supports xdg.
 
 ## Future plans
 
 - Manpage
 - Config options for both tuf-gui and tuf-cli
-- Notifications of fan mode change via status bar
-- Restore last known settings on login via status bar icon

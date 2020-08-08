@@ -1,10 +1,17 @@
 <schemalist>
     <schema id="org.tuf.manager" path="/org/tuf/manager/" gettext-domain="tuf-manager">
         <key name="restore" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>Should TUF Manager restore previous settings when run?</summary>
             <description>
                 Should TUF Manager restore previous settings when run?
+            </description>
+        </key>
+        <key name="notifications" type="b">
+            <default>true</default>
+            <summary>Should TUF Manager show notifications?</summary>
+            <description>
+                Should TUF Manager show notifications?
             </description>
         </key>
         <key name="fan-mode" type="i">

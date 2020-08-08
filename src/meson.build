@@ -1,5 +1,5 @@
 glib_dep = dependency('glib-2.0')
-gtk_dep = dependency('gtk+-3.0', version: '>=3.10.0')
+gtk_dep = dependency('gtk+-3.0', version: '>=3.14.0')
 posix_dep = meson.get_compiler('vala').find_library('posix', required: true)
 m_dep = meson.get_compiler('c').find_library('m', required: true)
 

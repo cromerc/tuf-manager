@@ -60,6 +60,18 @@ namespace TUFManager {
             private Gtk.ColorChooserWidget keyboard_color;
 
             /**
+             * The restore switch
+             */
+            [GtkChild]
+            private Gtk.Switch restore_settings;
+
+            /**
+             * The notifications switch
+             */
+            [GtkChild]
+            private Gtk.Switch notifications;
+
+            /**
              * Create the main window
              * @param application The application used to make the GLib object
              */
@@ -95,7 +107,12 @@ namespace TUFManager {
                     print (_ ("Client version: ") + VERSION + "\n");
                     print (_ ("Server version: ") + get_server_version () + "\n");
 
+                    if (settings.get_boolean ("notifications")) {
+                        notifications.set_active (true);
+                    }
+
                     if (settings.get_boolean ("restore")) {
+                        restore_settings.set_active (true);
                         restore ();
                     }
                     else {
@@ -263,6 +280,40 @@ namespace TUFManager {
                     set_keyboard_color (rgba);
                     settings.set_string ("keyboard-color", rgba.to_string ());
                 }
+            }
+
+            /**
+             * Called when the user clicks the restore settings switch
+             *
+             * @param gtk_switch The switch that was clicked
+             * @param switched The new state of the switch
+             */
+            [GtkCallback]
+            public bool on_restore_settings_state_set (Gtk.Switch gtk_switch, bool switched) {
+                if (switched) {
+                    settings.set_boolean ("restore", true);
+                }
+                else {
+                    settings.set_boolean ("restore", false);
+                }
+                return false;
+            }
+
+            /**
+             * Called when the user clicks the notifications switch
+             *
+             * @param gtk_switch The switch that was clicked
+             * @param switched The new state of the switch
+             */
+            [GtkCallback]
+            public bool on_notifications_state_set (Gtk.Switch gtk_switch, bool switched) {
+                if (switched) {
+                    settings.set_boolean ("notifications", true);
+                }
+                else {
+                    settings.set_boolean ("notifications", false);
+                }
+                return false;
             }
         }
     }
