@@ -96,6 +96,11 @@ namespace TUFManager {
             private bool invalid = false;
 
             /**
+             * This flag is set if the user wants to restore saved settings
+             */
+            private bool restore = false;
+
+            /**
              * This flag is set if the user wants to see help
              */
             private bool help = false;
@@ -203,6 +208,10 @@ namespace TUFManager {
                             break;
                         case "help":
                             help = true;
+                            check_second_argument (args);
+                            break;
+                        case "restore":
+                            restore = true;
                             check_second_argument (args);
                             break;
                         case "info":
@@ -323,6 +332,17 @@ namespace TUFManager {
                     print_usage (command_line);
                     release_cli ();
                     return 1;
+                }
+                else if (restore) {
+                    if (settings.get_boolean ("restore")) {
+                        restore_settings ();
+                        return 0;
+                    }
+                    else {
+                        warning (_ ("Restore settings is currently disabled, please enable it to use this feature!"));
+                        release_cli ();
+                        return 1;
+                    }
                 }
                 else if (version) {
                     command_line.print (_ ("Version: ") + VERSION + "\n");
@@ -492,6 +512,79 @@ namespace TUFManager {
                 return 0;
             }
 
+            private void restore_settings () {
+#if ALWAYS_AUTHENTICATED
+                var mode = settings.get_int ("fan-mode");
+                if (mode >= 0 && mode <= 2) {
+                    if (get_fan_mode () != mode) {
+                        set_fan_mode (mode);
+                    }
+                }
+
+                mode = settings.get_int ("keyboard-mode");
+                if (mode >= 0 && mode <= 3) {
+                    if (get_keyboard_mode () != mode) {
+                        set_keyboard_mode (mode);
+                    }
+                }
+
+                var speed = settings.get_int ("keyboard-speed");
+                if (speed >= 0 && speed <= 2) {
+                    if (get_keyboard_speed () != speed) {
+                        set_keyboard_speed (speed);
+                    }
+                }
+
+                tuf_server.procedure_finished.connect (release_cli);
+                var color = settings.get_string ("keyboard-color");
+                var rgba = Gdk.RGBA ();
+                rgba.parse (color);
+                if (!get_keyboard_color ().equal (rgba)) {
+                    set_keyboard_color (rgba);
+                }
+#else
+                try {
+                    pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
+
+                    Timeout.add_seconds (10, () => {
+                        tuf_server.procedure_finished.connect (release_cli);
+                        var mode = settings.get_int ("fan-mode");
+                        if (mode >= 0 && mode <= 2) {
+                            if (get_fan_mode () != mode) {
+                                set_fan_mode (mode);
+                            }
+                        }
+
+                        mode = settings.get_int ("keyboard-mode");
+                        if (mode >= 0 && mode <= 3) {
+                            if (get_keyboard_mode () != mode) {
+                                set_keyboard_mode (mode);
+                            }
+                        }
+
+                        var speed = settings.get_int ("keyboard-speed");
+                        if (speed >= 0 && speed <= 2) {
+                            if (get_keyboard_speed () != speed) {
+                                set_keyboard_speed (speed);
+                            }
+                        }
+
+                        tuf_server.procedure_finished.connect (release_cli);
+                        var color = settings.get_string ("keyboard-color");
+                        var rgba = Gdk.RGBA ();
+                        rgba.parse (color);
+                        if (!get_keyboard_color ().equal (rgba)) {
+                            set_keyboard_color (rgba);
+                        }
+                        return false;
+                    });
+                }
+                catch (Error e) {
+                    warning (e.message);
+                }
+#endif
+            }
+
             /**
              * If there are more arguments than there should be we need to invalidate
              * TODO: Change this to something better later
@@ -517,6 +610,7 @@ namespace TUFManager {
                 command_line.print ("  lighting [static, breath, cycle, stobe]    " + _ ("Set the keyboard lighting\n"));
                 command_line.print ("  speed [slow, medium, fast]                 " + _ ("Set the keyboard lighting speed\n"));
                 command_line.print ("  color [\"#XXXXXX\"]                          " + _ ("Set the keyboard color\n"));
+                command_line.print ("  restore                                    " + _ ("Restore saved settings\n\n"));
                 command_line.print ("  info                                       " + _ ("Show the current config\n\n"));
                 command_line.print (_ ("Examples:\n"));
                 command_line.print ("  " + _ ("Silence fan:") + " tuf-cli fan silent\n");
