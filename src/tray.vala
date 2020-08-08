@@ -20,16 +20,28 @@ namespace TUFManager {
      * The tray namespace handles everything related to the system tray
      */
     namespace Tray {
+        /**
+         * The tray application
+         */
         public class TUFManagerApp : Gtk.Application {
+            /**
+             * The tray application we set a different application_id
+             */
             public TUFManagerApp () {
                 application_id = "cl.cromer.tuf.manager.tray";
             }
 
+            /**
+             * Activate the application
+             */
             public override void activate () {
                 parent = this;
                 new TrayIcon ();
             }
 
+            /**
+             * Set the translation and hold the application until the user quits
+             */
             public override void startup () {
                 Intl.textdomain ("tuf-manager");
                 Intl.setlocale (LocaleCategory.ALL, "");

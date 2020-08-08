@@ -20,12 +20,38 @@ namespace TUFManager {
      * The tray namespace handles everything related to the system tray
      */
     namespace Tray {
+        /**
+         * The parent is needed to shutdown properly
+         */
         private TUFManagerApp parent;
+
+        /**
+         * Polling the fan state is launched in a background thread
+         */
         private Thread<void>? thread = null;
+
+        /**
+         * Keep polling while true
+         */
         private bool poll = true;
+
+        /**
+         * The tray icon class
+         */
         public class TrayIcon {
+            /*
+             * The indication shown in the taskbar
+             */
             private AppIndicator.Indicator indicator;
+
+            /**
+             * Notifications
+             */
             private Notify.Notification notification;
+
+            /**
+             * The current icon theme
+             */
             private Gtk.IconTheme icon_theme;
 
             /**
@@ -33,6 +59,9 @@ namespace TUFManager {
              */
             private Settings settings;
 
+            /**
+             * Start our tray icon
+             */
             public TrayIcon () {
                 Process.signal (ProcessSignal.INT, on_exit);
                 Process.signal (ProcessSignal.TERM, on_exit);
@@ -103,10 +132,16 @@ namespace TUFManager {
                 thread = new Thread<void> ("poll_fan", this.poll_fan);
             }
 
+            /**
+             * This is called if the user clicks quit or presses q
+             */
             private void quit () {
                 on_exit (ProcessSignal.TERM);
             }
 
+            /**
+             * Time to exit, let's cleanup first
+             */
             private static void on_exit (int signum) {
                 poll = false;
                 if (thread != null) {
@@ -115,6 +150,9 @@ namespace TUFManager {
                 parent.release () ;
             }
 
+            /**
+             * Poll the fan mode for changes, they notify user if enabled
+             */
             private void poll_fan () {
                 int ret;
                 Posix.pollfd[] fan_fd = {};
@@ -143,6 +181,9 @@ namespace TUFManager {
                 }
             }
 
+            /**
+             * Launch TUF Manager GUI if the user clicks the options or presses t
+             */
             private void execute_manager () {
                 try {
                     Process.spawn_command_line_async ("tuf-gui");
@@ -152,21 +193,33 @@ namespace TUFManager {
                 }
             }
 
+            /**
+             * If the user clicks balanced or presses b
+             */
             private void set_fan_balanced () {
                 set_fan_mode (0);
                 settings.set_int ("fan-mode", 0);
             }
 
+            /**
+             * If the user clicks turbo or presses t
+             */
             private void set_fan_turbo () {
                 set_fan_mode (1);
                 settings.set_int ("fan-mode", 1);
             }
 
+            /**
+             * If the user clicks silent or presses s
+             */
             private void set_fan_silent () {
                 set_fan_mode (2);
                 settings.set_int ("fan-mode", 2);
             }
 
+            /**
+             * Called to restore settings when the tray icon runs
+             */
             private void restore () {
                 var mode = settings.get_int ("fan-mode");
                 if (mode >= 0 && mode <= 2) {
@@ -197,6 +250,11 @@ namespace TUFManager {
                 }
             }
 
+            /**
+             * Set the tray icon visible or invisible
+             *
+             * @param visible Set to true to make the icon visible
+             */
             private void set_icon_visible (bool visible) {
                 if (visible) {
                     indicator.set_status (AppIndicator.IndicatorStatus.ACTIVE);
@@ -206,6 +264,11 @@ namespace TUFManager {
                 }
             }
 
+            /**
+             * Show a notification message to the user
+             *
+             * @param message The message to show
+             */
             private void show_notification (string message) {
                 if (settings.get_boolean ("notifications")) {
                     try {
@@ -221,6 +284,9 @@ namespace TUFManager {
                 }
             }
 
+            /**
+             * Close the currently displayed notification
+             */
             private void close_notification () {
                 try {
                     if (notification != null && notification.get_closed_reason () == -1) {
@@ -233,6 +299,9 @@ namespace TUFManager {
                 }
             }
 
+            /**
+             * If the user changes his icon them, update our icon accordingly
+             */
             private void on_icon_theme_changed () {
                 icon_theme = Gtk.IconTheme.get_default ();
                 indicator.set_icon_full ("tuf-manager", "tuf-manager");
