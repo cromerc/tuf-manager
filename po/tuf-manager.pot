@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuf-manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 21:50-0400\n"
+"POT-Creation-Date: 2020-08-15 16:42-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,59 +108,59 @@ msgstr ""
 msgid "Current keyboard color: "
 msgstr ""
 
-#: src/cli.vala:606
+#: src/cli.vala:609
 msgid "Usage:"
 msgstr ""
 
-#: src/cli.vala:606
+#: src/cli.vala:609
 msgid "COMMAND [SUBCOMMAND]"
 msgstr ""
 
-#: src/cli.vala:607
+#: src/cli.vala:610
 msgid "Print the version of tuf-cli\n"
 msgstr ""
 
-#: src/cli.vala:608
+#: src/cli.vala:611
 msgid "Show this help screen\n"
 msgstr ""
 
-#: src/cli.vala:609
+#: src/cli.vala:612
 msgid "Set the fan mode\n"
 msgstr ""
 
-#: src/cli.vala:610
+#: src/cli.vala:613
 msgid "Set the keyboard lighting\n"
 msgstr ""
 
-#: src/cli.vala:611
+#: src/cli.vala:614
 msgid "Set the keyboard lighting speed\n"
 msgstr ""
 
-#: src/cli.vala:612
+#: src/cli.vala:615
 msgid "Set the keyboard color\n"
 msgstr ""
 
-#: src/cli.vala:613
+#: src/cli.vala:616
 msgid ""
 "Restore saved settings\n"
 "\n"
 msgstr ""
 
-#: src/cli.vala:614
+#: src/cli.vala:617
 msgid ""
 "Show the current config\n"
 "\n"
 msgstr ""
 
-#: src/cli.vala:615
+#: src/cli.vala:618
 msgid "Examples:\n"
 msgstr ""
 
-#: src/cli.vala:616
+#: src/cli.vala:619
 msgid "Silence fan:"
 msgstr ""
 
-#: src/cli.vala:617
+#: src/cli.vala:620
 msgid "Change RGB color:"
 msgstr ""
 

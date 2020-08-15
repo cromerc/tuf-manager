@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuf-manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 21:50-0400\n"
+"POT-Creation-Date: 2020-08-15 16:42-0400\n"
 "PO-Revision-Date: 2020-08-07 21:51-0400\n"
 "Last-Translator: Chris Cromer <chris@cromer.cl>\n"
 "Language-Team: none\n"
@@ -112,39 +112,39 @@ msgstr "¡No se pudo obtener la velocidad actual del teclado!"
 msgid "Current keyboard color: "
 msgstr "Color de teclado actual: "
 
-#: src/cli.vala:606
+#: src/cli.vala:609
 msgid "Usage:"
 msgstr "Uso:"
 
-#: src/cli.vala:606
+#: src/cli.vala:609
 msgid "COMMAND [SUBCOMMAND]"
 msgstr "COMANDO [SUBCOMANDO]"
 
-#: src/cli.vala:607
+#: src/cli.vala:610
 msgid "Print the version of tuf-cli\n"
 msgstr "Imprimir la versión del tuf-cli\n"
 
-#: src/cli.vala:608
+#: src/cli.vala:611
 msgid "Show this help screen\n"
 msgstr "Mostrar esta pantalla de ayuda\n"
 
-#: src/cli.vala:609
+#: src/cli.vala:612
 msgid "Set the fan mode\n"
 msgstr "Establecer el modo del ventilador:\n"
 
-#: src/cli.vala:610
+#: src/cli.vala:613
 msgid "Set the keyboard lighting\n"
 msgstr "Iluminación de teclado\n"
 
-#: src/cli.vala:611
+#: src/cli.vala:614
 msgid "Set the keyboard lighting speed\n"
 msgstr "Establecer la Iluminación de teclado\n"
 
-#: src/cli.vala:612
+#: src/cli.vala:615
 msgid "Set the keyboard color\n"
 msgstr "Color del teclado\n"
 
-#: src/cli.vala:613
+#: src/cli.vala:616
 msgid ""
 "Restore saved settings\n"
 "\n"
@@ -152,7 +152,7 @@ msgstr ""
 "Restaurar configuraciones guardadas\n"
 "\n"
 
-#: src/cli.vala:614
+#: src/cli.vala:617
 msgid ""
 "Show the current config\n"
 "\n"
@@ -160,15 +160,15 @@ msgstr ""
 "Mostrar la configuración actual\n"
 "\n"
 
-#: src/cli.vala:615
+#: src/cli.vala:618
 msgid "Examples:\n"
 msgstr "Ejemplos:\n"
 
-#: src/cli.vala:616
+#: src/cli.vala:619
 msgid "Silence fan:"
 msgstr "Silenciar ventilador:"
 
-#: src/cli.vala:617
+#: src/cli.vala:620
 msgid "Change RGB color:"
 msgstr "Cambiar el color RGB:"
 

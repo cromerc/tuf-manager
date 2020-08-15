@@ -7,7 +7,7 @@ if build_gui
         install: true,
         install_dir: join_paths(get_option('datadir'), 'applications')
     )
-    
+
     if build_tray
         i18n.merge_file(
             input: 'tuf-tray.desktop.in',
@@ -25,3 +25,4 @@ subdir('polkit')
 subdir('ui')
 subdir('icons')
 subdir('gschema')
+subdir('man')

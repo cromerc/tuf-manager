@@ -1,0 +1,36 @@
+.Dd August 15, 2020
+.Dt tuf-cli 1 SMM
+.Os TUF Manager
+.Sh NAME
+.Nm tuf-cli
+.Nd Manage the TUF Gaming notebook
+.Sh SYNOPSIS
+.Nm
+.Ar COMMAND
+.Ar <SUBCOMMAND>
+.Sh DESCRIPTION
+This program allows controlling the fan modes and keyboard lighting of Asus TUF Gaming notebooks via a CLI.
+.Pp
+The commands are as follows:
+.Bl -tag -width ".Fl lighting {static | breath | cycle | stobe}"
+.It version
+Print the version of tuf-cli
+.It help
+Show the help screen
+.It info
+Show the current config
+.It restore
+Restore saved settings
+.It fan {balanced | turbo | silent}
+Set the fan mode
+.It lighting {static | breath | cycle | stobe}
+Set the keyboard lighting
+.It speed {slow | medium | fast}
+Set the keyboard lighting speed
+.It color \&"#XXXXXX\&"
+Set the keyboard color
+.Sh SEE ALSO
+.Xr tuf-gui 1 ,
+.Xr tuf-tray 1
+.Sh AUTHORS
+.An Chris Cromer <chris@cromer.cl>

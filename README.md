@@ -18,6 +18,8 @@ To build TUF Manager the following is needed:
 - valadoc
 - glib
 - gtk3
+- gio-unix
+- gobject
 - dbus
 - polkit
 - polkit-gobject
@@ -55,22 +57,6 @@ Build the tray icon
 
 Authentication is not required to use the TUF Server that runs in the background as a daemon, if this is set to false polkit is used for authentication. Setting this to false is more secure, but also makes things like auto restore of settings on login impossible to do without a password.
 
-- openrc
-
-Install an OpenRC init script. Ff this option is not set, the init script is still generated during build, just not installed.
-
-- runit
-
-Install a runit init script. If this option is not set, the init script is still generated during build, just not installed.
-
-- s6
-
-Install n s6 init scripts. If this option is not set, the init scripts are still generated during build, just not installed.
-
-- system
-
-Install a systemd unit. If this option is not set, the unit is still generated during build, just not installed.
-
 ## Usage
 
 There are 3 programs and 1 daemon supplied by TUF Manager.
@@ -96,7 +82,3 @@ This is the tray icon to control the TUF Manager program. It should automaticall
 The restore settings option saves the changes made on a per user basis. This means that for example if a different user logs in and the tray icon is running, it will restore their settings. So for example user A can have a blue keyboard and user B can have a green keyboard. Or even change keyboard colors based on the distro that is booted. For example when in linux mint a green keyboard and when in fedora a blue keyboard.
 
 The other important use of the restore settings options is the fan mode. Normally fan mode does not survive a reboot. It is always set to "balanced" when booted. However now when the user logs in it restores the previous fan mode that was saved.
-
-## Future plans
-
-- Manpages
