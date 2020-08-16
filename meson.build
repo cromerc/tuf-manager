@@ -4,7 +4,7 @@ project(
         'c',
         'vala'
     ],
-    version: '1.2.0',
+    version: '1.2.1',
     license: 'BSD-3',
     default_options:
     [
