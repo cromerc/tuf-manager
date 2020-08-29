@@ -4,7 +4,7 @@ project(
         'c',
         'vala'
     ],
-    version: '1.2.1',
+    version: '1.2.2',
     license: 'BSD-3',
     default_options:
     [
@@ -28,4 +28,3 @@ subdir('data')
 subdir('src')
 subdir('docs')
 subdir('script')
-subdir('contrib')

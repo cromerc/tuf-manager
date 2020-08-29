@@ -3,6 +3,7 @@ Description=TUF Manager Server
 
 [Service]
 Type=forking
+PIDFile=/run/tufmanager/pid
 ExecStart=@LIBEXECDIR@/tuf-server
 
 [Install]
