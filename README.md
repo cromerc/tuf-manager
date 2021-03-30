@@ -29,7 +29,7 @@ To build TUF Manager the following is needed:
 
 ## Other requirements
 
-This software will only work if using the [hackbnw/faustus](https://github.com/hackbnw/faustus) driver module. To get notifications on fan mode changes the fork of faustus at [rublag/faustus](https://github.com/rublag/faustus) should be used instead since it supports polling.
+This software will only work if using the [hackbnw/faustus](https://github.com/hackbnw/faustus) driver module.
 
 ## Build options
 
