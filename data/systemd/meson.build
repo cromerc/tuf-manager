@@ -7,7 +7,7 @@ systemd_config_data_file = configure_file(
     configuration: systemd_config_data
 )
 
-systemd = find_program ('systemd', required: false)
+systemd = find_program ('systemctl', required: false)
 
 if systemd.found()
     install_data(
